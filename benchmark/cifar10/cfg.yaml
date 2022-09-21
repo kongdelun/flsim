@@ -1,0 +1,48 @@
+dataset:
+  root: D:/project/python/dataset/cifar10/raw
+partitioner:
+  client_num: 100
+  major_class_num: 3
+  dirichlet_alpha: 0.4
+  dirichlet_min: 2
+  lognormal_sgm: 0.1
+  shard_num: 102
+  seed: 2077
+opt:
+  lr: 0.002
+trainer:
+  seed: 2077
+  actor_num: 5
+  round: 300
+  selected_num: 10
+  batch_size: 32
+  epoch: 5
+  test:
+    step: 5
+    ratio: 0.2
+cfl:
+  eps_1: 0.03
+  eps_2: 0.45
+prox:
+  u: 2
+dyn:
+  alpha: 0.01
+da:
+  beta: 0.0
+  eps: 0.02
+seq:
+  size: 3
+sem:
+  group_num: 2
+ifca:
+  group_num: 2
+group:
+  group_num: 2
+  pre_ratio: 0.3
+  pre_epoch: 20
+
+
+
+
+
+

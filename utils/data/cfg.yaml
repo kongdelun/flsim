@@ -1,0 +1,9 @@
+partitioner:
+  client_num: 100
+  test_ratio: 0.2
+  seed: 2077
+  major_class_num: 1
+  dirichlet_alpha: 0.4
+  dirichlet_min: 2
+  lognormal_sgm: 0.1
+  shard_num: 2

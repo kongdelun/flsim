@@ -1,0 +1,40 @@
+dataset:
+  root: D:/project/python/dataset/fmnist/raw
+#  root: /home/ncut/Workbase/dataset/mnist/raw
+#  root: /home/kongdl/base/code/python/dataset/mnist/raw
+partitioner:
+  client_num: 100
+  major_class_num: 1
+  seed: 2077
+opt:
+  lr: 0.001
+trainer:
+  seed: 2077
+  actor_num: 5
+  group_num: 2
+  round: 500
+  selected_num: 10
+  batch_size: 32
+  epoch: 5
+  test:
+    step: 5
+    ratio: 0.2
+cfl:
+  eps_1: 0.035
+  eps_2: 0.5
+prox:
+  u: 0.1
+dyn:
+  alpha: 0.001
+group:
+  pre_ratio: 0.3
+  pre_epoch: 20
+seq:
+  size: 3
+da:
+  beta: 0.5
+  delay_step: 20
+  eps: 0.02
+
+
+
