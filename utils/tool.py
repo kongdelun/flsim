@@ -41,7 +41,5 @@ def os_platform():
     return get_platform()
 
 
-
-
 if __name__ == '__main__':
     print(os_platform())

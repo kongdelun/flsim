@@ -8,6 +8,8 @@ def with_kaiming_normal(state: dict):
         sc = state[ln].clone()
         if ln.endswith('.weight'):
             new_state[ln] = init.kaiming_normal_(sc)
+        elif ln.endswith('.bias'):
+            new_state[ln] = init.constant_(sc, 0.)
         else:
             new_state[ln] = sc
     return new_state
@@ -20,18 +22,8 @@ def with_sparse(state: dict, sparsity: float):
         sc = state[ln].clone()
         if ln.endswith('.weight'):
             new_state[ln] = init.sparse_(sc, sparsity=sparsity)
-        else:
-            new_state[ln] = sc
-    return new_state
-
-
-# bias
-def with_constant(state: dict, val: float):
-    new_state = OrderedDict()
-    for ln in state:
-        sc = state[ln].clone()
-        if ln.endswith('.bias'):
-            new_state[ln] = init.constant_(sc, val=val)
+        elif ln.endswith('.bias'):
+            new_state[ln] = init.constant_(sc, 0.)
         else:
             new_state[ln] = sc
     return new_state
