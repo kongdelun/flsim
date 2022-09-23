@@ -1,6 +1,4 @@
 import importlib
-import logging
-import sys
 
 #
 # logging.basicConfig(
@@ -29,7 +27,7 @@ import sys
 #
 #
 # print('ok')
-from ctx import mnist
+from benchmark.ctx import mnist
 
 net, fds, cfg = mnist()
 m = importlib.import_module('trainer.algorithm.fedavgm')

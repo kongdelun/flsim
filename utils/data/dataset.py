@@ -17,6 +17,14 @@ def get_target(dataset: Dataset):
     )))
 
 
+def get_data(dataset: Dataset):
+    num_workers, prefetch_factor, batch_size = (2, 4, 2500) if os_platform() == 'linux' else (0, 2, 512)
+    return np.concatenate(list(map(
+        lambda x: x[0].numpy(),
+        DataLoader(dataset, num_workers=num_workers, prefetch_factor=prefetch_factor, batch_size=batch_size)
+    )))
+
+
 def train_test_indices_split(dp: DataPartitioner, test_ratio=0.2, seed=None):
     train, val, test = {}, {}, []
     for i in range(len(dp)):

@@ -1,19 +1,21 @@
 import traceback
 from copy import deepcopy
+from datetime import datetime
 
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-import sklearn.metrics.pairwise as pw
 import torch
 from scipy.special import softmax
-from scipy.stats import entropy
 from torch.nn import CrossEntropyLoss
+from torch.utils.data import DataLoader
+import torch.nn.functional as F
 
+from benchmark.ctx import synthetic
 from trainer.core.proto import FedAvg
-from trainer.util.metric import Metric
-from utils.data.dataset import sample_by_class
-from utils.nn.functional import zero_like, state2vector
+from utils.metric import Metric
+from utils.cache import DiskCache
+from utils.nn.functional import add
 
 
 # import torch
@@ -33,11 +35,16 @@ class Representation(FedAvg):
 
     def _init(self):
         super(Representation, self)._init()
-        self.grads = {
-            cid: zero_like(self._model.state_dict())
-            for cid in self._fds
-        }
-        self.auxiliary_sample = sample_by_class(self._fds.test(), 10, 50)
+        self._k = -1
+        self.secondary = self._fds.secondary(10, 20)
+        self._cache = DiskCache(
+            self.cache_size,
+            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
+        )
+        # self.grads = {
+        #     cid: zero_like(self._model.state_dict())
+        #     for cid in self._fds
+        # }
 
     def loss_by_class(self):
         criterion = CrossEntropyLoss()
@@ -50,7 +57,7 @@ class Representation(FedAvg):
             with torch.no_grad():
                 x = np.array(list(map(
                     lambda s: criterion(self._model(s[0]), s[1]).item(),
-                    self.auxiliary_sample)
+                    self.secondary)
                 ))
                 return x
 
@@ -61,16 +68,29 @@ class Representation(FedAvg):
         self._model.load_state_dict(state)
         return softmax(X)
 
-    def show(self):
+    @torch.no_grad()
+    def logit(self, t=1.):
+        self._model.eval()
+        for cid in self._fds:
+            self._model.load_state_dict(self._cache[cid]['state'])
+            for data, target in DataLoader(self.secondary, batch_size=10 * 20):
+                self._cache[cid]['logit'] = self._model(data) / t
 
-        vecs = state2vector(list(self.grads.values()))
-        x = torch.stack(vecs).detach().numpy()
+    def show(self, ):
+        kl_dist = np.zeros((len(self._fds), len(self._fds)))
+        self.logit()
+        for i, c1 in enumerate(self._fds):
+            for j, c2 in enumerate(self._fds):
+                kl_dist[i][j] = F.kl_div(self._cache[c1]['logit'], self._cache[c2]['logit']).numpy()
+        print(kl_dist.shape)
+
+        # vecs = state2vector(list(self.grads.values()))
+        # x = torch.stack(vecs).detach().numpy()
         # svd = TruncatedSVD(n_components=10, random_state=2077, algorithm='arpack')
         # decomposed_updates = svd.fit_transform(x.T)
         # x = (1. - pw.cosine_similarity(x, decomposed_updates.T)) / 2.
         # x = self.loss_by_class()
-
-        sns.clustermap(pw.cosine_similarity(x))
+        sns.clustermap(kl_dist)
         plt.show()
 
     def _local_update(self, cids):
@@ -83,7 +103,11 @@ class Representation(FedAvg):
             (self._state(c), self._fds.train(c), args)
             for c in cids
         ])):
-            self.grads[cid] = res[0]
+            self._cache[cid] = {
+                'state': add(self._state(cid), res[0]),
+                'grad': res[0],
+                'num_sample': res[1][0]
+            }
             self._aggregator.update(res[0], res[1][0])
             yield Metric(*res[1])
 
@@ -99,7 +123,7 @@ class Representation(FedAvg):
         self._init()
         try:
             while self._k < self.round:
-                self._update()
+                self._update_iter()
                 selected = self._select_client()
                 for m in self._local_update(selected):
                     self._metric_averager.update(m)
@@ -115,27 +139,11 @@ class Representation(FedAvg):
         finally:
             self.close()
 
-    # def __class_loss(self, state, ads):
-    #     loss = CrossEntropyLoss
-    #     self._model.load_state_dict(state)
-    #     self._model.eval()
-    #     with torch.no_grad():
-    #         losses = list(map(lambda s: loss(self._model(s[0]), s[1]).item(), ads))
-    #     return np.array(losses)
 
-    # def class_(self):
+if __name__ == '__main__':
+    net, fds, cfg = synthetic()
 
-    #
-    # def decomposed_cosine_dissimilarity(self):
-    #     self.__train()
-    #     x = np.vstack([flatten(ds).detach().numpy() for ds in self.res.values()])
-    #     svd = dec.TruncatedSVD(n_components=10, random_state=2077, algorithm='arpack')
-    #     decomposed_updates = svd.fit_transform(x.T)
-    #     return (1. - pw.cosine_similarity(x, decomposed_updates.T)) / 2.
-    #
-    # def grad(self):
-    #     self.__train()
-    #     x = np.vstack([flatten(s).numpy() for s in self.res.values()])
-    #     pca = dec.PCA(10, svd_solver='arpack')
-    #     x = pca.fit_transform(x)
-    #     return softmax(x)
+    cfg['round'] = 1
+    cfg['sample_rate'] = 1.
+    rep = Representation(net, fds, **cfg)
+    rep.start()

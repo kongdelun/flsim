@@ -5,13 +5,13 @@ import ray
 from ray.util import ActorPool
 from torch import optim
 from torch.nn import CrossEntropyLoss
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 
 from trainer.core.actor import CPUActor
 from trainer.core.aggregator import Aggregator, NotCalculated
 from trainer.core.proto import FedAvg
-from trainer.util.metric import Metric, MetricAverager
 from utils.cache import DiskCache
+from utils.metric import Metric
 from utils.nn.aggregate import fedavg
 from utils.nn.functional import sub, zero_like, scalar_mul_, add_
 
@@ -35,14 +35,14 @@ class ScaffoldActor(CPUActor):
                 opt.zero_grad()
                 self.loss(self.model(data), target).backward()
                 opt.step()
-                K += self.__fix_model(global_control, local_control, lr)
+                K += self.__rt(global_control, local_control, lr)
         state_, delta_control = self.get_state(), OrderedDict()
         for ln in local_control:
             delta_control[ln] = - global_control[ln] + (state[ln] - state_[ln]) / (K * lr)
             local_control[ln] += delta_control[ln]
         return sub(state_, state), delta_control, local_control, self.evaluate(state_, dataset, batch_size)
 
-    def __fix_model(self, global_control: OrderedDict, local_control: OrderedDict, lr):
+    def __rt(self, global_control: OrderedDict, local_control: OrderedDict, lr):
         for ln in local_control:
             self.get_state()[ln] -= lr * (global_control[ln] - local_control[ln])
         return 1
@@ -98,15 +98,18 @@ class Scaffold(FedAvg):
             ScaffoldActor.remote(self._model, CrossEntropyLoss())
             for _ in range(self.actor_num)
         ])
-        self._cache = DiskCache(
-            self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        )
         self._aggregator = ScaffoldAggregator(
             self._model.state_dict(),
             len(self._fds), self.global_lr
         )
-        self._metric_averager = MetricAverager()
+        self._cache = DiskCache(
+            self.cache_size,
+            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
+        )
+
+    def _local_update_callback(self, cid, res):
+        self._aggregator.update(res[0], res[1])
+        self._cache[cid] = res[2]
 
     def _local_update(self, cids):
         args = {
@@ -115,14 +118,13 @@ class Scaffold(FedAvg):
             'epoch': self.epoch,
             'global_control': self._aggregator.control
         }
-        for res, cid in zip(self._pool.map(lambda a, v: a.fit.remote(*v), [(
-                self._state(c), self._fds.train(c), dict({'local_control': self._cache.get(c)}, **args)
-        ) for c in cids]), cids):
-            self._aggregator.update(res[0], res[1])
-            self._cache[cid] = res[2]
-            yield Metric(*res[3])
+        for res, cid in zip(self._pool.map(lambda a, v: a.fit.remote(*v), [
+            (self._state(c), self._fds.train(c), dict({'local_control': self._cache.get(c)}, **args))
+            for c in cids
+        ]), cids):
+            self._local_update_callback(cid, res)
+            self._metric_averager.update(Metric(*res[3]))
 
     def _aggregate(self, cids):
         self._model.load_state_dict(self._aggregator.compute())
         self._aggregator.reset()
-

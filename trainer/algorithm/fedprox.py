@@ -10,7 +10,7 @@ from torch.utils.data import Dataset
 from trainer.core.actor import CPUActor
 from trainer.core.aggregator import StateAggregator
 from trainer.core.proto import FedAvg
-from trainer.util.metric import MetricAverager
+from utils.metric import MetricAverager
 from utils.nn.functional import flatten, sub
 
 
@@ -31,12 +31,12 @@ class ProxActor(CPUActor):
         for k in range(epoch):
             for data, target in self.dataloader(dataset, batch_size):
                 opt.zero_grad()
-                loss = self.loss(self.model(data), target) + self.__fix_term(state)
+                loss = self.loss(self.model(data), target) + self.__rt(state)
                 loss.backward()
                 opt.step()
         return sub(self.get_state(), state), self.evaluate(self.get_state(), dataset, batch_size)
 
-    def __fix_term(self, global_state: OrderedDict):
+    def __rt(self, global_state: OrderedDict):
         return .5 * self._alpha * torch.sum(torch.pow(flatten(self.get_state()) - flatten(global_state), 2))
 
 
@@ -54,5 +54,5 @@ class FedProx(FedAvg):
             for _ in range(self.actor_num)
         ])
         self._aggregator = StateAggregator()
-        self._metric_averager = MetricAverager()
+
 

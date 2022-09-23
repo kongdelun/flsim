@@ -1,7 +1,7 @@
 from frozenlist import FrozenList
 
 from trainer.algorithm.cfl.cfl import CFL
-from trainer.util.metric import Metric
+from utils.metric import Metric
 from utils.compressor.basic import TopkCompressor
 from utils.nn.functional import linear_sum, add_, zero_like
 from utils.select import random_select

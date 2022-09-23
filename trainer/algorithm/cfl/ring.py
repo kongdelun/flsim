@@ -1,19 +1,18 @@
 from copy import deepcopy
 from datetime import datetime
 
+import frozenlist
 import numpy as np
 import torch
 from frozenlist import FrozenList
 from sklearn import cluster
-from sklearn.cluster import k_means
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
 from trainer.core.proto import ClusteredFL
-from trainer.util.metric import Metric
+from utils.metric import Metric
 from utils.cache import DiskCache
 from utils.compressor.basic import TopkCompressor
-from utils.nn.aggregate import fedavg
 from utils.nn.functional import zero_like, linear_sum, add_, add
 from utils.select import random_select
 
@@ -25,35 +24,37 @@ class Ring(ClusteredFL):
         if ring := kwargs['ring']:
             self.rho = ring.get('rho', 0.7)
             self.compress_ratio = ring.get('compress_ratio', 0.6)
+            self.group_num = ring.get('group_num', 8)
         self.pre_epoch = 20
 
     def _init_group(self):
         super(Ring, self)._init_group()
-        self._cur = -1
-        self.selected_num = int(self.sample_rate * len(self._fds))
-        self._compressor = TopkCompressor(self.compress_ratio)
-        self._mom = zero_like(self._model.state_dict())
-        self.pre_state = deepcopy(self._model.state_dict())
         self._cache = DiskCache(
             self.cache_size,
             f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
         )
-        M = self.kl_distance(self._fds, 1.)
-        _, labels, _ = cluster.k_means(M, 8, random_state=self.seed)
-        print(labels)
+        self._cur = -1
+        self._compressor = TopkCompressor(self.compress_ratio)
+        self._mom = zero_like(self._model.state_dict())
+        cids = FrozenList(self._fds)
+        labels = self._cluster(cids)
         for gid in set(labels):
-            # print(f'Group {gid} has {labels.tolist().count(gid)} clients')
             self._groups[gid] = {
-                'state': deepcopy(self.pre_state),
-                'clients': set([c for c, l in zip(self._fds, labels) if l == gid])
+                'state': deepcopy(self._model.state_dict()),
+                'clients': set([c for c, l in zip(cids, labels) if l == gid])
             }
+
+    def _cluster(self, cids):
+        M = self.kl_distance(cids, 1.)
+        _, labels, _ = cluster.k_means(M, self.group_num, random_state=self.seed)
+        self._print_msg(f'cluster result: {labels}')
+        return labels
 
     def _select_client(self):
         self._cur = (self._cur + 1) % len(self._groups)
         return random_select(
             FrozenList(self._groups[self._cur]['clients']),
-            self._k,
-            s_num=self.selected_num,
+            s_num=int(self.sample_rate * len(self._fds)),
             seed=self.seed + self._k
         )
 
@@ -69,21 +70,10 @@ class Ring(ClusteredFL):
             self._groups[gid]['state'] = self._groups[self._cur]['state']
         self._aggregators[self._cur].reset()
 
-    def _local_update(self, cids):
-        args = {
-            'opt': self.opt,
-            'batch_size': self.batch_size,
-            'epoch': self.epoch
-        }
-
-        for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (self._state(c), self._fds.train(c), args)
-            for c in cids
-        ])):
-            self._cache[cid] = self._compress(res[0])
-            gid = self._gid(cid)
-            self._aggregators[gid].update(self._cache[cid], res[1][0])
-            yield Metric(*res[1])
+    def _local_update_callback(self, cid, res):
+        self._compress(res[0])
+        self._cache[cid] = res[0]
+        self._aggregators[self._cur].update(res[0], res[1][0])
 
     def kl_distance(self, cids, temp=1.):
 
@@ -94,12 +84,10 @@ class Ring(ClusteredFL):
                 'epoch': self.epoch
             }
             for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), [
-                (self.pre_state, self._fds.train(c), args)
+                (self._model.state_dict(), self._fds.train(c), args)
                 for c in cids
             ])):
-                self._cache[cid] = {
-                    'state': add(self.pre_state, self._compress(res[0]))
-                }
+                self._cache[cid] = dict(state=add(self._model.state_dict(), self._compress(res[0])))
 
         @torch.no_grad()
         def logit():

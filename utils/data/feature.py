@@ -1,7 +1,5 @@
 import numpy as np
-import scipy.special
 import torch
-import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from ray.util import ActorPool
@@ -13,14 +11,13 @@ from torch.utils.data import ConcatDataset
 from torchvision.datasets import MNIST
 from torchvision.transforms import ToTensor
 
-from benchmark.mnist.model import MLP
+from benchmark.src.mnist.model import MLP
 from root import DATASET
 from trainer.core.actor import SGDActor
 from utils.data.dataset import sample_by_class, FederatedDataset, BasicFederatedDataset, get_target
 from utils.data.partition import BasicPartitioner, Part
 from utils.io import load_yaml
-from utils.nn.functional import flatten, add
-from utils.nn.init import with_kaiming_normal
+from utils.nn.functional import flatten
 from utils.select import random_select
 
 

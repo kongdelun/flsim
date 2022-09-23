@@ -1,7 +1,6 @@
 import gc
 import traceback
 from abc import abstractmethod
-from sys import stderr
 
 import ray
 from ray.util import ActorPool
@@ -12,8 +11,8 @@ from torchinfo import summary
 from env import TB_OUTPUT
 from trainer.core.actor import SGDActor
 from trainer.core.aggregator import StateAggregator
-from trainer.util.metric import Metric, MetricAverager, average
 from utils.data.dataset import FederatedDataset
+from utils.metric import Metric, MetricAverager, average
 from utils.nn.functional import add, add_
 from utils.nn.init import with_kaiming_normal
 from utils.result import progress_bar, print_banner
@@ -52,37 +51,30 @@ class FLTrainer:
         self._model.load_state_dict(
             with_kaiming_normal(self._model.state_dict())
         )
+        self._metric_averager = MetricAverager()
 
     def _print_msg(self, msg):
-        if self.verbose and self._bar:
-            if not isinstance(msg, str):
-                msg = str(msg)
-            self._bar.write(msg)
+        if not isinstance(msg, str):
+            msg = str(msg)
+        if self.verbose:
+            if self._bar:
+                self._bar.write(msg)
+            else:
+                print(msg)
 
-    def _write(self, tag, metric: Metric, writer: SummaryWriter = None):
+    def _write_tb(self, tag, metric: Metric, writer: SummaryWriter = None):
         if writer is None:
             writer = self.writer
         writer.add_scalar(f'{tag}/acc', metric.acc, self._k)
         writer.add_scalar(f'{tag}/loss', metric.loss, self._k)
         writer.flush()
 
-    def _update(self):
+    def _update_iter(self):
         self._k += 1
         self._print_msg('=' * 65)
         self._print_msg(f'Round: {self._k}')
         if self._bar:
             self._bar.update()
-
-    def _close_bar(self):
-        if self._bar:
-            self._bar.close()
-        self._bar = None
-
-    def close(self):
-        self._close_bar()
-        self.writer.close()
-        ray.shutdown()
-        gc.collect()
 
     @abstractmethod
     def _select_client(self):
@@ -108,8 +100,16 @@ class FLTrainer:
     def start(self):
         raise NotImplementedError
 
+    def close(self):
+        ray.shutdown()
+        gc.collect()
+
 
 class FedAvg(FLTrainer):
+
+    def _log_metric(self, metric: Metric, tag: str, writer: SummaryWriter = None):
+        self._print_msg(f'{tag.capitalize()}: {metric}')
+        self._write_tb(f'{tag}', metric, writer)
 
     def _init(self):
         super(FedAvg, self)._init()
@@ -117,7 +117,6 @@ class FedAvg(FLTrainer):
             SGDActor.remote(self._model, CrossEntropyLoss())
             for _ in range(self.actor_num)
         ])
-        self._metric_averager = MetricAverager()
         self._aggregator = StateAggregator()
 
     def _state(self, cid):
@@ -126,18 +125,21 @@ class FedAvg(FLTrainer):
     def _select_client(self):
         return random_select(list(self._fds), s_alpha=self.sample_rate, seed=self.seed + self._k)
 
+    def _local_update_callback(self, cid, res):
+        self._aggregator.update(res[0], res[1][0])
+
     def _local_update(self, cids):
         args = {
             'opt': self.opt,
             'batch_size': self.batch_size,
             'epoch': self.epoch
         }
-        for res in self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (self._state(cid), self._fds.train(cid), args)
-            for cid in cids
-        ]):
-            self._aggregator.update(res[0], res[1][0])
-            yield Metric(*res[1])
+        for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), [
+            (self._state(c), self._fds.train(c), args)
+            for c in cids
+        ])):
+            self._local_update_callback(cid, res)
+            self._metric_averager.update(Metric(*res[1]))
 
     def _aggregate(self, cids):
         self._model.load_state_dict(
@@ -146,66 +148,52 @@ class FedAvg(FLTrainer):
         self._aggregator.reset()
 
     def _val(self, cids):
-        for res in self._pool.map(lambda a, v: a.evaluate.remote(*v), [
+        for cid, res in zip(cids, self._pool.map(lambda a, v: a.evaluate.remote(*v), [
             (self._state(cid), self._fds.val(cid), self.batch_size) for cid in cids
-        ]):
-            yield Metric(*res)
+        ])):
+            self._metric_averager.update(Metric(*res))
 
     def _test(self):
-        self._pool.submit(
-            lambda a, v: a.evaluate.remote(*v),
-            (self._state(None), self._fds.test(), self.batch_size)
-        )
-        m = Metric(*self._pool.get_next())
-        self._print_msg('-' * 65)
-        self._print_msg(f'Test: {m}')
-        self._write('test', m)
+        if self._k % self.test_step == 0:
+            self._pool.submit(
+                lambda a, v: a.evaluate.remote(*v),
+                (self._state(None), self._fds.test(), self.batch_size)
+            )
+            self._print_msg('-' * 65)
+            self._log_metric(Metric(*self._pool.get_next()), 'test')
 
     def start(self):
         self._init()
         try:
-            while self._k < self.round:
-                self._update()
+            while self._k <= self.round:
+                # 1.选择参与设备
                 selected = self._select_client()
-                for m in self._local_update(selected):
-                    self._metric_averager.update(m)
-                m = self._metric_averager.compute()
-                self._print_msg(f'Train: {m}')
-                self._write('train', m)
+                # 2.本地训练
                 self._metric_averager.reset()
+                self._local_update(selected)
+                self._log_metric(self._metric_averager.compute(), 'train')
+                # 3.聚合更新
                 self._aggregate(selected)
-                for m in self._val(selected):
-                    self._metric_averager.update(m)
-                m = self._metric_averager.compute()
-                self._print_msg(f'Val: {m}')
-                self._write('val', m)
+                # 4.聚合模型验证
                 self._metric_averager.reset()
-                if self._k % self.test_step == 0:
-                    self._test()
+                self._val(selected)
+                self._log_metric(self._metric_averager.compute(), 'val')
+                # 5.模型测试
+                self._test()
+                self._update_iter()
         except:
             self._print_msg(traceback.format_exc())
         finally:
             self.close()
 
+    def close(self):
+        if self._bar:
+            self._bar.close()
+        self.writer.close()
+        super(FedAvg, self).close()
+
 
 class ClusteredFL(FedAvg):
-
-    def _init(self):
-        super(FedAvg, self)._init()
-        self._pool = ActorPool([
-            SGDActor.remote(self._model, CrossEntropyLoss())
-            for _ in range(self.actor_num)
-        ])
-        self._metric_averager = MetricAverager()
-        self._init_group()
-        self._aggregators = {
-            gid: StateAggregator()
-            for gid in self._groups
-        }
-        self.writers = {
-            gid: SummaryWriter(f'{self.writer.log_dir}/{gid}')
-            for gid in self._groups
-        }
 
     def _init_group(self):
         self._groups = {}
@@ -223,7 +211,28 @@ class ClusteredFL(FedAvg):
         gid = self._gid(cid)
         if gid is not None:
             return self._groups[gid]['state']
-        return None
+        return self._model.state_dict()
+
+    def _init(self):
+        super(ClusteredFL, self)._init()
+        self._init_group()
+        self._aggregators = {
+            gid: StateAggregator()
+            for gid in self._groups
+        }
+        self.writers = {
+            gid: SummaryWriter(f'{self.writer.log_dir}/{gid}')
+            for gid in self._groups
+        }
+
+    def _select_client(self):
+        selected = super(ClusteredFL, self)._select_client()
+        self._schedule_group(selected)
+        return selected
+
+    def _local_update_callback(self, cid, res):
+        gid = self._gid(cid)
+        self._aggregators[gid].update(res[0], res[1][0])
 
     def _local_update(self, cids):
         args = {
@@ -235,9 +244,8 @@ class ClusteredFL(FedAvg):
             (self._state(c), self._fds.train(c), args)
             for c in cids
         ])):
-            gid = self._gid(cid)
-            self._aggregators[gid].update(res[0], res[1][0])
-            yield Metric(*res[1])
+            self._local_update_callback(cid, res)
+            self._metric_averager.update(Metric(*res[1]))
 
     def _aggregate(self, cids):
         for gid in self._aggregators:
@@ -253,41 +261,18 @@ class ClusteredFL(FedAvg):
         for gid in self._groups:
             cs = self._groups[gid]['clients']
             self._print_msg(f"Group {gid}: {len(cs)} clients")
-            if len(cs) > 0:
-                for m in self._val(self._groups[gid]['clients']):
-                    metrics.append(m)
-                    self._metric_averager.update(m)
-                m = self._metric_averager.compute()
-                self._print_msg(f'Test: {m}')
-                self._write(f'test', m, self.writers[gid])
-                self._metric_averager.reset()
-        m = average(metrics)
-        self._print_msg(f"Total: {m}")
-        self._write(f'test', m)
+            if len(cs) < 1:
+                continue
+            self._metric_averager.reset()
+            self._val(cs)
+            self._log_metric(self._metric_averager.compute(), 'test', self.writers[gid])
+            metrics.append(self._metric_averager.compute())
+        self._log_metric(average(metrics), 'test')
         metrics.clear()
 
-    def start(self):
-        self._init()
-        try:
-            while self._k < self.round:
-                self._update()
-                selected = self._select_client()
-                self._schedule_group(selected)
-                for m in self._local_update(selected):
-                    self._metric_averager.update(m)
-                m = self._metric_averager.compute()
-                self._print_msg(f'Train: {m}')
-                self._write(f'train', m)
-                self._metric_averager.reset()
-                self._aggregate(selected)
-                for m in self._val(selected):
-                    self._metric_averager.update(m)
-                self._print_msg(f'Val: {m}')
-                self._write(f'val', m)
-                self._metric_averager.reset()
-                if self._k % self.test_step == 0:
-                    self._test()
-        except:
-            self._print_msg(traceback.format_exc())
-        finally:
-            self.close()
+    def close(self):
+        for w in self.writers:
+            self.writers[w].close()
+        self.writers.clear()
+        self._aggregators.clear()
+        super(ClusteredFL, self).close()

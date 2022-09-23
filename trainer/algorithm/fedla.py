@@ -8,7 +8,7 @@ from torch.nn import CrossEntropyLoss
 from trainer.core.actor import SGDActor
 from trainer.core.aggregator import Aggregator, NotCalculated
 from trainer.core.proto import FedAvg
-from trainer.util.metric import Metric, MetricAverager
+from utils.metric import Metric
 from utils.nn.aggregate import fedavg
 from utils.nn.functional import state2vector, linear_sum, add, zero_like
 from utils.nn.stats import diff
@@ -101,12 +101,11 @@ class FedLA(FedAvg):
         ])
         self._aggregator = LAAggregator(
             self._model.state_dict(),
-            int(max(1, self.sample_rate * len(self._fds))),
+            max(1, int(self.sample_rate * len(self._fds))),
             self.beta,
             self.eps,
             self.delay_step
         )
-        self._metric_averager = MetricAverager()
 
     def _local_update(self, cids):
         args = {
@@ -114,12 +113,12 @@ class FedLA(FedAvg):
             'batch_size': self.batch_size,
             'epoch': self.epoch
         }
-        for res in self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (s, self._fds.train(cid), args)
-            for cid, s in zip(cids, self._aggregator.states)
-        ]):
-            self._aggregator.update(res[0], res[1][0])
-            yield Metric(*res[1])
+        for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), [
+            (s, self._fds.train(c), args)
+            for c, s in zip(cids, self._aggregator.states)
+        ])):
+            self._local_update_callback(cid, res)
+            self._metric_averager.update(Metric(*res[1]))
 
     def _aggregate(self, cids):
         self._model.load_state_dict(self._aggregator.compute())

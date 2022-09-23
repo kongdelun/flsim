@@ -23,8 +23,10 @@ class IFCA(ClusteredFL):
             }
 
     def _schedule_group(self, cids):
+        # 清空预设
         for gid in self._groups:
             self._groups[gid]['clients'] -= set(cids)
+        # 重新安排
         for cid in cids:
             gid = self._best_group(cid)
             self._groups[gid]['clients'].add(cid)

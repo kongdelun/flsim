@@ -11,8 +11,8 @@ from torch.utils.data import Dataset
 from trainer.core.actor import CPUActor
 from trainer.core.aggregator import Aggregator, NotCalculated
 from trainer.core.proto import FedAvg
-from trainer.util.metric import Metric, MetricAverager
 from utils.cache import DiskCache
+from utils.metric import Metric
 from utils.nn.functional import flatten, zero_like, linear_sum
 
 
@@ -68,7 +68,7 @@ class DynActor(CPUActor):
         for k in range(epoch):
             for data, target in self.dataloader(dataset, batch_size):
                 opt.zero_grad()
-                loss = self.loss(self.model(data), target) + self.__fix_term(state, grad)
+                loss = self.loss(self.model(data), target) + self.__rt(state, grad)
                 loss.backward()
                 opt.step()
         state_ = self.get_state(copy=True)
@@ -76,7 +76,7 @@ class DynActor(CPUActor):
             grad[ln] -= self._alpha * (state_[ln] - state[ln])
         return state_, grad, self.evaluate(state_, dataset, batch_size)
 
-    def __fix_term(self, global_state: OrderedDict, grad: OrderedDict):
+    def __rt(self, global_state: OrderedDict, grad: OrderedDict):
         state = self.get_state()
         l1 = torch.dot(flatten(grad), flatten(state))
         l2 = .5 * self._alpha * torch.sum(torch.pow(flatten(state) - flatten(global_state), 2))
@@ -96,15 +96,18 @@ class FedDyn(FedAvg):
             DynActor.remote(self._model, CrossEntropyLoss(), self.alpha)
             for _ in range(self.actor_num)
         ])
-        self._cache = DiskCache(
-            self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        )
         self._aggregator = DynAggregator(
             self._model.state_dict(),
             len(self._fds), self.alpha
         )
-        self._metric_averager = MetricAverager()
+        self._cache = DiskCache(
+            self.cache_size,
+            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
+        )
+
+    def _local_update_callback(self, cid, res):
+        self._cache[cid] = res[1]
+        self._aggregator.update(res[0])
 
     def _local_update(self, cids):
         args = {
@@ -112,12 +115,12 @@ class FedDyn(FedAvg):
             'batch_size': self.batch_size,
             'epoch': self.epoch
         }
-        for res, cid in zip(self._pool.map(lambda a, v: a.fit.remote(*v), [(
-                self._state(c), self._fds.train(c), dict({'grad': self._cache.get(c)}, **args)
-        ) for c in cids]), cids):
-            self._aggregator.update(res[0])
-            self._cache[cid] = res[1]
-            yield Metric(*res[2])
+        for res, cid in zip(self._pool.map(lambda a, v: a.fit.remote(*v), [
+            (self._state(c), self._fds.train(c), dict({'grad': self._cache.get(c)}, **args))
+            for c in cids
+        ]), cids):
+            self._local_update_callback(cid, res)
+            self._metric_averager.update(Metric(*res[2]))
 
     def _aggregate(self, cids):
         self._model.load_state_dict(self._aggregator.compute())

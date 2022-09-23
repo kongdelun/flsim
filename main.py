@@ -1,7 +1,7 @@
 from os import environ
 from pprint import pprint
 from torch.nn import Module
-from ctx import synthetic, mnist
+from benchmark.ctx import synthetic
 from trainer.api import get_trainer
 from utils.data.dataset import FederatedDataset
 from utils.result import print_text
@@ -30,4 +30,13 @@ if __name__ == '__main__':
     net, fds, cfg = synthetic()
     # cfg['ring']['rho'] = 0.7
     # cfg['tag'] ='_08_7'
-    run(['FedSem', 'IFCA', 'FedGroup'], net, fds, cfg)
+    methods = [
+        # 'FedAvg', 'FedProx', 'FedAvgM', 'FedDyn','IFCA',
+        # 'FedLA',
+        'FedSem',
+        # 'FedGroup'
+        # 'CFL',
+        # 'Scaffold'
+        # 'Ring'
+    ]
+    run(methods, net, fds, cfg)

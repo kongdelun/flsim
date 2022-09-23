@@ -1,17 +1,10 @@
-import os
 import torch
-import torchmetrics
-from pytorch_lightning import Trainer
-from torch import nn, optim, linalg
+from torch import nn, linalg
 import torch.nn.functional as F
-from torch.nn import Module
-from torchinfo import summary
 from torchvision.datasets import MNIST
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import random_split
 from torchvision import transforms
 import pytorch_lightning as pl
-
-from benchmark.mnist.model import MLP
 
 
 class LitAutoEncoder(pl.LightningModule):

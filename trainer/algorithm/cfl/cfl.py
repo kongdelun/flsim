@@ -8,7 +8,6 @@ from torch.utils.tensorboard import SummaryWriter
 
 from trainer.core.aggregator import StateAggregator
 from trainer.core.proto import ClusteredFL
-from trainer.util.metric import Metric
 from utils.cache import DiskCache
 from utils.nn.functional import state2vector
 
@@ -22,11 +21,10 @@ class CFL(ClusteredFL):
             self.eps_2 = cfl.get('eps_2', 0.4)
 
     def _init_group(self):
-        self._groups = {
-            0: {
-                'state': deepcopy(self._model.state_dict()),
-                'clients': set(self._fds)
-            }
+        super(CFL, self)._init_group()
+        self._groups[0] = {
+            'state': deepcopy(self._model.state_dict()),
+            'clients': set(self._fds)
         }
         self._cache = DiskCache(
             self.cache_size,
@@ -36,22 +34,6 @@ class CFL(ClusteredFL):
     def _schedule_group(self, cids):
         for gid in frozenset(self._groups.keys()):
             self._split_group(gid)
-
-    def _local_update(self, cids):
-        args = {
-            'opt': self.opt,
-            'batch_size': self.batch_size,
-            'epoch': self.epoch
-        }
-
-        for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (self._state(c), self._fds.train(c), args)
-            for c in cids
-        ])):
-            self._cache[cid] = res[0]
-            gid = self._gid(cid)
-            self._aggregators[gid].update(res[0], res[1][0])
-            yield Metric(*res[1])
 
     def _split_group(self, gid):
         cids = self._groups[gid]['clients']
@@ -76,3 +58,7 @@ class CFL(ClusteredFL):
                 for cid in cids:
                     self._cache.delete(cid)
                 self._groups[gid]['clients'] -= set(cids_)
+
+    def _local_update_callback(self, cid, res):
+        super(CFL, self)._local_update_callback(cid, res)
+        self._cache[cid] = res[0]

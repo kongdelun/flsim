@@ -85,7 +85,7 @@ def plot_mnist_wd(parts: list[str], size: tuple = (16, 12)):
     for i, p in enumerate(parts):
         fig.add_subplot(int(f'2{n}{i + 1}'))
         plot_plus(
-            get_scalar(f'../benchmark/mnist/{p}/output/', 'diff'),
+            get_scalar(f'../benchmark/src/mnist/{p}/output/', 'diff'),
             title=p.capitalize().replace('_', ' '),
             x_label=f'Round\n({chr(97 + i)})',
             y_label=f'WD' if i == 0 else None,
@@ -93,7 +93,7 @@ def plot_mnist_wd(parts: list[str], size: tuple = (16, 12)):
         )
         fig.add_subplot(int(f'2{n}{i + 1 + n}'))
         plot_plus(
-            get_scalar(f'../benchmark/mnist/{p}/output/', 'test_all/loss', 5),
+            get_scalar(f'../benchmark/src/mnist/{p}/output/', 'test_all/loss', 5),
             x_label=f'Round\n({chr(97 + i + n)})',
             y_label=f'Test loss' if i == 0 else None,
         )

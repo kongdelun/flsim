@@ -5,7 +5,6 @@ from torch import optim
 from torch.nn import Module
 from torch.utils.data import Dataset
 
-from benchmark.mnist.model import MLP
 from trainer.core.actor import CPUActor
 from trainer.core.aggregator import Aggregator, NotCalculated
 from utils.nn.functional import sub, flatten, numel

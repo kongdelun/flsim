@@ -6,7 +6,7 @@ from typing import Optional, Sequence
 import torch
 from torch import Tensor
 
-from benchmark.mnist.model import MLP
+from benchmark.src.mnist.model import MLP
 
 
 def numel(state: dict):
