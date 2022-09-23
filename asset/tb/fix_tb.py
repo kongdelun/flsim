@@ -20,4 +20,4 @@ def fix_tb(src: str, step = 5):
 
 
 if __name__ == '__main__':
-    fix_tb('./src/cifar10/iid')
+    fix_tb('src/cifar10/iid')

@@ -1,4 +1,5 @@
 import importlib
+import traceback
 
 from torch.nn import Module
 
@@ -16,7 +17,10 @@ def get_trainer(name: str, net: Module, fds: FederatedDataset, cfg: dict):
             mod = importlib.import_module(md)
         except ModuleNotFoundError:
             continue
-    if mod is None:
-        raise ModuleNotFoundError
-    cls = getattr(mod, name)
-    return cls(net, fds, **cfg)
+    try:
+        cls = getattr(mod, name)
+        trainer = cls(net, fds, **cfg)
+    except:
+        print(traceback.format_exc())
+        raise ImportError(f'No such trainer: {name}')
+    return trainer

@@ -7,9 +7,10 @@ import numpy as np
 import torch
 from tqdm import trange, tqdm
 from matplotlib import pyplot as plt
+from omegaconf import OmegaConf
 
-from trainer.final.v2.scheduler import LnMomentum, MultiStepMomentum
 from utils.cache import DiskCache
+from utils.data.partition import Part
 from utils.result import get_acc_table
 
 
@@ -50,7 +51,7 @@ class MyTestCase(unittest.TestCase):
         print(np.argwhere(np.array([1, 0, 1, 0, 1]) == 0).flatten())
 
     def test_beta(self):
-        print(50000*1.03**5)
+        print(50000 * 1.03 ** 5)
         # x = np.arange(0, 299)
         # # ln = LnMomentum(0.1, 1)
         # ms = MultiStepMomentum(0.2, 1.2, 20)
@@ -62,3 +63,9 @@ class MyTestCase(unittest.TestCase):
 
         # # print(ln(10, 0.2, 30))
         # print(np.clip(4, 0., 0.8))
+
+    def test_OmegaConf(self):
+        print(Part(1))
+        # conf = OmegaConf.create({'C': Part.NONIID_LABEL_SKEW})
+        #
+        # print(OmegaConf.to_yaml(conf))

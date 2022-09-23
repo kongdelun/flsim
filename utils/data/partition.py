@@ -1,10 +1,12 @@
+import enum
 from abc import ABC, abstractmethod
 from collections import Counter
 from enum import Enum
+
 import numpy as np
 import seaborn as sns
-from pandas import DataFrame, option_context
 from matplotlib import pyplot as plt
+from pandas import DataFrame, option_context
 from sklearn.model_selection import train_test_split
 
 import utils.data.functional as F

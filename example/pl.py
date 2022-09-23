@@ -1,10 +1,12 @@
 import torch
-from torch import nn, linalg
+from torch import nn
 import torch.nn.functional as F
 from torchvision.datasets import MNIST
-from torch.utils.data import random_split
+from torch.utils.data import DataLoader, random_split
 from torchvision import transforms
 import pytorch_lightning as pl
+
+from env import DATASET
 
 
 class LitAutoEncoder(pl.LightningModule):
@@ -33,11 +35,10 @@ class LitAutoEncoder(pl.LightningModule):
         return optimizer
 
 
-root = 'D:/project/python/dataset/mnist/raw'
-
+root = f'{DATASET}/mnist/raw'
 dataset = MNIST(root, download=False, transform=transforms.ToTensor())
 train, val = random_split(dataset, [55000, 5000])
+
 net = LitAutoEncoder()
-trainer = pl.Trainer(accelerator='cuda')
-trainer.fit(net, train, val)
-linalg.
+trainer = pl.Trainer()
+trainer.fit(net, DataLoader(train), DataLoader(val))

@@ -6,8 +6,6 @@ from typing import Optional, Sequence
 import torch
 from torch import Tensor
 
-from benchmark.src.mnist.model import MLP
-
 
 def numel(state: dict):
     return sum(map(lambda x: x.numel(), state.values()))
@@ -107,6 +105,3 @@ def powerball(state: dict, gamma: float):
     return new_state
 
 
-if __name__ == '__main__':
-    s = MLP().state_dict()
-    print(numel(s))

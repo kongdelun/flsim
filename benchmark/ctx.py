@@ -1,3 +1,4 @@
+from omegaconf import OmegaConf
 from torch import nn
 from torch.utils.data import ConcatDataset
 from torchvision.datasets import MNIST, CelebA, CIFAR10, EMNIST, FashionMNIST
@@ -13,23 +14,23 @@ from benchmark.partitioner.fcube import FCUBEPartitioner
 from env import DATASET, PROJECT
 from utils.data.dataset import BasicFederatedDataset, get_target, get_data
 from utils.data.partition import BasicPartitioner, Part
-from utils.io import load_yaml
 from utils.nlp import ToFixedSeq
+from utils.tool import func_name
 
-cfg = load_yaml(f'{PROJECT}/benchmark/cfg.yaml')
+cfg = OmegaConf.load(f"{PROJECT}/benchmark/cfg.yaml")
 
 
 def mnist():
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
     ds = ConcatDataset([
-        MNIST(f'{DATASET}/mnist/raw/', transform=ToTensor(), train=True),
-        MNIST(f'{DATASET}/mnist/raw/', transform=ToTensor(), train=False),
+        MNIST(cfg.root, transform=ToTensor(), train=True),
+        MNIST(cfg.root, transform=ToTensor(), train=False),
     ])
-
     # 划分器
-    dp = BasicPartitioner(get_target(ds), Part.NONIID_LABEL_SKEW, **cfg['partitioner'])
+    dp = BasicPartitioner(get_target(ds), Part(cfg.partitioner.pop('part')), **cfg.partitioner)
     fds = BasicFederatedDataset(ds, dp)
     net = cv.MLP()
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer
 
 
 def synthetic():
@@ -39,100 +40,93 @@ def synthetic():
         nn.ReLU(),
         nn.Linear(90, 10)
     )
-    conf = cfg['trainer']
-    conf['cfl']['eps_1'] = 0.03
-    conf['cfl']['eps_2'] = 0.4
-    return net, fds, conf
+    cfg.trainer.cfl.eps_1 = 0.03
+    cfg.trainer.cfl.eps_2 = 0.4
+    return net, fds, cfg.trainer
 
 
 def fcube():
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
     ds = ConcatDataset([
-        FCUBE(f'{DATASET}/fcube/raw', True, num_samples=60000),
-        FCUBE(f'{DATASET}/fcube/raw', False)
+        FCUBE(cfg.root, True, num_samples=60000),
+        FCUBE(cfg.root, False)
     ])
-    fds = FCUBEPartitioner(get_data(ds), Part.NONIID_SYNTHETIC, cfg['partitioner']['seed'])
+    fds = FCUBEPartitioner(get_data(ds), Part(cfg.partitioner.pop('part')), cfg.partitioner.seed)
     net = nn.Sequential(
         nn.Linear(3, 9),
         nn.ReLU(),
         nn.Dropout(),
         nn.Linear(9, 2)
     )
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer
 
 
 def shakespeare():
-    fds = Shakespeare(f'{DATASET}/shakespeare/raw')
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
+    fds = Shakespeare(cfg.root)
     net = nlp.RNN()
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer
 
 
 def sent140():
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
     ds = ConcatDataset([
-        Sent140(root=f'{DATASET}/sent140/raw/', is_train=True,
+        Sent140(cfg.root, is_train=True,
                 transform=ToFixedSeq(f'{DATASET}/glove/', 35, 25)),
-        Sent140(root=f'{DATASET}/sent140/raw/', is_train=False,
+        Sent140(cfg.root, is_train=False,
                 transform=ToFixedSeq(f'{DATASET}/glove/', 35, 25)),
     ])
-    dp = BasicPartitioner(get_target(ds), Part.NONIID_LABEL_SKEW, **cfg['partitioner'])
+    dp = BasicPartitioner(get_target(ds), Part(cfg.partitioner.pop('part')), **cfg.partitioner)
     fds = BasicFederatedDataset(ds, dp)
     net = nlp.MLP()
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer
 
 
 def celeba():
-    ds = CelebA(
-        root=f'{DATASET}/celeba/raw/', split='all',
-        transform=Compose([Resize(32), ToTensor()]),
-        download=False
-    )
-    dp = BasicPartitioner(get_target(ds), Part.NONIID_LABEL_SKEW, **cfg['partitioner'])
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
+    ds = CelebA(cfg.root, split='all', download=False,
+                transform=Compose([Resize(32), ToTensor()]))
+    dp = BasicPartitioner(get_target(ds), Part(cfg.partitioner.pop('part')), **cfg.partitioner)
     fds = BasicFederatedDataset(ds, dp)
     net = cv.CNN32()
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer
 
 
 def cifar10():
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
     ds = ConcatDataset([
-        CIFAR10(
-            root=f'{DATASET}/cifar10/raw/', train=True,
-            transform=Compose([ToTensor(), Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-        ),
-        CIFAR10(
-            root=f'{DATASET}/cifar10/raw/', train=False,
-            transform=Compose([ToTensor(), Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-        )
+        CIFAR10(cfg.root, train=True, transform=Compose([ToTensor(), Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),
+        CIFAR10(cfg.root, train=False, transform=Compose([ToTensor(), Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),
     ])
-    dp = BasicPartitioner(get_target(ds), Part.NONIID_LABEL_SKEW, **cfg['partitioner'])
+    dp = BasicPartitioner(get_target(ds), Part(cfg.partitioner.pop('part')), **cfg.partitioner)
     fds = BasicFederatedDataset(ds, dp)
     net = cv.CNN32()
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer
 
 
 def femnist():
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
     ds = ConcatDataset([
-        EMNIST(f'{DATASET}/emnist/raw/', split='letters',
-               transform=ToTensor(), target_transform=ToTarget('letters'),
-               train=True),
-        EMNIST(f'{DATASET}/emnist/raw/', split='letters',
-               transform=ToTensor(), target_transform=ToTarget('letters'),
-               train=False)
+        EMNIST(cfg.root, split='letters', train=True,
+               transform=ToTensor(), target_transform=ToTarget('letters')),
+        EMNIST(cfg.root, split='letters', train=False,
+               transform=ToTensor(), target_transform=ToTarget('letters'))
     ])
-    dp = BasicPartitioner(get_target(ds), Part.NONIID_LABEL_SKEW, **cfg['partitioner'])
+    dp = BasicPartitioner(get_target(ds), Part(cfg.partitioner.pop('part')), **cfg.partitioner)
     fds = BasicFederatedDataset(ds, dp)
     net = cv.CNN21()
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer
 
 
 def fmnist():
+    cfg.root = f'{DATASET}/{func_name()}/raw/'
     ds = ConcatDataset([
-        FashionMNIST(f'{DATASET}/fmnist/raw/',
-                     transform=ToTensor(), target_transform=ToTensor(),
-                     train=True),
-        FashionMNIST(f'{DATASET}/fmnist/raw/',
-                     transform=ToTensor(), target_transform=ToTensor(),
-                     train=False)
+        FashionMNIST(cfg.root, train=True,
+                     transform=ToTensor(), target_transform=ToTensor()),
+        FashionMNIST(cfg.root, train=False,
+                     transform=ToTensor(), target_transform=ToTensor())
     ])
-    dp = BasicPartitioner(get_target(ds), Part.NONIID_LABEL_SKEW, **cfg['partitioner'])
+    dp = BasicPartitioner(get_target(ds), Part(cfg.partitioner.pop('part')), **cfg.partitioner)
     fds = BasicFederatedDataset(ds, dp)
     net = cv.CNN21()
-    return net, fds, cfg['trainer']
+    return net, fds, cfg.trainer

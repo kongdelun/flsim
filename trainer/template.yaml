@@ -1,4 +1,5 @@
 partitioner:
+  part: 1
   client_num: 100
   test_ratio: 0.2
   seed: 2077
