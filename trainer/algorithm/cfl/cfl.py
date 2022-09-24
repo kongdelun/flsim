@@ -1,5 +1,4 @@
 from copy import deepcopy
-from datetime import datetime
 
 import torch
 from sklearn.cluster import AgglomerativeClustering
@@ -8,7 +7,6 @@ from torch.utils.tensorboard import SummaryWriter
 
 from trainer.core.aggregator import StateAggregator
 from trainer.core.proto import ClusteredFL
-from utils.cache import DiskCache
 from utils.nn.functional import state2vector
 
 
@@ -26,10 +24,6 @@ class CFL(ClusteredFL):
             'state': deepcopy(self._model.state_dict()),
             'clients': set(self._fds)
         }
-        self._cache = DiskCache(
-            self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        )
 
     def _schedule_group(self, cids):
         for gid in frozenset(self._groups.keys()):
@@ -42,23 +36,19 @@ class CFL(ClusteredFL):
             vecs = state2vector(grads)
             max_norm = torch.max(torch.stack([torch.norm(v) for v in vecs])).item()
             mean_norm = torch.norm(torch.mean(torch.stack(vecs), dim=0)).item()
-            if self.verbose:
-                self._print_msg("{}: max_norm: {:.3f}\tmean_norm: {:.3f}".format(gid, max_norm, mean_norm))
+            self._print_msg("{}: max_norm: {:.3f}\tmean_norm: {:.3f}".format(gid, max_norm, mean_norm))
             if mean_norm < self.eps_1 and max_norm > self.eps_2:
                 M = - cosine_similarity(torch.stack(vecs).detach().numpy())
                 res = AgglomerativeClustering(affinity="precomputed", linkage="complete").fit(M)
                 cids_ = [cid for cid, label in zip(cids, res.labels_) if label == 1]
                 new_id = len(self._groups)
-                self._groups[new_id] = {
-                    'state': deepcopy(self._groups[gid]['state']),
-                    'clients': set(cids_)
-                }
+                self._groups[new_id] = {'state': deepcopy(self._groups[gid]['state']), 'clients': set(cids_)}
                 self.writers[new_id] = SummaryWriter(f'{self.writer.log_dir}/{new_id}')
                 self._aggregators[new_id] = StateAggregator()
                 for cid in cids:
                     self._cache.delete(cid)
                 self._groups[gid]['clients'] -= set(cids_)
 
-    def _local_update_callback(self, cid, res):
-        super(CFL, self)._local_update_callback(cid, res)
+    def _local_update_hook(self, cid, res):
+        super(CFL, self)._local_update_hook(cid, res)
         self._cache[cid] = res[0]

@@ -1,3 +1,4 @@
+import deprecate
 from frozenlist import FrozenList
 
 from trainer.algorithm.cfl.cfl import CFL
@@ -8,6 +9,7 @@ from utils.select import random_select
 
 
 # new method
+@deprecate.deprecated
 class RingCFL(CFL):
 
     def _parse_kwargs(self, **kwargs):

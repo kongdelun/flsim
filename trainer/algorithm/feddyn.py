@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import OrderedDict
 
 import ray
@@ -11,8 +10,7 @@ from torch.utils.data import Dataset
 from trainer.core.actor import CPUActor
 from trainer.core.aggregator import Aggregator, NotCalculated
 from trainer.core.proto import FedAvg
-from utils.cache import DiskCache
-from utils.metric import Metric
+
 from utils.nn.functional import flatten, zero_like, linear_sum
 
 
@@ -74,7 +72,7 @@ class DynActor(CPUActor):
         state_ = self.get_state(copy=True)
         for ln in grad:
             grad[ln] -= self._alpha * (state_[ln] - state[ln])
-        return state_, grad, self.evaluate(state_, dataset, batch_size)
+        return state_, self.evaluate(state_, dataset, batch_size), grad
 
     def __rt(self, global_state: OrderedDict, grad: OrderedDict):
         state = self.get_state()
@@ -100,27 +98,18 @@ class FedDyn(FedAvg):
             self._model.state_dict(),
             len(self._fds), self.alpha
         )
-        self._cache = DiskCache(
-            self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        )
 
-    def _local_update_callback(self, cid, res):
-        self._cache[cid] = res[1]
+    def _local_update_hook(self, cid, res):
+        self._cache[cid] = res[2]
         self._aggregator.update(res[0])
 
-    def _local_update(self, cids):
+    def _local_update_setup(self, cids):
         args = {
             'opt': self.opt,
             'batch_size': self.batch_size,
             'epoch': self.epoch
         }
-        for res, cid in zip(self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (self._state(c), self._fds.train(c), dict({'grad': self._cache.get(c)}, **args))
-            for c in cids
-        ]), cids):
-            self._local_update_callback(cid, res)
-            self._metric_averager.update(Metric(*res[2]))
+        return [(self._state(c), self._fds.train(c), dict({'grad': self._cache.get(c)}, **args)) for c in cids]
 
     def _aggregate(self, cids):
         self._model.load_state_dict(self._aggregator.compute())

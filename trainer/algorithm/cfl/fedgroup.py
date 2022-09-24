@@ -6,9 +6,8 @@ import torch
 from sklearn.cluster import k_means
 from sklearn.decomposition import TruncatedSVD
 from sklearn.metrics.pairwise import cosine_similarity
-
 from trainer.core.proto import ClusteredFL
-from utils.nn.aggregate import fedavg
+from utils.nn.aggregate import average
 from utils.nn.functional import flatten, add
 from utils.nn.stats import cosine
 from utils.select import random_select
@@ -27,23 +26,18 @@ class FedGroup(ClusteredFL):
 
     def _init_group(self):
         super(FedGroup, self)._init_group()
-        # self._cache = DiskCache(
-        #     self.cache_size,
-        #     f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        # )
         cids = random_select(self._fds, s_alpha=self.pre_settings['ratio'])
         nums, grads = [], []
         for cid, n, g in self._pretrain(cids):
             nums.append(n)
             grads.append(g)
-
         X = np.vstack(list(map(lambda x: flatten(x).detach().numpy(), grads)))
         svd = TruncatedSVD(self.group_num, algorithm='arpack', random_state=self.seed)
         decomposed_grads = svd.fit_transform(X.T)
         M = (1. - cosine_similarity(X, decomposed_grads.T)) / 2.
         _, labels, _ = k_means(M, self.group_num, random_state=self.seed)
         for gid in range(self.group_num):
-            pre_grad = fedavg(
+            pre_grad = average(
                 [g for g, l in zip(grads, labels) if l == gid],
                 [n for n, l in zip(nums, labels) if l == gid]
             )

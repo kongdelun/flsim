@@ -1,7 +1,5 @@
 from copy import deepcopy
-from datetime import datetime
 
-import frozenlist
 import numpy as np
 import torch
 from frozenlist import FrozenList
@@ -10,8 +8,6 @@ from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
 from trainer.core.proto import ClusteredFL
-from utils.metric import Metric
-from utils.cache import DiskCache
 from utils.compressor.basic import TopkCompressor
 from utils.nn.functional import zero_like, linear_sum, add_, add
 from utils.select import random_select
@@ -29,10 +25,6 @@ class Ring(ClusteredFL):
 
     def _init_group(self):
         super(Ring, self)._init_group()
-        self._cache = DiskCache(
-            self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        )
         self._cur = -1
         self._compressor = TopkCompressor(self.compress_ratio)
         self._mom = zero_like(self._model.state_dict())
@@ -70,7 +62,7 @@ class Ring(ClusteredFL):
             self._groups[gid]['state'] = self._groups[self._cur]['state']
         self._aggregators[self._cur].reset()
 
-    def _local_update_callback(self, cid, res):
+    def _local_update_hook(self, cid, res):
         self._compress(res[0])
         self._cache[cid] = res[0]
         self._aggregators[self._cur].update(res[0], res[1][0])

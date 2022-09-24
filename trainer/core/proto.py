@@ -1,6 +1,7 @@
 import gc
 import traceback
 from abc import abstractmethod
+from datetime import datetime
 
 import ray
 from ray.util import ActorPool
@@ -11,6 +12,7 @@ from torchinfo import summary
 from env import TB_OUTPUT
 from trainer.core.actor import SGDActor
 from trainer.core.aggregator import StateAggregator
+from utils.cache import DiskCache
 from utils.data.dataset import FederatedDataset
 from utils.metric import Metric, MetricAverager, average
 from utils.nn.functional import add, add_
@@ -48,6 +50,10 @@ class FLTrainer:
         self._k = 0
         set_seed(self.seed)
         self._bar = progress_bar(self.round, 'Training:')
+        self._cache = DiskCache(
+            self.cache_size,
+            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
+        )
         self._model.load_state_dict(
             with_kaiming_normal(self._model.state_dict())
         )
@@ -71,10 +77,11 @@ class FLTrainer:
 
     def _update_iter(self):
         self._k += 1
-        self._print_msg('=' * 65)
-        self._print_msg(f'Round: {self._k}')
-        if self._bar:
-            self._bar.update()
+        if self._k <= self.round:
+            self._print_msg('=' * 65)
+            self._print_msg(f'Round: {self._k}')
+            if self._bar:
+                self._bar.update()
 
     @abstractmethod
     def _select_client(self):
@@ -125,20 +132,21 @@ class FedAvg(FLTrainer):
     def _select_client(self):
         return random_select(list(self._fds), s_alpha=self.sample_rate, seed=self.seed + self._k)
 
-    def _local_update_callback(self, cid, res):
+    def _local_update_hook(self, cid, res):
         self._aggregator.update(res[0], res[1][0])
+        return cid, res
 
-    def _local_update(self, cids):
+    def _local_update_setup(self, cids):
         args = {
             'opt': self.opt,
             'batch_size': self.batch_size,
             'epoch': self.epoch
         }
-        for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (self._state(c), self._fds.train(c), args)
-            for c in cids
-        ])):
-            self._local_update_callback(cid, res)
+        return [(self._state(c), self._fds.train(c), args) for c in cids]
+
+    def _local_update(self, cids):
+        for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), self._local_update_setup(cids))):
+            self._local_update_hook(cid, res)
             self._metric_averager.update(Metric(*res[1]))
 
     def _aggregate(self, cids):
@@ -159,7 +167,7 @@ class FedAvg(FLTrainer):
                 lambda a, v: a.evaluate.remote(*v),
                 (self._state(None), self._fds.test(), self.batch_size)
             )
-            self._print_msg('-' * 65)
+            self._print_msg('=' * 65)
             self._log_metric(Metric(*self._pool.get_next()), 'test')
 
     def start(self):
@@ -230,22 +238,9 @@ class ClusteredFL(FedAvg):
         self._schedule_group(selected)
         return selected
 
-    def _local_update_callback(self, cid, res):
+    def _local_update_hook(self, cid, res):
         gid = self._gid(cid)
         self._aggregators[gid].update(res[0], res[1][0])
-
-    def _local_update(self, cids):
-        args = {
-            'opt': self.opt,
-            'batch_size': self.batch_size,
-            'epoch': self.epoch
-        }
-        for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (self._state(c), self._fds.train(c), args)
-            for c in cids
-        ])):
-            self._local_update_callback(cid, res)
-            self._metric_averager.update(Metric(*res[1]))
 
     def _aggregate(self, cids):
         for gid in self._aggregators:
@@ -256,19 +251,21 @@ class ClusteredFL(FedAvg):
                 continue
 
     def _test(self):
-        self._print_msg('-' * 65)
-        metrics = []
-        for gid in self._groups:
-            cs = self._groups[gid]['clients']
-            self._print_msg(f"Group {gid}: {len(cs)} clients")
-            if len(cs) < 1:
-                continue
-            self._metric_averager.reset()
-            self._val(cs)
-            self._log_metric(self._metric_averager.compute(), 'test', self.writers[gid])
-            metrics.append(self._metric_averager.compute())
-        self._log_metric(average(metrics), 'test')
-        metrics.clear()
+        if self._k % self.test_step == 0:
+            metrics = []
+            for gid in self._groups:
+                cs = self._groups[gid]['clients']
+                self._print_msg('-' * 65)
+                self._print_msg(f"Group {gid}: {len(cs)} clients")
+                if len(cs) < 1:
+                    continue
+                self._metric_averager.reset()
+                self._val(cs)
+                self._log_metric(self._metric_averager.compute(), 'test', self.writers[gid])
+                metrics.append(self._metric_averager.compute())
+            self._print_msg('=' * 65)
+            self._log_metric(average(metrics), 'test')
+            metrics.clear()
 
     def close(self):
         for w in self.writers:

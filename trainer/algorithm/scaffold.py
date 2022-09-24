@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from datetime import datetime
 
 import ray
 from ray.util import ActorPool
@@ -10,9 +9,7 @@ from torch.utils.data import Dataset
 from trainer.core.actor import CPUActor
 from trainer.core.aggregator import Aggregator, NotCalculated
 from trainer.core.proto import FedAvg
-from utils.cache import DiskCache
-from utils.metric import Metric
-from utils.nn.aggregate import fedavg
+from utils.nn.aggregate import average
 from utils.nn.functional import sub, zero_like, scalar_mul_, add_
 
 
@@ -40,7 +37,7 @@ class ScaffoldActor(CPUActor):
         for ln in local_control:
             delta_control[ln] = - global_control[ln] + (state[ln] - state_[ln]) / (K * lr)
             local_control[ln] += delta_control[ln]
-        return sub(state_, state), delta_control, local_control, self.evaluate(state_, dataset, batch_size)
+        return sub(state_, state), self.evaluate(state_, dataset, batch_size), delta_control, local_control
 
     def __rt(self, global_control: OrderedDict, local_control: OrderedDict, lr):
         for ln in local_control:
@@ -69,7 +66,7 @@ class ScaffoldAggregator(Aggregator):
             return super(ScaffoldAggregator, self).compute()
         except NotCalculated:
             assert len(self._delta_controls) == len(self._grads) > 0
-            delta_control, grad = fedavg(self._delta_controls), fedavg(self._grads)
+            delta_control, grad = average(self._delta_controls), average(self._grads)
             add_(self._state, scalar_mul_(grad, self._global_lr))
             add_(self._control, scalar_mul_(delta_control, len(self._grads) * 1. / self._num_clients))
             self._res = self._state
@@ -102,28 +99,19 @@ class Scaffold(FedAvg):
             self._model.state_dict(),
             len(self._fds), self.global_lr
         )
-        self._cache = DiskCache(
-            self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        )
 
-    def _local_update_callback(self, cid, res):
-        self._aggregator.update(res[0], res[1])
-        self._cache[cid] = res[2]
+    def _local_update_hook(self, cid, res):
+        self._aggregator.update(res[0], res[2])
+        self._cache[cid] = res[3]
 
-    def _local_update(self, cids):
+    def _local_update_setup(self, cids):
         args = {
             'opt': self.opt,
             'batch_size': self.batch_size,
             'epoch': self.epoch,
             'global_control': self._aggregator.control
         }
-        for res, cid in zip(self._pool.map(lambda a, v: a.fit.remote(*v), [
-            (self._state(c), self._fds.train(c), dict({'local_control': self._cache.get(c)}, **args))
-            for c in cids
-        ]), cids):
-            self._local_update_callback(cid, res)
-            self._metric_averager.update(Metric(*res[3]))
+        return [(self._state(c), self._fds.train(c), dict({'local_control': self._cache.get(c)}, **args)) for c in cids]
 
     def _aggregate(self, cids):
         self._model.load_state_dict(self._aggregator.compute())

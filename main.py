@@ -37,11 +37,11 @@ if __name__ == '__main__':
     # cfg['tag'] ='_08_7'
     methods = [
         # 'FedAvg', 'FedProx', 'FedAvgM', 'FedDyn','IFCA',
-        'FedLA',
+        # 'FedLA',
         # 'FedSem',
-        # 'FedGroup'
-        # 'CFL'
-        # 'Scaffold'
-        # 'Ring'
+        'FedGroup',
+        'CFL',
+        'Scaffold',
+        'Ring',
     ]
     run(methods, net, fds, cfg)

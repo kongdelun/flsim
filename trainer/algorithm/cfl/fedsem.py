@@ -1,16 +1,7 @@
 import random
-from datetime import datetime
 
 import torch
-from ray.util import ActorPool
-from torch.nn import CrossEntropyLoss
-from torch.utils.tensorboard import SummaryWriter
-
-from trainer.algorithm.fedprox import ProxActor
-from trainer.core.aggregator import StateAggregator
-from trainer.core.proto import ClusteredFL, FedAvg
-from utils.metric import Metric, MetricAverager
-from utils.cache import DiskCache
+from trainer.core.proto import ClusteredFL
 from utils.nn.functional import flatten, add
 from utils.nn.init import with_kaiming_normal
 
@@ -25,14 +16,7 @@ class FedSem(ClusteredFL):
     def _init_group(self):
         super(FedSem, self)._init_group()
         for i in range(self.group_num):
-            self._groups[i] = {
-                'clients': set(),
-                'state': with_kaiming_normal(self._model.state_dict())
-            }
-        self._cache = DiskCache(
-            self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
-        )
+            self._groups[i] = {'clients': set(), 'state': with_kaiming_normal(self._model.state_dict())}
 
     def _gid(self, cid):
         gid = super(FedSem, self)._gid(cid)
@@ -42,7 +26,7 @@ class FedSem(ClusteredFL):
             self._groups[gid]['clients'].add(cid)
         return gid
 
-    def _local_update_callback(self, cid, res):
+    def _local_update_hook(self, cid, res):
         self._cache[cid] = {
             'state': add(self._state(cid), res[0]),
             'num_sample': res[1][0]

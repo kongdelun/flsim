@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import OrderedDict
-from utils.nn.aggregate import fedavg
+from utils.nn.aggregate import average
 
 
 class NotCalculated(Exception):
@@ -58,7 +58,7 @@ class StateAggregator(Aggregator):
             return super(StateAggregator, self).compute()
         except NotCalculated:
             assert len(self._states) == len(self._num_samples) > 0
-            self._res = fedavg(self._states, self._num_samples)
+            self._res = average(self._states, self._num_samples)
             return self._res
 
     def reset(self):

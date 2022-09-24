@@ -3,7 +3,7 @@ from typing import Optional, Sequence
 from utils.nn.functional import linear_sum, flatten, unflatten, extract_shape
 
 
-def fedavg(states: Sequence[dict], weights: Optional[Sequence] = None):
+def average(states: Sequence[dict], weights: Optional[Sequence] = None):
     if weights is None:
         weights = torch.ones(len(states))
     elif not isinstance(weights, torch.Tensor):
