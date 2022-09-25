@@ -2,13 +2,11 @@ import gc
 import traceback
 from abc import abstractmethod
 from datetime import datetime
-
 import ray
 from ray.util import ActorPool
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.tensorboard import SummaryWriter
 from torchinfo import summary
-
 from env import TB_OUTPUT
 from trainer.core.actor import SGDActor
 from trainer.core.aggregator import StateAggregator
@@ -41,6 +39,7 @@ class FLTrainer:
         self.batch_size = kwargs.get('batch_size', 32)
         self.epoch = kwargs.get('epoch', 5)
         self.test_step = kwargs.get('test_step', 5)
+        self.max_grad_norm = kwargs.get('max_grad_norm', 10.0)
         self.opt = kwargs.get('opt', {'lr': 0.002})
         self.round = kwargs.get('round', 300)
         self.cache_size = kwargs.get('cache_size', 3)
@@ -75,7 +74,7 @@ class FLTrainer:
         writer.add_scalar(f'{tag}/loss', metric.loss, self._k)
         writer.flush()
 
-    def _update_iter(self):
+    def _update_progress(self):
         self._k += 1
         if self._k <= self.round:
             self._print_msg('=' * 65)
@@ -140,7 +139,8 @@ class FedAvg(FLTrainer):
         args = {
             'opt': self.opt,
             'batch_size': self.batch_size,
-            'epoch': self.epoch
+            'epoch': self.epoch,
+            'max_grad_norm': self.max_grad_norm
         }
         return [(self._state(c), self._fds.train(c), args) for c in cids]
 
@@ -188,7 +188,7 @@ class FedAvg(FLTrainer):
                 self._log_metric(self._metric_averager.compute(), 'val')
                 # 5.模型测试
                 self._test()
-                self._update_iter()
+                self._update_progress()
         except:
             self._print_msg(traceback.format_exc())
         finally:

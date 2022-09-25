@@ -66,7 +66,7 @@ class BasicPartitioner(DataPartitioner):
         self.targets = targets if isinstance(targets, np.ndarray) else np.array(targets)
         self.sample_num = self.targets.shape[0]
         self.class_num = np.unique(self.targets).shape[0]
-        self.part = part
+        self.part = Part(part) if isinstance(part, int) else part
         self.client_num = client_num
         self.seed = seed
         self._lognormal_sgm = lognormal_sgm

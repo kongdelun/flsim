@@ -110,7 +110,8 @@ class FedLA(FedAvg):
         args = {
             'opt': self.opt,
             'batch_size': self.batch_size,
-            'epoch': self.epoch
+            'epoch': self.epoch,
+            'max_grad_norm': self.max_grad_norm
         }
         return [(s, self._fds.train(c), args) for c, s in zip(cids, self._aggregator.states)]
 

@@ -4,6 +4,7 @@ import ray
 from ray.util import ActorPool
 from torch import optim
 from torch.nn import CrossEntropyLoss
+from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset
 
 from trainer.core.actor import CPUActor
@@ -16,32 +17,37 @@ from utils.nn.functional import sub, zero_like, scalar_mul_, add_
 @ray.remote
 class ScaffoldActor(CPUActor):
 
+    def _setup(self, args: dict):
+        self._batch_size = args.get('batch_size', 32)
+        self._epoch = args.get('epoch', 5)
+        self._max_grad_norm = args.get('max_grad_norm', 10.0)
+        self._opt = args.get('opt', {'lr': 0.001})
+        self._global_control = args.get('global_control')
+        self._local_control = args.get('local_control', None)
+        if self._local_control is None:
+            self._local_control = zero_like(self._global_control)
+
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):
-        global_control = args.get('global_control')
-        opt = args.get('opt', {'lr': 0.001})
-        batch_size = args.get('batch_size', 32)
-        epoch = args.get('epoch', 5)
+        self._setup(args)
         self.set_state(state)
-        local_control = args.get('local_control', None)
-        if local_control is None:
-            local_control = zero_like(state)
-        opt, K, lr = optim.SGD(self.model.parameters(), **opt), 0, opt['lr']
+        opt, K, lr = optim.SGD(self.model.parameters(), **self._opt), 0, self._opt['lr']
         self.model.train()
-        for k in range(epoch):
-            for data, target in self.dataloader(dataset, batch_size):
+        for k in range(self._epoch):
+            for data, target in self.dataloader(dataset, self._batch_size):
                 opt.zero_grad()
                 self.loss(self.model(data), target).backward()
+                clip_grad_norm_(self.model.parameters(), self._max_grad_norm)
                 opt.step()
-                K += self.__rt(global_control, local_control, lr)
+                K += self.__rt(lr)
         state_, delta_control = self.get_state(), OrderedDict()
-        for ln in local_control:
-            delta_control[ln] = - global_control[ln] + (state[ln] - state_[ln]) / (K * lr)
-            local_control[ln] += delta_control[ln]
-        return sub(state_, state), self.evaluate(state_, dataset, batch_size), delta_control, local_control
+        for ln in self._local_control:
+            delta_control[ln] = - self._global_control[ln] + (state[ln] - state_[ln]) / (K * lr)
+            self._local_control[ln] += delta_control[ln]
+        return sub(state_, state), self.evaluate(state_, dataset, self._batch_size), delta_control, self._local_control
 
-    def __rt(self, global_control: OrderedDict, local_control: OrderedDict, lr):
-        for ln in local_control:
-            self.get_state()[ln] -= lr * (global_control[ln] - local_control[ln])
+    def __rt(self, lr):
+        for ln in self._local_control:
+            self.get_state()[ln] -= lr * (self._global_control[ln] - self._local_control[ln])
         return 1
 
 
@@ -109,7 +115,8 @@ class Scaffold(FedAvg):
             'opt': self.opt,
             'batch_size': self.batch_size,
             'epoch': self.epoch,
-            'global_control': self._aggregator.control
+            'global_control': self._aggregator.control,
+            'max_grad_norm': self.max_grad_norm
         }
         return [(self._state(c), self._fds.train(c), dict({'local_control': self._cache.get(c)}, **args)) for c in cids]
 

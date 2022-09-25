@@ -5,6 +5,7 @@ import torch
 from ray.util import ActorPool
 from torch import optim
 from torch.nn import CrossEntropyLoss, Module
+from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset
 
 from trainer.core.actor import CPUActor
@@ -53,30 +54,35 @@ class DynActor(CPUActor):
         super().__init__(model, loss)
         self._alpha = alpha
 
+    def _setup(self, args: dict):
+        self._batch_size = args.get('batch_size', 32)
+        self._epoch = args.get('epoch', 5)
+        self._max_grad_norm = args.get('max_grad_norm', 10.0)
+        self._opt = args.get('opt', {'lr': 0.001})
+        self._grad = args.get('grad', None)
+        if self._grad is None:
+            self._grad = zero_like(self.get_state())
+
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):
-        opt = args.get('opt', {'lr': 0.001})
-        batch_size = args.get('batch_size', 32)
-        epoch = args.get('epoch', 5)
-        grad = args.get('grad', None)
-        if grad is None:
-            grad = zero_like(state)
+        self._setup(args)
         self.set_state(state)
-        opt = optim.SGD(self.model.parameters(), **opt)
+        opt = optim.SGD(self.model.parameters(), **self._opt)
         self.model.train()
-        for k in range(epoch):
-            for data, target in self.dataloader(dataset, batch_size):
+        for k in range(self._epoch):
+            for data, target in self.dataloader(dataset, self._batch_size):
                 opt.zero_grad()
-                loss = self.loss(self.model(data), target) + self.__rt(state, grad)
+                loss = self.loss(self.model(data), target) + self.__rt(state)
                 loss.backward()
+                clip_grad_norm_(self.model.parameters(), self._max_grad_norm)
                 opt.step()
         state_ = self.get_state(copy=True)
-        for ln in grad:
-            grad[ln] -= self._alpha * (state_[ln] - state[ln])
-        return state_, self.evaluate(state_, dataset, batch_size), grad
+        for ln in self._grad:
+            self._grad[ln] -= self._alpha * (state_[ln] - state[ln])
+        return state_, self.evaluate(state_, dataset, self._batch_size), self._grad
 
-    def __rt(self, global_state: OrderedDict, grad: OrderedDict):
+    def __rt(self, global_state: OrderedDict):
         state = self.get_state()
-        l1 = torch.dot(flatten(grad), flatten(state))
+        l1 = torch.dot(flatten(self._grad), flatten(state))
         l2 = .5 * self._alpha * torch.sum(torch.pow(flatten(state) - flatten(global_state), 2))
         return -l1 + l2
 
@@ -107,7 +113,8 @@ class FedDyn(FedAvg):
         args = {
             'opt': self.opt,
             'batch_size': self.batch_size,
-            'epoch': self.epoch
+            'epoch': self.epoch,
+            'max_grad_norm': self.max_grad_norm
         }
         return [(self._state(c), self._fds.train(c), dict({'grad': self._cache.get(c)}, **args)) for c in cids]
 

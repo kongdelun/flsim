@@ -123,7 +123,7 @@ class Representation(FedAvg):
         self._init()
         try:
             while self._k < self.round:
-                self._update_iter()
+                self._update_progress()
                 selected = self._select_client()
                 for m in self._local_update(selected):
                     self._metric_averager.update(m)

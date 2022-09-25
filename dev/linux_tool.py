@@ -1,7 +1,5 @@
 import os
 import shutil
-from typing import Iterable
-
 from env import BASE
 
 

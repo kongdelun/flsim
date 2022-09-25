@@ -60,9 +60,9 @@ class CNN32(nn.Module):
         return x
 
 
-class MLP(nn.Module):
+class MnistMLP(nn.Module):
 
-    def __init__(self, out_dim=10):
+    def __init__(self, out_dim=10, **kwargs):
         super().__init__()
         self.input = nn.Linear(28 * 28, 128)
         self.relu = nn.ReLU()

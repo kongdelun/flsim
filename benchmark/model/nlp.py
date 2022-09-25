@@ -1,10 +1,10 @@
 from torch import nn
 
 
-class MLP(nn.Module):
+class Sent140MLP(nn.Module):
 
-    def __init__(self, max_len=35, dim=25):
-        super(MLP, self).__init__()
+    def __init__(self, max_len=35, dim=25, **kwargs):
+        super(Sent140MLP, self).__init__()
         self.max_len = max_len
         self.dim = dim
         self.input = nn.Sequential(
@@ -58,3 +58,9 @@ class RNN(nn.Module):
         final_hidden_state = lstm_out[:, -1]
         output = self.fc(final_hidden_state)
         return output
+
+    net = nn.Sequential(
+        nn.Linear(60, 90),
+        nn.ReLU(),
+        nn.Linear(90, 10)
+    )

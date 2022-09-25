@@ -35,13 +35,13 @@ class FCUBEPartitioner(DataPartitioner):
     CLASS_NUM = 2
     CLIENT_NUM = 4
 
-    def __init__(self, data, partition, seed=None):
+    def __init__(self, data, partition, **kwargs):
         super(FCUBEPartitioner, self).__init__()
         if partition not in [Part.NONIID_SYNTHETIC, Part.IID_BALANCE]:
             raise ValueError(f"FCUBE only supports 'synthetic' and 'iid' partition, not {partition}.")
         self.partition = partition
         self.data = data
-        self.seed = seed
+        self.seed = kwargs.get('seed', 2077)
         self.sample_num = data.shape[0] if isinstance(data, np.ndarray) else len(data)
         self.client_dict = self._split()
 

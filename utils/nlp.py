@@ -2,10 +2,11 @@ import numpy as np
 import six
 from torchtext.data import get_tokenizer
 from torchtext.vocab import GloVe
+from env import DATASET
 
 
-def get_glove(catch: str, dim=25):
-    return GloVe(name='twitter.27B', dim=dim, cache=catch)
+def get_glove(dim=25):
+    return GloVe(name='twitter.27B', dim=dim, cache=f'{DATASET}/glove/')
 
 
 def pad_sequences(sequences, max_len=None, dtype='int32',
@@ -64,10 +65,10 @@ def pad_sequences(sequences, max_len=None, dtype='int32',
 
 class ToFixedSeq:
 
-    def __init__(self, glove_cache, max_len, dim):
+    def __init__(self, max_len, dim):
         self.tokenizer = get_tokenizer("spacy", language="en_core_web_sm")
         assert dim in [25, 50, 100, 200], 'dim = (25,50,100,200)'
-        self.glove = get_glove(glove_cache, dim)
+        self.glove = get_glove(dim)
         self.max_len = max_len
 
     def __call__(self, sentence):
@@ -77,6 +78,3 @@ class ToFixedSeq:
         return seq
 
 
-if __name__ == '__main__':
-    f = ToFixedSeq('kk', 35, 25)
-    print(f("i am fine ok amd yes intel very good").shape)
