@@ -10,8 +10,8 @@ Algorithm
 - [x] FedGroup : [FedGroup: Efficient Clustered Federated Learning via Decomposed Data-Driven Measure](https://arxiv.org/abs/2010.06870)
 - [x] CFL: [Clustered Federated Learning: Model-Agnostic Distributed Multitask Optimization Under Privacy Constraints](https://ieeexplore.ieee.org/abstract/document/9174890/)
 - [x] FedLA: [Lazy Aggregation for Heterogeneous Federated Learning](https://www.mdpi.com/2076-3417/12/17/8515)
+- [x] FedOpt: [Adaptive federated optimization](https://arxiv.org/pdf/2003.00295.pdf)
 
-===================================================
 
 @misc{smile2021fedlab,  
     title={FedLab: A Flexible Federated Learning Framework},  
