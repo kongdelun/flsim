@@ -1,4 +1,5 @@
 import importlib
+import logging
 import traceback
 from typing import Optional
 from torch.nn import Module
@@ -20,7 +21,6 @@ def get_trainer(name: str, net: Module, fds: FederatedDataset, cfg: dict):
         cls = getattr(mod, name)
         ret = cls(net, fds, **cfg)
     except:
-        print(traceback.format_exc())
         raise ImportError(f'No such trainer: {name}')
     return ret
 

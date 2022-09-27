@@ -7,22 +7,7 @@ class NotCalculated(Exception):
     pass
 
 
-class BaseAggregator(ABC):
-
-    @abstractmethod
-    def update(self, *args, **kwargs):
-        raise NotImplementedError
-
-    @abstractmethod
-    def compute(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def reset(self):
-        raise NotImplementedError
-
-
-class Aggregator(BaseAggregator):
+class BaseAggregator:
 
     def __init__(self):
         self._res = None
@@ -40,28 +25,37 @@ class Aggregator(BaseAggregator):
         self._res = None
 
 
+class Aggregator(BaseAggregator):
+
+    def compute(self):
+        try:
+            return super(Aggregator, self).compute()
+        except NotCalculated:
+            self._res = self._adapt_fn()
+            return self._res
+
+    @abstractmethod
+    def _adapt_fn(self, *args, **kwargs):
+        raise NotImplementedError
+
+
 class StateAggregator(Aggregator):
 
     def __init__(self):
         super(StateAggregator, self).__init__()
         self._states = []
         self._num_samples = []
-        self._state = None
 
     def update(self, state: OrderedDict, num_sample):
         super(StateAggregator, self).update()
         self._states.append(state)
         self._num_samples.append(num_sample)
 
-    def compute(self):
-        try:
-            return super(StateAggregator, self).compute()
-        except NotCalculated:
-            assert len(self._states) == len(self._num_samples) > 0
-            self._res = average(self._states, self._num_samples)
-            return self._res
-
     def reset(self):
         super(StateAggregator, self).reset()
         self._num_samples.clear()
         self._states.clear()
+
+    def _adapt_fn(self):
+        assert len(self._states) == len(self._num_samples) > 0
+        return average(self._states, self._num_samples)

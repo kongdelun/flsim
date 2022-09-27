@@ -24,8 +24,7 @@ class FedGroup(ClusteredFL):
             })
             self.pre_settings['state'] = deepcopy(self._model.state_dict())
 
-    def _init_group(self):
-        super(FedGroup, self)._init_group()
+    def _init_group_hook(self):
         cids = random_select(self._fds, s_alpha=self.pre_settings['ratio'])
         nums, grads = [], []
         for cid, n, g in self._pretrain(cids):

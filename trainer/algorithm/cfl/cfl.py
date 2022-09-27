@@ -18,8 +18,7 @@ class CFL(ClusteredFL):
             self.eps_1 = cfl.get('eps_1', 0.026)
             self.eps_2 = cfl.get('eps_2', 0.4)
 
-    def _init_group(self):
-        super(CFL, self)._init_group()
+    def _init_group_hook(self):
         self._groups[0] = {
             'state': deepcopy(self._model.state_dict()),
             'clients': set(self._fds)

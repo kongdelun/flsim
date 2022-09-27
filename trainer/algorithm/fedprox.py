@@ -9,7 +9,6 @@ from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset
 
 from trainer.core.actor import CPUActor
-from trainer.core.aggregator import StateAggregator
 from trainer.core.proto import FedAvg
 from utils.nn.functional import flatten, sub
 
@@ -52,12 +51,9 @@ class FedProx(FedAvg):
         if prox := kwargs['prox']:
             self.alpha = prox.get('alpha', 0.01)
 
-    def _init(self):
-        super(FedAvg, self)._init()
+    def _configure_actor_pool(self):
         self._pool = ActorPool([
             ProxActor.remote(self._model, CrossEntropyLoss(), self.alpha)
             for _ in range(self.actor_num)
         ])
-        self._aggregator = StateAggregator()
-
 

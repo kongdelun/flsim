@@ -1,12 +1,15 @@
 import gc
 import traceback
 from abc import abstractmethod
+from copy import deepcopy
 from datetime import datetime
+
 import ray
 from ray.util import ActorPool
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.tensorboard import SummaryWriter
 from torchinfo import summary
+
 from env import TB_OUTPUT
 from trainer.core.actor import SGDActor
 from trainer.core.aggregator import StateAggregator
@@ -57,6 +60,16 @@ class FLTrainer:
             with_kaiming_normal(self._model.state_dict())
         )
         self._metric_averager = MetricAverager()
+        self._configure_aggregator()
+        self._configure_actor_pool()
+
+    @abstractmethod
+    def _configure_actor_pool(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def _configure_aggregator(self):
+        raise NotImplementedError
 
     def _print_msg(self, msg):
         if not isinstance(msg, str):
@@ -117,12 +130,13 @@ class FedAvg(FLTrainer):
         self._print_msg(f'{tag.capitalize()}: {metric}')
         self._write_tb(f'{tag}', metric, writer)
 
-    def _init(self):
-        super(FedAvg, self)._init()
+    def _configure_actor_pool(self):
         self._pool = ActorPool([
             SGDActor.remote(self._model, CrossEntropyLoss())
             for _ in range(self.actor_num)
         ])
+
+    def _configure_aggregator(self):
         self._aggregator = StateAggregator()
 
     def _state(self, cid):
@@ -203,12 +217,6 @@ class FedAvg(FLTrainer):
 
 class ClusteredFL(FedAvg):
 
-    def _init_group(self):
-        self._groups = {}
-
-    def _schedule_group(self, cids):
-        pass
-
     def _gid(self, cid):
         for gid in self._groups:
             if cid in self._groups[gid]['clients']:
@@ -221,17 +229,27 @@ class ClusteredFL(FedAvg):
             return self._groups[gid]['state']
         return self._model.state_dict()
 
-    def _init(self):
-        super(ClusteredFL, self)._init()
-        self._init_group()
+    def _init_group_hook(self):
+        pass
+
+    def _init_group(self):
+        self._groups = {}
+        self._init_group_hook()
         self._aggregators = {
-            gid: StateAggregator()
+            gid: deepcopy(self._aggregator)
             for gid in self._groups
         }
         self.writers = {
             gid: SummaryWriter(f'{self.writer.log_dir}/{gid}')
             for gid in self._groups
         }
+
+    def _init(self):
+        super(ClusteredFL, self)._init()
+        self._init_group()
+
+    def _schedule_group(self, cids):
+        pass
 
     def _select_client(self):
         selected = super(ClusteredFL, self)._select_client()

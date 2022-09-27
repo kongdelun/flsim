@@ -7,11 +7,9 @@ from torch import optim
 from torch.nn import CrossEntropyLoss, Module
 from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset
-
 from trainer.core.actor import CPUActor
-from trainer.core.aggregator import Aggregator, NotCalculated
+from trainer.core.aggregator import Aggregator
 from trainer.core.proto import FedAvg
-
 from utils.nn.functional import flatten, zero_like, linear_sum
 
 
@@ -29,22 +27,18 @@ class DynAggregator(Aggregator):
         super(DynAggregator, self).update()
         self._states.append(state)
 
-    def compute(self):
-        try:
-            return super(DynAggregator, self).compute()
-        except NotCalculated:
-            assert len(self._states) > 0
-            m, n = self._num_clients, len(self._states)
-            sum_theta = linear_sum(self._states)
-            for ln in self._state:
-                self._h[ln] -= self._alpha / m * (sum_theta[ln] - n * self._state[ln])
-                self._state[ln] = 1. / n * sum_theta[ln] - 1. / self._alpha * self._h[ln]
-            self._res = self._state
-            return self._res
-
     def reset(self):
         super(DynAggregator, self).reset()
         self._states.clear()
+
+    def _adapt_fn(self, m, n):
+        assert len(self._states) > 0
+        m, n = self._num_clients, len(self._states)
+        sum_theta = linear_sum(self._states)
+        for ln in self._state:
+            self._h[ln] -= self._alpha / m * (sum_theta[ln] - n * self._state[ln])
+            self._state[ln] = 1. / n * sum_theta[ln] - 1. / self._alpha * self._h[ln]
+        return self._state
 
 
 @ray.remote
@@ -94,12 +88,13 @@ class FedDyn(FedAvg):
         if dyn := kwargs['dyn']:
             self.alpha = dyn.get('alpha', 0.01)
 
-    def _init(self):
-        super(FedAvg, self)._init()
+    def _configure_actor_pool(self):
         self._pool = ActorPool([
             DynActor.remote(self._model, CrossEntropyLoss(), self.alpha)
             for _ in range(self.actor_num)
         ])
+
+    def _configure_aggregator(self):
         self._aggregator = DynAggregator(
             self._model.state_dict(),
             len(self._fds), self.alpha

@@ -2,7 +2,6 @@ import torch
 from torch.nn import CrossEntropyLoss
 from torch.utils.data import DataLoader
 from torchmetrics import MeanMetric
-
 from trainer.core.proto import ClusteredFL
 from utils.nn.init import with_kaiming_normal
 
@@ -14,8 +13,7 @@ class IFCA(ClusteredFL):
         if ifca := kwargs['ifca']:
             self.group_num = ifca.get('group_num', 2)
 
-    def _init_group(self):
-        super(IFCA, self)._init_group()
+    def _init_group_hook(self):
         for i in range(self.group_num):
             self._groups[i] = {
                 'clients': set(),

@@ -8,7 +8,7 @@ from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset
 
 from trainer.core.actor import CPUActor
-from trainer.core.aggregator import Aggregator, NotCalculated
+from trainer.core.aggregator import Aggregator
 from trainer.core.proto import FedAvg
 from utils.nn.aggregate import average
 from utils.nn.functional import sub, zero_like, scalar_mul_, add_
@@ -67,17 +67,6 @@ class ScaffoldAggregator(Aggregator):
         self._grads.append(local_grad)
         self._delta_controls.append(local_delta_control)
 
-    def compute(self):
-        try:
-            return super(ScaffoldAggregator, self).compute()
-        except NotCalculated:
-            assert len(self._delta_controls) == len(self._grads) > 0
-            delta_control, grad = average(self._delta_controls), average(self._grads)
-            add_(self._state, scalar_mul_(grad, self._global_lr))
-            add_(self._control, scalar_mul_(delta_control, len(self._grads) * 1. / self._num_clients))
-            self._res = self._state
-            return self._res
-
     def reset(self):
         super(ScaffoldAggregator, self).reset()
         self._grads.clear()
@@ -87,6 +76,13 @@ class ScaffoldAggregator(Aggregator):
     def control(self):
         return self._control
 
+    def _adapt_fn(self):
+        assert len(self._delta_controls) == len(self._grads) > 0
+        delta_control, grad = average(self._delta_controls), average(self._grads)
+        add_(self._state, scalar_mul_(grad, self._global_lr))
+        add_(self._control, scalar_mul_(delta_control, len(self._grads) * 1. / self._num_clients))
+        return self._state
+
 
 class Scaffold(FedAvg):
 
@@ -95,12 +91,13 @@ class Scaffold(FedAvg):
         if scaffold := kwargs['scaffold']:
             self.global_lr = scaffold.get('global_lr', 0.98)
 
-    def _init(self):
-        super(FedAvg, self)._init()
+    def _configure_actor_pool(self):
         self._pool = ActorPool([
             ScaffoldActor.remote(self._model, CrossEntropyLoss())
             for _ in range(self.actor_num)
         ])
+
+    def _configure_aggregator(self):
         self._aggregator = ScaffoldAggregator(
             self._model.state_dict(),
             len(self._fds), self.global_lr

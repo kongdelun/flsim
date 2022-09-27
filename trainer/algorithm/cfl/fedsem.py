@@ -13,8 +13,7 @@ class FedSem(ClusteredFL):
         if sem := kwargs['sem']:
             self.group_num = sem.get('group_num', 2)
 
-    def _init_group(self):
-        super(FedSem, self)._init_group()
+    def _init_group_hook(self):
         for i in range(self.group_num):
             self._groups[i] = {'clients': set(), 'state': with_kaiming_normal(self._model.state_dict())}
 

@@ -1,5 +1,4 @@
 from copy import deepcopy
-
 import numpy as np
 import torch
 from frozenlist import FrozenList
@@ -23,8 +22,7 @@ class Ring(ClusteredFL):
             self.group_num = ring.get('group_num', 8)
         self.pre_epoch = 20
 
-    def _init_group(self):
-        super(Ring, self)._init_group()
+    def _init_group_hook(self):
         self._cur = -1
         self._compressor = TopkCompressor(self.compress_ratio)
         self._mom = zero_like(self._model.state_dict())

@@ -20,22 +20,22 @@ model:
 trainer:
   names:
 #    - FedAvg
-    - FedProx
+    - FedOpt
 #    - FedAvgM
-    - FedDyn
+#    - FedDyn
 #    - IFCA
 #    - FedLA
 #    - FedSem
 #    - FedGroup
 #    - CFL
-    - Scaffold
+#    - Scaffold
 #    - Ring
   args:
     verbose: True
     cache_size: 5
     actor_num: 10
     seed: 2077
-    round: 10
+    round: 100
     sample_rate: 0.1
     batch_size: 32
     epoch: 5
@@ -61,6 +61,8 @@ trainer:
       alpha: 0.01
     dyn:
       alpha: 0.01
+    fedopt:
+      global_opt: AdaGrad
     la:
       beta: 0.5
       eps: 0.02

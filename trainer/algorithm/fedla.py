@@ -1,12 +1,7 @@
 import dataclasses
 from typing import OrderedDict
-
 import frozenlist
-from ray.util import ActorPool
-from torch.nn import CrossEntropyLoss
-
-from trainer.core.actor import SGDActor
-from trainer.core.aggregator import Aggregator, NotCalculated
+from trainer.core.aggregator import Aggregator
 from trainer.core.proto import FedAvg
 from utils.nn.aggregate import average
 from utils.nn.functional import state2vector, linear_sum, add, zero_like
@@ -56,23 +51,6 @@ class LAAggregator(Aggregator):
                 return True
         return False
 
-    def compute(self):
-        try:
-            return super(LAAggregator, self).compute()
-        except NotCalculated:
-            assert len(self._grads) == self._num_parallel > 0
-            for s, n, g in zip(self._s, self._num_samples, self._grads):
-                s.num += n
-                s.momentum = linear_sum([s.momentum, g], [self._beta, 1.])
-                s.state = add(s.state, s.momentum)
-            self._k += 1
-            # 判断是否聚合
-            if self._has_agg():
-                self._state = average([s.state for s in self._s], [s.num for s in self._s])
-                self._s = [self.Status(s.momentum, self._state) for s in self._s]
-            self._res = self._state
-            return self._res
-
     def reset(self):
         super(LAAggregator, self).reset()
         self._num_samples.clear()
@@ -81,6 +59,19 @@ class LAAggregator(Aggregator):
     @property
     def states(self):
         return frozenlist.FrozenList(s.state for s in self._s)
+
+    def _adapt_fn(self):
+        assert len(self._grads) == self._num_parallel > 0
+        for s, n, g in zip(self._s, self._num_samples, self._grads):
+            s.num += n
+            s.momentum = linear_sum([s.momentum, g], [self._beta, 1.])
+            s.state = add(s.state, s.momentum)
+        self._k += 1
+        # 判断是否聚合
+        if self._has_agg():
+            self._state = average([s.state for s in self._s], [s.num for s in self._s])
+            self._s = [self.Status(s.momentum, self._state) for s in self._s]
+        return self._state
 
 
 class FedLA(FedAvg):
@@ -92,12 +83,7 @@ class FedLA(FedAvg):
             self.delay_step = la.get('delay_step', 0)
             self.beta = la.get('beta', 0.5)
 
-    def _init(self):
-        super(FedAvg, self)._init()
-        self._pool = ActorPool([
-            SGDActor.remote(self._model, CrossEntropyLoss())
-            for _ in range(self.actor_num)
-        ])
+    def _configure_aggregator(self):
         self._aggregator = LAAggregator(
             self._model.state_dict(),
             max(1, int(self.sample_rate * len(self._fds))),
