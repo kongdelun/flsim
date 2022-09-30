@@ -29,7 +29,7 @@ class ProxActor(CPUActor):
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):
         self._setup(args)
         self.set_state(state)
-        opt = optim.SGD(self.model.parameters(), **self._opt)
+        opt = self.opt_fn(**self._opt)
         self.model.train()
         for k in range(self._epoch):
             for data, target in self.dataloader(dataset, self._batch_size):

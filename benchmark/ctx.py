@@ -1,11 +1,11 @@
-from torch import nn
 from torch.utils.data import ConcatDataset
 from torchvision.datasets import MNIST, CelebA, CIFAR10, EMNIST, FashionMNIST
 from torchvision.transforms import ToTensor, Compose, Resize, Normalize
+
 from benchmark.dataset.emnist import ToTarget
 from benchmark.dataset.fcube.fcube import FCUBE
 from benchmark.dataset.sent140 import Sent140
-from benchmark.dataset.shakespeare.shakespeare import Shakespeare
+from benchmark.dataset.shakespeare import Shakespeare
 from benchmark.dataset.synthetic import Synthetic
 from benchmark.partitioner.fcube import FCUBEPartitioner
 from env import DATASET
@@ -13,6 +13,8 @@ from utils.data.dataset import BasicFederatedDataset, get_target, get_data
 from utils.data.partition import BasicPartitioner
 from utils.nlp import ToFixedSeq
 from utils.tool import func_name
+
+LEAF_DATASET = f'{DATASET}' + '/leaf/data/{}/data/'
 
 
 def mnist(partitioner, **kwargs):
@@ -28,7 +30,7 @@ def mnist(partitioner, **kwargs):
 
 
 def synthetic(**kwargs):
-    root = f'{DATASET}/leaf/data/{func_name()}/data/'
+    root = LEAF_DATASET.format(func_name())
     fds = Synthetic(root)
     return fds
 
@@ -44,7 +46,7 @@ def fcube(partitioner, **kwargs):
 
 
 def shakespeare(**kwargs):
-    root = f'{DATASET}/{func_name()}/raw/'
+    root = LEAF_DATASET.format(func_name())
     fds = Shakespeare(root)
     return fds
 

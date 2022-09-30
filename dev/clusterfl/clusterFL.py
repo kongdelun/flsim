@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 import torch
+from deprecate import deprecated
 from torch import optim
 from torch.nn import Module
 from torch.utils.data import Dataset
@@ -10,6 +11,7 @@ from trainer.core.aggregator import Aggregator, NotCalculated
 from utils.nn.functional import sub, flatten, numel
 
 
+@deprecated
 class ClusteredFLActor(CPUActor):
 
     def __init__(self, model: Module, loss: Module, M: int, alpha: float = 0.001, rho: float = 0.002):

@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import Dataset
 from torch.utils.data.dataset import ConcatDataset
 
-from benchmark.dataset.leaf import UserDataset
+from benchmark.dataset.leaf import SeqDataset
 from benchmark.dataset.shakespeare.preprocess import preprocessing
 from utils.data.dataset import FederatedDataset
 from utils.select import random_select
@@ -57,11 +57,11 @@ class Shakespeare(FederatedDataset):
 
     def train(self, key) -> Dataset:
         datasource = torch.load(self.user_data[key])['train']
-        return UserDataset(datasource, ToVector(), ToVector(False))
+        return SeqDataset(datasource, ToVector(), ToVector(False))
 
     def val(self, key) -> Dataset:
         datasource = torch.load(self.user_data[key])['test']
-        return UserDataset(datasource, ToVector(), ToVector(False))
+        return SeqDataset(datasource, ToVector(), ToVector(False))
 
     @lru_cache(1)
     def test(self) -> Dataset:

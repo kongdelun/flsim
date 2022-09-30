@@ -16,12 +16,20 @@ from utils.tool import os_platform
 
 class CPUActor:
 
-    def __init__(self, model: Module, loss: Module):
+    def __init__(self, model: Module, loss: Module, local_opt: str = "sgd"):
         self.model = model
         self.loss = loss
+        self.local_opt = local_opt
         self._num_workers, self._prefetch_factor = 0, 2
         if 'linux' in os_platform():
             self._num_workers, self._prefetch_factor = 2, 4
+
+    def opt_fn(self, **args):
+        if self.local_opt == 'sgd':
+            return optim.SGD(self.model.parameters(), **args)
+        elif self.local_opt == 'adam':
+            return optim.Adam(self.model.parameters(), **args)
+        return None
 
     def dataloader(self, dataset: Dataset, batch_size: int):
         for data, target in DataLoader(
@@ -72,7 +80,7 @@ class SGDActor(CPUActor):
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):
         self._setup(args)
         self.set_state(state)
-        opt = optim.SGD(self.model.parameters(), **self._opt)
+        opt = self.opt_fn(**self._opt)
         self.model.train()
         for k in range(self._epoch):
             for data, target in self.dataloader(dataset, self._batch_size):
