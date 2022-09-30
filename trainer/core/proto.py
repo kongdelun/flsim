@@ -1,5 +1,4 @@
 import gc
-import traceback
 from abc import abstractmethod
 from copy import deepcopy
 from datetime import datetime
@@ -46,15 +45,15 @@ class FLTrainer:
         self.opt = kwargs.get('opt', {'lr': 0.002})
         self.round = kwargs.get('round', 300)
         self.cache_size = kwargs.get('cache_size', 3)
-        self.writer = kwargs.get('writer', SummaryWriter(TB_OUTPUT + self.name))
 
     def _init(self):
         self._k = 0
         set_seed(self.seed)
         self._bar = progress_bar(self.round, 'Training:')
+        self._writer = SummaryWriter(TB_OUTPUT + self.name)
         self._cache = DiskCache(
             self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
+            f'{self._writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
         )
         self._model.load_state_dict(
             with_kaiming_normal(self._model.state_dict())
@@ -82,7 +81,7 @@ class FLTrainer:
 
     def _write_tb(self, tag, metric: Metric, writer: SummaryWriter = None):
         if writer is None:
-            writer = self.writer
+            writer = self._writer
         writer.add_scalar(f'{tag}/acc', metric.acc, self._k)
         writer.add_scalar(f'{tag}/loss', metric.loss, self._k)
         writer.flush()
@@ -186,33 +185,28 @@ class FedAvg(FLTrainer):
 
     def start(self):
         self._init()
-        try:
-            while self._k <= self.round:
-                # 1.选择参与设备
-                selected = self._select_client()
-                # 2.本地训练
-                self._metric_averager.reset()
-                self._local_update(selected)
-                self._log_metric(self._metric_averager.compute(), 'train')
-                # 3.聚合更新
-                self._aggregate(selected)
-                # 4.聚合模型验证
-                self._metric_averager.reset()
-                self._val(selected)
-                self._log_metric(self._metric_averager.compute(), 'val')
-                # 5.模型测试
-                self._test()
-                self._update_progress()
-        except:
-            self._print_msg(traceback.format_exc())
-        finally:
-            self.close()
+        while self._k <= self.round:
+            # 1.选择参与设备
+            selected = self._select_client()
+            # 2.本地训练
+            self._metric_averager.reset()
+            self._local_update(selected)
+            self._log_metric(self._metric_averager.compute(), 'train')
+            # 3.聚合更新
+            self._aggregate(selected)
+            # 4.聚合模型验证
+            self._metric_averager.reset()
+            self._val(selected)
+            self._log_metric(self._metric_averager.compute(), 'val')
+            # 5.模型测试
+            self._test()
+            self._update_progress()
 
     def close(self):
+        super(FedAvg, self).close()
         if self._bar:
             self._bar.close()
-        self.writer.close()
-        super(FedAvg, self).close()
+        self._writer.close()
 
 
 class ClusteredFL(FedAvg):
@@ -239,8 +233,8 @@ class ClusteredFL(FedAvg):
             gid: deepcopy(self._aggregator)
             for gid in self._groups
         }
-        self.writers = {
-            gid: SummaryWriter(f'{self.writer.log_dir}/{gid}')
+        self._writers = {
+            gid: SummaryWriter(f'{self._writer.log_dir}/{gid}')
             for gid in self._groups
         }
 
@@ -279,15 +273,15 @@ class ClusteredFL(FedAvg):
                     continue
                 self._metric_averager.reset()
                 self._val(cs)
-                self._log_metric(self._metric_averager.compute(), 'test', self.writers[gid])
+                self._log_metric(self._metric_averager.compute(), 'test', self._writers[gid])
                 metrics.append(self._metric_averager.compute())
             self._print_msg('=' * 65)
             self._log_metric(average(metrics), 'test')
             metrics.clear()
 
     def close(self):
-        for w in self.writers:
-            self.writers[w].close()
-        self.writers.clear()
+        for w in self._writers:
+            self._writers[w].close()
+        self._writers.clear()
         self._aggregators.clear()
         super(ClusteredFL, self).close()

@@ -39,7 +39,7 @@ class Representation(FedAvg):
         self.secondary = self._fds.secondary(10, 20)
         self._cache = DiskCache(
             self.cache_size,
-            f'{self.writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
+            f'{self._writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
         )
         # self.grads = {
         #     cid: zero_like(self._model.state_dict())

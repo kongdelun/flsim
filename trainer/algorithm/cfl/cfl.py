@@ -42,7 +42,7 @@ class CFL(ClusteredFL):
                 cids_ = [cid for cid, label in zip(cids, res.labels_) if label == 1]
                 new_id = len(self._groups)
                 self._groups[new_id] = {'state': deepcopy(self._groups[gid]['state']), 'clients': set(cids_)}
-                self.writers[new_id] = SummaryWriter(f'{self.writer.log_dir}/{new_id}')
+                self._writers[new_id] = SummaryWriter(f'{self._writer.log_dir}/{new_id}')
                 self._aggregators[new_id] = StateAggregator()
                 for cid in cids:
                     self._cache.delete(cid)
