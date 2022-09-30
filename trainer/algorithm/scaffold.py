@@ -30,7 +30,7 @@ class ScaffoldActor(CPUActor):
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):
         self._setup(args)
         self.set_state(state)
-        opt, K, lr = self.opt_fn(**self._opt), 0, self._opt['lr']
+        opt, K, lr = self.opt_fn(self._opt), 0, self._opt['lr']
         self.model.train()
         for k in range(self._epoch):
             for data, target in self.dataloader(dataset, self._batch_size):

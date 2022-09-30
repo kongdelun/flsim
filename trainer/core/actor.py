@@ -10,13 +10,14 @@ from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset, DataLoader
 from torchmetrics import SumMetric, MeanMetric, Accuracy
 
+from benchmark.builder import build_optimizer
 from utils.nn.functional import sub
 from utils.tool import os_platform
 
 
 class CPUActor:
 
-    def __init__(self, model: Module, loss: Module, local_opt: str = "sgd"):
+    def __init__(self, model: Module, loss: Module, local_opt: str = "SGD"):
         self.model = model
         self.loss = loss
         self.local_opt = local_opt
@@ -24,12 +25,8 @@ class CPUActor:
         if 'linux' in os_platform():
             self._num_workers, self._prefetch_factor = 2, 4
 
-    def opt_fn(self, **args):
-        if self.local_opt == 'sgd':
-            return optim.SGD(self.model.parameters(), **args)
-        elif self.local_opt == 'adam':
-            return optim.Adam(self.model.parameters(), **args)
-        return None
+    def opt_fn(self, args: dict):
+        return build_optimizer(self.local_opt, self.model.parameters(), args)
 
     def dataloader(self, dataset: Dataset, batch_size: int):
         for data, target in DataLoader(
@@ -69,7 +66,7 @@ class CPUActor:
 
 
 @ray.remote
-class SGDActor(CPUActor):
+class BasicActor(CPUActor):
 
     def _setup(self, args: dict):
         self._batch_size = args.get('batch_size', 32)
@@ -80,7 +77,7 @@ class SGDActor(CPUActor):
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):
         self._setup(args)
         self.set_state(state)
-        opt = self.opt_fn(**self._opt)
+        opt = self.opt_fn(self._opt)
         self.model.train()
         for k in range(self._epoch):
             for data, target in self.dataloader(dataset, self._batch_size):

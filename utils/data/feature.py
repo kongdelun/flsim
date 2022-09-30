@@ -13,7 +13,7 @@ from torchvision.transforms import ToTensor
 
 from benchmark.src.mnist.model import MLP
 from root import DATASET
-from trainer.core.actor import SGDActor
+from trainer.core.actor import BasicActor
 from utils.data.dataset import sample_by_class, FederatedDataset, BasicFederatedDataset, get_target
 from utils.data.partition import BasicPartitioner, Part
 from utils.io import load_yaml
@@ -23,7 +23,7 @@ from utils.select import random_select
 
 def train(model: Module, fds: FederatedDataset, **kwargs):
     pool = ActorPool([
-        SGDActor.remote(model, CrossEntropyLoss())
+        BasicActor.remote(model, CrossEntropyLoss())
         for _ in range(kwargs.get('actor_num', 5))
     ])
     cs = random_select(list(fds), s_alpha=kwargs.get('sample_rate', 1.), seed=2077)

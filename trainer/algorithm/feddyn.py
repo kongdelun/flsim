@@ -45,7 +45,7 @@ class DynAggregator(Aggregator):
 class DynActor(CPUActor):
 
     def __init__(self, model: Module, loss: Module, alpha: float):
-        super().__init__(model, loss)
+        super(DynActor, self).__init__(model, loss)
         self._alpha = alpha
 
     def _setup(self, args: dict):
@@ -60,7 +60,7 @@ class DynActor(CPUActor):
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):
         self._setup(args)
         self.set_state(state)
-        opt = self.opt_fn(**self._opt)
+        opt = self.opt_fn(self._opt)
         self.model.train()
         for k in range(self._epoch):
             for data, target in self.dataloader(dataset, self._batch_size):

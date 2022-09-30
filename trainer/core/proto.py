@@ -10,7 +10,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torchinfo import summary
 
 from env import TB_OUTPUT
-from trainer.core.actor import SGDActor
+from trainer.core.actor import BasicActor
 from trainer.core.aggregator import StateAggregator
 from utils.cache import DiskCache
 from utils.data.dataset import FederatedDataset
@@ -131,7 +131,7 @@ class FedAvg(FLTrainer):
 
     def _configure_actor_pool(self):
         self._pool = ActorPool([
-            SGDActor.remote(self._model, CrossEntropyLoss())
+            BasicActor.remote(self._model, CrossEntropyLoss())
             for _ in range(self.actor_num)
         ])
 
