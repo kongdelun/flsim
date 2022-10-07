@@ -1,12 +1,11 @@
 import importlib
-import logging
+from traceback import format_exc
 from typing import Optional, Iterator
-
 from torch.nn import Module, Parameter
-
 from utils.data.dataset import FederatedDataset
+from utils.logger import Logger
 
-logger = logging.getLogger(__name__)
+logger = Logger.get_logger(__name__)
 
 
 def build_model(name, args: Optional[dict] = None):
@@ -17,12 +16,16 @@ def build_model(name, args: Optional[dict] = None):
         f'benchmark.model.nlp',
     ]:
         try:
-            return getattr(importlib.import_module(md), name)(**args)
-        except AttributeError as e:
-            logger.debug(e)
+            model = getattr(importlib.import_module(md), name)(**args)
+            logger.info(f'{md}.{name} has created !')
+            return model
+        except ModuleNotFoundError:
             continue
-    else:
-        raise ImportError(f'No such model: {name}')
+        except AttributeError:
+            continue
+        except:
+            logger.warning(format_exc())
+            raise ImportError(f'No such model: {name}')
 
 
 def build_federated_dataset(name: str, args: dict):
@@ -32,12 +35,16 @@ def build_federated_dataset(name: str, args: dict):
         f'benchmark.ctx'
     ]:
         try:
-            return getattr(importlib.import_module(md), name)(**args)
-        except AttributeError as e:
-            logger.debug(e)
+            federated_dataset = getattr(importlib.import_module(md), name)(**args)
+            logger.info(f'{md}.{name} has created !')
+            return federated_dataset
+        except ModuleNotFoundError:
             continue
-    else:
-        raise ImportError(f'No such dataset: {name}')
+        except AttributeError:
+            continue
+        except:
+            logger.warning(format_exc())
+            raise ImportError(f'No such federated dataset: {name}')
 
 
 def build_trainer(name: str, net: Module, fds: FederatedDataset, args: dict):
@@ -49,12 +56,16 @@ def build_trainer(name: str, net: Module, fds: FederatedDataset, args: dict):
         f'trainer.algorithm.cfl.{name.lower()}'
     ]:
         try:
-            return getattr(importlib.import_module(md), name)(net, fds, **args)
-        except AttributeError as e:
-            logger.debug(e)
+            trainer = getattr(importlib.import_module(md), name)(net, fds, **args)
+            logger.info(f'{md}.{name} has created !')
+            return trainer
+        except ModuleNotFoundError:
             continue
-    else:
-        raise ImportError(f'No such trainer: {name}')
+        except AttributeError:
+            continue
+        except:
+            logger.warning(format_exc())
+            raise ImportError(f'No such trainer: {name}')
 
 
 def build_optimizer(name: str, param: Iterator[Parameter], args: dict):
@@ -65,9 +76,13 @@ def build_optimizer(name: str, param: Iterator[Parameter], args: dict):
         f'util.optim',
     ]:
         try:
-            return getattr(importlib.import_module(md), name)(param, **args)
-        except AttributeError as e:
-            logger.debug(e)
+            optimizer = getattr(importlib.import_module(md), name)(param, **args)
+            logger.info(f'{md}.{name} has created !')
+            return optimizer
+        except ModuleNotFoundError:
             continue
-    else:
-        raise ImportError(f'No such Optimizer: {name}')
+        except AttributeError:
+            continue
+        except:
+            logger.warning(format_exc())
+            raise ImportError(f'No such optimizer: {name}')

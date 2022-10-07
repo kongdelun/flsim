@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="ncut@18600505949.iego.vip:30744 password" deleteMissingItems="true" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="Always" serverName="ncut@18600505949.iego.vip:30744 password">
     <serverData>
-      <paths name="ncut@10.5.101.80:22 password">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="ncut@18600505949.iego.vip:30744">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="ncut@18600505949.iego.vip:30744 password">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/ncut/Workbase/fl" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/ncut/Workbase/flsim" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

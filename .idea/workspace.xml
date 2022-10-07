@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f5e7ef57-4d19-47d6-ab10-23577b0b0e9f" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/benchmark/dataset/fcube.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/mysys.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/fl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/flsim.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark/builder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/cfg.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark/cfg.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/ctx.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark/ctx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/emnist.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/fcube/fcube.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/fcube/generator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/leaf.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark/dataset/leaf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/sent140.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark/dataset/sent140.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/shakespeare.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/shakespeare/preprocess.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/shakespeare/shakespeare.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/dataset/synthetic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/model/cv.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark/model/cv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/benchmark/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/benchmark/start.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/feature.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/feature.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/linux_tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/algorithm/cfl/cfl.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/algorithm/cfl/cfl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/algorithm/cfl/ring.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/algorithm/cfl/ring.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/algorithm/feddyn.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/algorithm/feddyn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/algorithm/fedprox.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/algorithm/fedprox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/algorithm/scaffold.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/algorithm/scaffold.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/core/actor.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/core/actor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/core/proto.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/core/proto.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/data/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/data/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/result.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/result.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/tool.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FmkHUU6VnB06sUprJhmJ0WoSD5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="ssh.settings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Project\Python\flsim\utils" />
+      <recent name="D:\Project\Python\flsim\benchmark" />
+      <recent name="D:\Project\Python\flsim\benchmark\dataset" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.leaf">
+    <configuration name="leaf" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="flsim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/benchmark/dataset" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/benchmark/dataset/leaf.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mysys" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="flsim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dev" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="D:\Project\Python\flsim\utils\mysys.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="proto" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="flsim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/trainer/core" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/trainer/core/proto.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="flsim" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/benchmark" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/benchmark/start.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.leaf" />
+        <item itemvalue="Python.mysys" />
+        <item itemvalue="Python.start" />
+        <item itemvalue="Python.proto" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+    <option name="myConnectionType" value="DEFAULT_SDK" />
+    <option name="myConnectionId" value="" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="f5e7ef57-4d19-47d6-ab10-23577b0b0e9f" name="变更" comment="" />
+      <created>1665104563462</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665104563462</updated>
+      <workItem from="1665104566237" duration="2389000" />
+      <workItem from="1665107419702" duration="17645000" />
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/flsim$start.coverage" NAME="start 覆盖结果" MODIFIED="1665108045739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/benchmark" />
+    <SUITE FILE_PATH="coverage/flsim$leaf.coverage" NAME="leaf 覆盖结果" MODIFIED="1665125932354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/benchmark/dataset" />
+    <SUITE FILE_PATH="coverage/flsim$linux_tool.coverage" NAME="linux_tool 覆盖结果" MODIFIED="1665119560175" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dev" />
+    <SUITE FILE_PATH="coverage/flsim$proto.coverage" NAME="proto 覆盖结果" MODIFIED="1665107610293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/trainer/core" />
+  </component>
+</project>

@@ -3,7 +3,6 @@ from collections import OrderedDict
 import ray
 import torch
 from ray.util import ActorPool
-from torch import optim
 from torch.nn import CrossEntropyLoss, Module
 from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset

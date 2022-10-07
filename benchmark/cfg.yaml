@@ -1,6 +1,6 @@
 #数据集
 dataset:
-  name: mnist
+  name: celeba
   args:
     partitioner:
       part: 0
@@ -14,18 +14,19 @@ dataset:
       shard_num: 2
 #模型
 model:
-  name: CNN21
+  name: CNN32
   args:
+    num_classes: 10
 #训练器
 trainer:
   names:
 #    - FedAvg
-    - FedOpt
+#    - FedOpt
 #    - FedAvgM
 #    - FedDyn
 #    - IFCA
 #    - FedLA
-#    - FedSem
+    - FedSem
 #    - FedGroup
 #    - CFL
 #    - Scaffold
@@ -54,11 +55,8 @@ trainer:
       eps_2: 0.4
     ring:
       rho: 0.5
-    hc:
-      clustering: 40
-      group_num: 2
     prox:
-      alpha: 0.01
+      alpha: 0.1
     dyn:
       alpha: 0.01
     fedopt:

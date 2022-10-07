@@ -14,10 +14,11 @@ from trainer.core.actor import BasicActor
 from trainer.core.aggregator import StateAggregator
 from utils.cache import DiskCache
 from utils.data.dataset import FederatedDataset
+from utils.logger import Logger
 from utils.metric import Metric, MetricAverager, average
 from utils.nn.functional import add, add_
 from utils.nn.init import with_kaiming_normal
-from utils.result import progress_bar, print_banner
+from utils.result import print_banner
 from utils.select import random_select
 from utils.tool import set_seed
 
@@ -28,12 +29,14 @@ class FLTrainer:
         self._fds = fds
         self._model = model
         self._parse_kwargs(**kwargs)
+        self._init()
         if self.verbose:
             print_banner(self.__class__.__name__)
             summary(self._model)
 
     def _parse_kwargs(self, **kwargs):
         self.name = f"{self.__class__.__name__}{kwargs.get('tag', '')}"
+
         self.verbose = kwargs.get('verbose', True)
         self.actor_num = kwargs.get('actor_num', 5)
         self.seed = kwargs.get('seed', 2077)
@@ -46,11 +49,12 @@ class FLTrainer:
         self.round = kwargs.get('round', 300)
         self.cache_size = kwargs.get('cache_size', 3)
 
+    # 初始化
     def _init(self):
         self._k = 0
         set_seed(self.seed)
-        self._bar = progress_bar(self.round, 'Training:')
         self._writer = SummaryWriter(TB_OUTPUT + self.name)
+        self._logger = Logger.get_logger(self.name)
         self._cache = DiskCache(
             self.cache_size,
             f'{self._writer.log_dir}/run/{datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}'
@@ -70,15 +74,6 @@ class FLTrainer:
     def _configure_aggregator(self):
         raise NotImplementedError
 
-    def _print_msg(self, msg):
-        if not isinstance(msg, str):
-            msg = str(msg)
-        if self.verbose:
-            if self._bar:
-                self._bar.write(msg)
-            else:
-                print(msg)
-
     def _write_tb(self, tag, metric: Metric, writer: SummaryWriter = None):
         if writer is None:
             writer = self._writer
@@ -86,13 +81,8 @@ class FLTrainer:
         writer.add_scalar(f'{tag}/loss', metric.loss, self._k)
         writer.flush()
 
-    def _update_progress(self):
+    def _step(self):
         self._k += 1
-        if self._k <= self.round:
-            self._print_msg('=' * 65)
-            self._print_msg(f'Round: {self._k}')
-            if self._bar:
-                self._bar.update()
 
     @abstractmethod
     def _select_client(self):
@@ -125,8 +115,9 @@ class FLTrainer:
 
 class FedAvg(FLTrainer):
 
-    def _log_metric(self, metric: Metric, tag: str, writer: SummaryWriter = None):
-        self._print_msg(f'{tag.capitalize()}: {metric}')
+    def _handle_metric(self, metric: Metric, tag: str, writer: SummaryWriter = None):
+        suffix = f"({writer.log_dir.split('/')[-1]})" if writer else ""
+        self._logger.info(f'[{self._k}] {tag.capitalize() + suffix}: {metric}')
         self._write_tb(f'{tag}', metric, writer)
 
     def _configure_actor_pool(self):
@@ -180,32 +171,31 @@ class FedAvg(FLTrainer):
                 lambda a, v: a.evaluate.remote(*v),
                 (self._state(None), self._fds.test(), self.batch_size)
             )
-            self._print_msg('=' * 65)
-            self._log_metric(Metric(*self._pool.get_next()), 'test')
+            self._handle_metric(Metric(*self._pool.get_next()), 'test')
 
     def start(self):
-        self._init()
+        self._logger.info(f"{self.name} Start training ......")
         while self._k <= self.round:
             # 1.选择参与设备
             selected = self._select_client()
+            self._logger.info(f'[{self._k}] Selected: {selected}')
             # 2.本地训练
             self._metric_averager.reset()
             self._local_update(selected)
-            self._log_metric(self._metric_averager.compute(), 'train')
+            self._handle_metric(self._metric_averager.compute(), 'train')
             # 3.聚合更新
             self._aggregate(selected)
             # 4.聚合模型验证
             self._metric_averager.reset()
             self._val(selected)
-            self._log_metric(self._metric_averager.compute(), 'val')
+            self._handle_metric(self._metric_averager.compute(), 'val')
             # 5.模型测试
             self._test()
-            self._update_progress()
+            self._step()
+        self._logger.info(f"{self.name} Finish training !!!")
 
     def close(self):
         super(FedAvg, self).close()
-        if self._bar:
-            self._bar.close()
         self._writer.close()
 
 
@@ -267,16 +257,16 @@ class ClusteredFL(FedAvg):
             metrics = []
             for gid in self._groups:
                 cs = self._groups[gid]['clients']
-                self._print_msg('-' * 65)
-                self._print_msg(f"Group {gid}: {len(cs)} clients")
-                if len(cs) < 1:
-                    continue
-                self._metric_averager.reset()
-                self._val(cs)
-                self._log_metric(self._metric_averager.compute(), 'test', self._writers[gid])
-                metrics.append(self._metric_averager.compute())
-            self._print_msg('=' * 65)
-            self._log_metric(average(metrics), 'test')
+                if len(cs) > 0:
+                    self._metric_averager.reset()
+                    self._val(cs)
+                    self._handle_metric(self._metric_averager.compute(), 'test', self._writers[gid])
+                    metrics.append(self._metric_averager.compute())
+            self._handle_metric(average(metrics), 'test')
+            self._logger.debug('\t'.join([
+                f"{gid}: {sorted(self._groups[gid]['clients'])}"
+                for gid in self._groups
+            ]))
             metrics.clear()
 
     def close(self):

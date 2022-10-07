@@ -1,5 +1,5 @@
 import os
-import sys
+import mysys
 import random
 import torch
 import numpy as np

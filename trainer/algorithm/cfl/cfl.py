@@ -35,7 +35,7 @@ class CFL(ClusteredFL):
             vecs = state2vector(grads)
             max_norm = torch.max(torch.stack([torch.norm(v) for v in vecs])).item()
             mean_norm = torch.norm(torch.mean(torch.stack(vecs), dim=0)).item()
-            self._print_msg("{}: max_norm: {:.3f}\tmean_norm: {:.3f}".format(gid, max_norm, mean_norm))
+            self._logger.debug(f"{gid}: max_norm: {round(max_norm, 3)}  mean_norm: {round(mean_norm, 3)}")
             if mean_norm < self.eps_1 and max_norm > self.eps_2:
                 M = - cosine_similarity(torch.stack(vecs).detach().numpy())
                 res = AgglomerativeClustering(affinity="precomputed", linkage="complete").fit(M)

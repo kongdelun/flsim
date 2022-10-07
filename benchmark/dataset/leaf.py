@@ -1,96 +1,75 @@
-from typing import Sequence
+import sys
 import numpy as np
-import torch
-from torch.utils.data import Dataset
-from torch.utils.data.dataset import T_co, ConcatDataset
-from utils.data.dataset import FederatedDataset, sample_by_class
-from utils.io import load_jsons
+from benchmark.dataset.transformer import ToNumpy, ToVector
+from env import LEAF_ROOT
+from utils.mysys import quick_clear, cmd
+from utils.data.dataset import LEAF
 
 
-class ToNumpy:
-    def __init__(self, dtype):
-        self.__dtype = dtype
+class Synthetic(LEAF):
 
-    def __call__(self, x):
-        return np.array(x, dtype=self.__dtype)
-
-
-class ToVector:
-
-    LETTERS = "\n !\"&'(),-.0123456789:;>?ABCDEFGHIJKLMNOPQRSTUVWXYZ[]abcdefghijklmnopqrstuvwxyz}"
-
-    def __init__(self, mode=True):
-        self.mode = mode
-
-    def __call__(self, x):
-        if self.mode:
-            return torch.tensor(list(map(lambda ch: self.LETTERS.find(ch), x)))
-        else:
-            return torch.tensor(self.LETTERS.find(x))
+    def __init__(self, root):
+        super(Synthetic, self).__init__(
+            root,
+            transform=ToNumpy(np.float32),
+            target_transform=ToNumpy(np.int64)
+        )
 
 
-class SeqDataset(Dataset):
+class Shakespeare(LEAF):
 
-    def __init__(self, datasource: Sequence, transform=None, target_transform=None):
-        self.datasource = datasource
-        self.transform = transform
-        self.target_transform = target_transform
-
-    def __len__(self):
-        if isinstance(self.datasource, dict):
-            return len(self.datasource['y'])
-        return len(self.datasource)
-
-    def __getitem__(self, index) -> T_co:
-        if isinstance(self.datasource, dict):
-            data, target = self.datasource['x'][index], self.datasource['y'][index]
-        else:
-            data, target = self.datasource[index]
-        data = self.transform(data) if self.transform else data
-        target = self.target_transform(target) if self.target_transform else target
-        return data, target
+    def __init__(self, root):
+        super(Shakespeare, self).__init__(root, ToVector(), ToVector(False))
 
 
-class LEAF(FederatedDataset):
+def leaf_cmd(s, sf=None, k=None, iu=None, tf=None, t=None, seed=None):
+    """
+    Args:
+        s: iid non-iid
+        sf: fraction of data to sample, written as a decimal; set it to 1.0 in order to keep the number of tasks/users specified earlier.
+        k: minimum number of samples per user; set it to 5.
+        iu: number of users, if i.i.d. sampling; expressed as a fraction of the total number of users; default is 0.01
+        tf: fraction of data in training set, written as a decimal; default is 0.9.
+        t:'user' to partition users into train-test groups, or 'sample' to partition each user's samples into train-test groups.
+        seed: random split of data and  random sampling of data.
+    Returns cmd
+    """
+    leaf = f"./preprocess.sh -s {s}"
+    if sf is not None and 0.0 < sf < 1.0:
+        leaf += f" -sf {sf}"
+    if k is not None:
+        leaf += f" -k {int(k)}"
+    if iu is not None and 0.0 < iu < 1.0:
+        leaf += f" -iu {iu}"
+    if tf is not None and 0.0 < tf < 1.0:
+        leaf += f" -tf {tf}"
+    if t is not None and t in ['user', 'sample']:
+        leaf += f" -t {t}"
+    if seed is not None and isinstance(seed, int):
+        leaf += f" --smplseed {seed} --spltseed {seed}"
+    return leaf
 
-    def __init__(self, root, transform=None, target_transform=None):
-        self._secondary = None
-        self.root = root
-        self.transform = transform
-        self.target_transform = target_transform
-        self.__train_data = self.__load('train')
-        self.__test_data = self.__load('test')
-        self.__users = self.__train_data['users']
 
-    def __load(self, tag='train'):
-        data = {}
-        for js in load_jsons(f"{self.root}/{tag}/"):
-            data.update(js)
-        return data
+def leaf_clear(dataset, data_dir=None):
+    if data_dir is None:
+        data_dir = ['rem_user_data', 'sampled_data', 'test', 'train']
+    for p in data_dir:
+        quick_clear(f"{LEAF_ROOT}/{dataset}/data/{p}")
 
-    def __len__(self):
-        return len(self.__users)
 
-    def __iter__(self):
-        for user in self.__users:
-            yield user
+# (small-sized dataset) ('-tf 0.8' reflects the train-test split used in the FedAvg paper)edavg
+# create_shakespeare('niid', sf=0.2, k=0, t='sample', tf=0.8, seed=2077)
+def create_shakespeare(s, iu=None, sf=None, k=None, t=None, tf=None, seed=None):
+    leaf_clear('shakespeare')
+    cmd(f'cd {LEAF_ROOT}/shakespeare && {leaf_cmd(s=s, sf=sf, k=k, iu=iu, tf=tf, t=t, seed=seed)}')
 
-    def __getitem__(self, key) -> Dataset:
-        return ConcatDataset([self.train(key), self.val(key)])
 
-    def train(self, key) -> Dataset:
-        return SeqDataset(self.__train_data['user_data'][key], self.transform, self.target_transform)
+# create_synthetic(100, 5, 60, 'niid', sf=1.0, k=5, t='sample', tf=0.8, seed=2077)
+def create_synthetic(num_tasks=100, num_classes=5, num_dim=60, s='iid', sf=None, k=None, t=None, tf=None, seed=None):
+    leaf_clear('synthetic', ['rem_user_data', 'sampled_data', 'test', 'train', 'all_data'])
+    cmd(f'{sys.executable} {LEAF_ROOT}/synthetic/main.py -num-tasks {num_tasks} -num-classes {num_classes} -num-dim {num_dim}')
+    cmd(f'cd {LEAF_ROOT}/synthetic && {leaf_cmd(s=s, sf=sf, k=k, tf=tf, t=t, seed=seed)}')
 
-    def val(self, key) -> Dataset:
-        return SeqDataset(self.__test_data['user_data'][key], self.transform, self.target_transform)
 
-    def test(self) -> Dataset:
-        return ConcatDataset([self.val(key) for key in self.__users])
-
-    def __contains__(self, key):
-        return key in self.__users
-
-    def secondary(self, num_classes, size):
-        if self._secondary is None:
-            self._secondary = sample_by_class(self.test(), num_classes, size, 2077)
-        return self._secondary
+if __name__ == '__main__':
+    pass

@@ -37,7 +37,7 @@ class Ring(ClusteredFL):
     def _cluster(self, cids):
         M = self.kl_distance(cids, 1.)
         _, labels, _ = cluster.k_means(M, self.group_num, random_state=self.seed)
-        self._print_msg(f'cluster result: {labels}')
+        self._logger.info(f'cluster result: {labels}')
         return labels
 
     def _select_client(self):

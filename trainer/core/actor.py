@@ -4,7 +4,6 @@ from copy import deepcopy
 
 import ray
 import torch
-from torch import optim
 from torch.nn import Module
 from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset, DataLoader

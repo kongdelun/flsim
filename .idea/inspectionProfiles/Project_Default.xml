@@ -12,7 +12,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="16">
+          <list size="20">
             <item index="0" class="java.lang.String" itemvalue="certifi" />
             <item index="1" class="java.lang.String" itemvalue="lxml" />
             <item index="2" class="java.lang.String" itemvalue="requests" />
@@ -29,6 +29,10 @@
             <item index="13" class="java.lang.String" itemvalue="openpyxl" />
             <item index="14" class="java.lang.String" itemvalue="yaml" />
             <item index="15" class="java.lang.String" itemvalue="ray" />
+            <item index="16" class="java.lang.String" itemvalue="deprecate" />
+            <item index="17" class="java.lang.String" itemvalue="root" />
+            <item index="18" class="java.lang.String" itemvalue="data_pre" />
+            <item index="19" class="java.lang.String" itemvalue="keras" />
           </list>
         </value>
       </option>
@@ -72,6 +76,8 @@
           <option value="client_num" />
           <option value="bool.type" />
           <option value="dict.*" />
+          <option value="cv2.*" />
+          <option value="list.*" />
         </list>
       </option>
     </inspection_tool>

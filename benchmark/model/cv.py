@@ -3,7 +3,7 @@ from torch import nn
 
 class CNN21(nn.Module):
 
-    def __init__(self, out_dim=10):
+    def __init__(self, num_classes=10):
         super(CNN21, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_channels=1, out_channels=16, kernel_size=5, stride=1, padding=2),
@@ -15,7 +15,7 @@ class CNN21(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2)
         )
-        self.output = nn.Linear(7 * 7 * 32, out_dim)
+        self.output = nn.Linear(7 * 7 * 32, num_classes)
 
     def forward(self, x0):
         x1 = self.conv1(x0)
@@ -26,7 +26,7 @@ class CNN21(nn.Module):
 
 class CNN32(nn.Module):
 
-    def __init__(self, class_num=10):
+    def __init__(self, num_classes=10):
         super(CNN32, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(3, 16, 3, padding=1),  # 3*32*32 -> 16*32*32
@@ -48,7 +48,7 @@ class CNN32(nn.Module):
             nn.ReLU(),
             nn.Dropout()
         )
-        self.fc2 = nn.Linear(32, class_num)
+        self.fc2 = nn.Linear(32, num_classes)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -62,11 +62,11 @@ class CNN32(nn.Module):
 
 class MnistMLP(nn.Module):
 
-    def __init__(self, out_dim=10, **kwargs):
+    def __init__(self, num_classes=10):
         super().__init__()
         self.input = nn.Linear(28 * 28, 128)
         self.relu = nn.ReLU()
-        self.output = nn.Linear(128, out_dim)
+        self.output = nn.Linear(128, num_classes)
 
     def forward(self, x0):
         x0 = x0.view(-1, 28 * 28)
