@@ -1,4 +1,4 @@
-# FLSim: A Federated learning simulator based on Pytorch and Ray
+# FLSim: A Federated Learning Simulator Based on Pytorch and Ray
 
 Algorithm
 - [x] FedAvg: [Communication-Efficient Learning of Deep Networks from Decentralized Data](http://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)
