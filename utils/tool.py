@@ -1,6 +1,10 @@
 import os
-import mysys
+import shutil
+import subprocess
+import sys
 import random
+from typing import Optional
+
 import torch
 import numpy as np
 from torch.utils.collect_env import get_platform
@@ -41,5 +45,24 @@ def os_platform():
     return get_platform()
 
 
-if __name__ == '__main__':
-    print(os_platform())
+def quick_clear(path):
+    if os.path.exists(path):
+        shutil.rmtree(path)
+    print(f"Clear {path}")
+
+
+def cmd(command: str, timeout: Optional[int] = None, verbose: bool = True):
+    proc = subprocess.Popen(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        encoding='utf-8',
+    )
+    result = proc.communicate(timeout=timeout)[0]
+    if verbose:
+        print(command)
+        print(result)
+    return result
+
+

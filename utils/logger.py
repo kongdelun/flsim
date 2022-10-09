@@ -1,5 +1,5 @@
 import logging
-import mysys
+import sys
 from env import PRINT_TO_STDOUT, LOGGING_LEVEL
 
 

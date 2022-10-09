@@ -1,6 +1,6 @@
+from collections import OrderedDict
 from functools import reduce
 from operator import mul
-from collections import OrderedDict
 from typing import Optional, Sequence
 
 import torch
@@ -85,16 +85,12 @@ def scalar_mul_(state: dict, scalar):
     return state
 
 
-def linear_sum(states: Sequence[dict], ps: Optional[Sequence] = None):
-    if ps is None:
-        ps = [1.] * len(states)
-    if len(states) - len(ps) < 0:
-        ps = ps[:len(states) - len(ps)]
-    elif len(states) - len(ps) > 0:
-        ps = list(ps) + [1.] * (len(states) - len(ps))
+def linear_sum(states: Sequence[dict], weights: Optional[Sequence] = None):
     new_state = OrderedDict()
+    if weights is None:
+        weights = torch.ones(len(states))
     for ln in states[0]:
-        new_state[ln] = reduce(torch.add, map(lambda st, p: st[ln] * p, states, ps))
+        new_state[ln] = reduce(torch.add, map(lambda x: x[0] * x[1], zip(states, weights)))
     return new_state
 
 
@@ -103,5 +99,3 @@ def powerball(state: dict, gamma: float):
     for ln in state:
         new_state[ln] = torch.sign(state[ln]) * torch.pow(torch.abs(state[ln]), gamma)
     return new_state
-
-

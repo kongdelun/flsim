@@ -1,4 +1,4 @@
-import mysys
+import toy
 from dataclasses import dataclass
 import pyfiglet
 from tqdm import tqdm
