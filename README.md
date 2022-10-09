@@ -13,7 +13,7 @@ Algorithm
 - [x] FedOpt: [Adaptive Federated Optimization](https://arxiv.org/pdf/2003.00295.pdf)
 
 
-@misc{smile2021fedlab,  
+@misc{ smile2021fedlab,  
     title={FedLab: A Flexible Federated Learning Framework},
     author={Dun Zeng, Siqi Liang, Xiangjing Hu, Hui Wang and Zenglin Xu},  
     journal={arXiv preprint arXiv:2107.11621},  
