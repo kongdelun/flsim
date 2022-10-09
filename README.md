@@ -18,7 +18,7 @@ Algorithm
     author={Dun Zeng, Siqi Liang, Xiangjing Hu, Hui Wang and Zenglin Xu},\
     journal={arXiv preprint arXiv:2107.11621},\
     year={2021},\
-    https://github.com/SMILELab-FL/FedLab.git
+    url ={ https://github.com/SMILELab-FL/FedLab.git }\
 }
 
 ## Contact
