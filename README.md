@@ -1,4 +1,4 @@
-# FL: A Federated learning simulator based on Pytorch and Ray
+# FLSim: A Federated learning simulator based on Pytorch and Ray
 
 Algorithm
 - [x] FedAvg: [Communication-Efficient Learning of Deep Networks from Decentralized Data](http://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)
@@ -14,9 +14,12 @@ Algorithm
 
 
 @misc{smile2021fedlab,  
-    title={FedLab: A Flexible Federated Learning Framework},  
+    title={FedLab: A Flexible Federated Learning Framework},
     author={Dun Zeng, Siqi Liang, Xiangjing Hu, Hui Wang and Zenglin Xu},  
     journal={arXiv preprint arXiv:2107.11621},  
     year={2021},
-    url = {https://github.com/SMILELab-FL/FedLab.git}
+    url={https://github.com/SMILELab-FL/FedLab.git}
 }
+
+## Contact
+De-Lun Kong: delunkong96@gmail.com
