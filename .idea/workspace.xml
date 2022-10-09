@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f5e7ef57-4d19-47d6-ab10-23577b0b0e9f" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/FLIM.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,6 +204,7 @@
       <workItem from="1665313830626" duration="811000" />
       <workItem from="1665314781883" duration="31000" />
       <workItem from="1665314944559" duration="62000" />
+      <workItem from="1665315208346" duration="232000" />
     </task>
     <servers />
   </component>
