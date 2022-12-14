@@ -82,7 +82,7 @@ class Representation(FedAvg):
         for i, c1 in enumerate(self._fds):
             for j, c2 in enumerate(self._fds):
                 kl_dist[i][j] = F.kl_div(self._cache[c1]['logit'], self._cache[c2]['logit']).numpy()
-        print(kl_dist.shape)
+        print(kl_dist)
 
         # vecs = state2vector(list(self.grads.values()))
         # x = torch.stack(vecs).detach().numpy()
@@ -117,7 +117,6 @@ class Representation(FedAvg):
             (self._state(None), self._fds.test(), self.batch_size)
         )
         m = Metric(*self._pool.get_next())
-        self._print_msg(f'Test: {m}')
 
     def start(self):
         self._init()
@@ -128,21 +127,17 @@ class Representation(FedAvg):
                 for m in self._local_update(selected):
                     self._metric_averager.update(m)
                 m = self._metric_averager.compute()
-                self._print_msg(f'Train: {m}')
                 self._metric_averager.reset()
                 self._aggregate(selected)
                 if self._k % self.test_step == 0:
                     self._test()
                     self.show()
-        except:
-            self._print_msg(traceback.format_exc())
         finally:
             self.close()
 
 
 if __name__ == '__main__':
     net, fds, cfg = synthetic()
-
     cfg['round'] = 1
     cfg['sample_rate'] = 1.
     rep = Representation(net, fds, **cfg)

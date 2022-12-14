@@ -14,6 +14,7 @@ def build_model(name, args: Optional[dict] = None):
     for md in [
         f'benchmark.model.cv',
         f'benchmark.model.nlp',
+        f'benchmark.model.leaf'
     ]:
         try:
             model = getattr(importlib.import_module(md), name)(**args)

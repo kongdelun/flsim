@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import OrderedDict
 from utils.nn.aggregate import average
 
@@ -35,7 +35,7 @@ class Aggregator(BaseAggregator):
             return self._res
 
     @abstractmethod
-    def _adapt_fn(self, *args, **kwargs):
+    def _adapt_fn(self):
         raise NotImplementedError
 
 

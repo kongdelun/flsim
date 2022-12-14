@@ -1,0 +1,45 @@
+[2022-12-13 22:37:40,222][FLSim.builder][INFO] - benchmark.ctx.synthetic has created !
+[2022-12-13 22:37:40,238][FLSim.builder][INFO] - benchmark.model.leaf.SyntheticMLP has created !
+[2022-12-13 22:38:19,058][FLSim.builder][WARNING] - Traceback (most recent call last):
+  File "D:\Project\Python\flsim\benchmark\builder.py", line 60, in build_trainer
+    trainer = getattr(importlib.import_module(md), name)(net, fds, **args)
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 32, in __init__
+    self._init()
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 232, in _init
+    self._init_group()
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 220, in _init_group
+    self._init_group_hook()
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\fedcluster.py", line 33, in _init_group_hook
+    labels = self._cluster(cids)
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\fedcluster.py", line 41, in _cluster
+    M = self.kl_distance(cids, 1.)
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\fedcluster.py", line 84, in kl_distance
+    kl_dist[i][j] = F.kl_div(self._cache[c1]['logit'], self._cache[c2]['logit']).numpy()
+RuntimeError: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+
+[2022-12-13 22:38:19,074][FLSim.__main__][DEBUG] - Traceback (most recent call last):
+  File "D:\Project\Python\flsim\benchmark\builder.py", line 60, in build_trainer
+    trainer = getattr(importlib.import_module(md), name)(net, fds, **args)
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 32, in __init__
+    self._init()
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 232, in _init
+    self._init_group()
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 220, in _init_group
+    self._init_group_hook()
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\fedcluster.py", line 33, in _init_group_hook
+    labels = self._cluster(cids)
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\fedcluster.py", line 41, in _cluster
+    M = self.kl_distance(cids, 1.)
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\fedcluster.py", line 84, in kl_distance
+    kl_dist[i][j] = F.kl_div(self._cache[c1]['logit'], self._cache[c2]['logit']).numpy()
+RuntimeError: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Project\Python\flsim\benchmark\starter.py", line 27, in run
+    trainer = build_trainer(tn, net, fds, cfg.trainer.args)
+  File "D:\Project\Python\flsim\benchmark\builder.py", line 69, in build_trainer
+    raise ImportError(f'No such trainer: {name}')
+ImportError: No such trainer: FedCluster
+

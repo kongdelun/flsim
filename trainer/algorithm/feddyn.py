@@ -30,7 +30,7 @@ class DynAggregator(Aggregator):
         super(DynAggregator, self).reset()
         self._states.clear()
 
-    def _adapt_fn(self, m, n):
+    def _adapt_fn(self):
         assert len(self._states) > 0
         m, n = self._num_clients, len(self._states)
         sum_theta = linear_sum(self._states)
@@ -43,8 +43,8 @@ class DynAggregator(Aggregator):
 @ray.remote
 class DynActor(CPUActor):
 
-    def __init__(self, model: Module, loss: Module, alpha: float):
-        super(DynActor, self).__init__(model, loss)
+    def __init__(self, model: Module, loss: Module, alpha: float, local_opt: str = "SGD"):
+        super().__init__(model, loss, local_opt)
         self._alpha = alpha
 
     def _setup(self, args: dict):

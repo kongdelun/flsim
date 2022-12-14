@@ -1,3 +1,4 @@
+import time
 from collections import OrderedDict
 from functools import reduce
 from operator import mul
@@ -27,7 +28,9 @@ def extract_shape(state: dict):
 
 
 def state2vector(states: Sequence[dict]):
-    return list(map(lambda x: flatten(x), states))
+    with torch.no_grad():
+        vector = list(map(lambda x: flatten(x), states))
+    return vector
 
 
 def flatten(state: dict):
@@ -86,16 +89,19 @@ def scalar_mul_(state: dict, scalar):
 
 
 def linear_sum(states: Sequence[dict], weights: Optional[Sequence] = None):
+    assert len(states) > 0
     new_state = OrderedDict()
     if weights is None:
         weights = torch.ones(len(states))
-    for ln in states[0]:
-        new_state[ln] = reduce(torch.add, map(lambda x: x[0] * x[1], zip(states, weights)))
+    with torch.no_grad():
+        for ln in states[0]:
+            new_state[ln] = reduce(torch.add, map(lambda x: x[0][ln] * x[1], zip(states, weights)))
     return new_state
 
 
 def powerball(state: dict, gamma: float):
     new_state = OrderedDict()
-    for ln in state:
-        new_state[ln] = torch.sign(state[ln]) * torch.pow(torch.abs(state[ln]), gamma)
+    with torch.no_grad():
+        for ln in state:
+            new_state[ln] = torch.sign(state[ln]) * torch.pow(torch.abs(state[ln]), gamma)
     return new_state

@@ -17,7 +17,7 @@ class Metric:
 def average(metrics: Iterable[Metric]):
     nums = list(map(lambda v: v.num, metrics))
     return Metric(
-        np.average(nums).item(),
+        np.sum(nums).item(),
         np.average(list(map(lambda v: v.loss, metrics)), weights=nums).item(),
         np.average(list(map(lambda v: v.acc, metrics)), weights=nums).item()
     )

@@ -1,0 +1,13 @@
+[2022-12-13 22:13:09,684][FLSim.builder][INFO] - benchmark.ctx.synthetic has created !
+[2022-12-13 22:13:09,697][FLSim.builder][INFO] - benchmark.model.leaf.SyntheticMLP has created !
+[2022-12-13 22:13:10,295][FLSim.builder][WARNING] - NoneType: None
+
+[2022-12-13 22:13:10,295][FLSim.builder][WARNING] - NoneType: None
+
+[2022-12-13 22:13:10,452][FLSim.builder][WARNING] - NoneType: None
+
+[2022-12-13 22:13:10,452][FLSim.__main__][DEBUG] - Traceback (most recent call last):
+  File "D:\Project\Python\flsim\benchmark\starter.py", line 28, in run
+    trainer.start()
+AttributeError: 'NoneType' object has no attribute 'start'
+

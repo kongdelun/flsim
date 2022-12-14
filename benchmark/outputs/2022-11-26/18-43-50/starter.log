@@ -1,0 +1,47 @@
+[2022-11-26 18:44:05,323][FLSim.builder][INFO] - benchmark.ctx.synthetic has created !
+[2022-11-26 18:44:05,327][FLSim.builder][INFO] - benchmark.model.leaf.SyntheticMLP has created !
+[2022-11-26 18:44:56,581][FLSim.Ring_10_0.001_0.3][INFO] - cluster result: [9 2 9 0 6 6 4 1 0 9 0 6 9 2 0 9 9 6 2 5 9 9 0 0 9 6 8 3 9 9 2 2 4 9 0 0 0
+ 0 5 9 9 0 9 9 2 2 8 2 8 9 0 6 9 9 0 0 8 8 8 2 9 4 6 0 6 6 9 8 2 9 1 6 0 2
+ 8 8 0 6 6 9 8 2 2 2 1 2 2 9 9 2 0 2 2 0 7 9 9 9 9 0]
+[2022-11-26 18:44:56,636][FLSim.builder][INFO] - trainer.algorithm.cfl.ring.Ring has created !
+[2022-11-26 18:44:56,636][FLSim.Ring_10_0.001_0.3][INFO] - Ring_10_0.001_0.3 Start training ......
+[2022-11-26 18:44:56,637][FLSim.Ring_10_0.001_0.3][INFO] - [0] Selected: ['f_00041', 'f_00054', 'f_00035', 'f_00003', 'f_00037', 'f_00090']
+[2022-11-26 18:44:56,758][FLSim.Ring_10_0.001_0.3][INFO] - [0] Train: Loss: 1.406  Acc: 55.9%
+[2022-11-26 18:44:56,774][FLSim.Ring_10_0.001_0.3][INFO] - [0] Val: Loss: 2.705  Acc: 16.4%
+[2022-11-26 18:44:56,815][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(0): Loss: 3.171  Acc: 11.4%
+[2022-11-26 18:44:56,830][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(1): Loss: 4.783  Acc: 1.6%
+[2022-11-26 18:44:56,960][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(2): Loss: 2.405  Acc: 8.5%
+[2022-11-26 18:44:56,978][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(3): Loss: 6.797  Acc: 0.0%
+[2022-11-26 18:44:57,009][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(4): Loss: 2.485  Acc: 64.1%
+[2022-11-26 18:44:57,025][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(5): Loss: 4.419  Acc: 34.2%
+[2022-11-26 18:44:57,052][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(6): Loss: 2.524  Acc: 34.7%
+[2022-11-26 18:44:57,062][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(7): Loss: 5.594  Acc: 0.0%
+[2022-11-26 18:44:57,081][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(8): Loss: 3.109  Acc: 8.2%
+[2022-11-26 18:44:57,130][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test(9): Loss: 2.979  Acc: 5.2%
+[2022-11-26 18:44:57,132][FLSim.Ring_10_0.001_0.3][INFO] - [0] Test: Loss: 2.921  Acc: 17.1%
+[2022-11-26 18:44:57,134][FLSim.Ring_10_0.001_0.3][DEBUG] - 0: ['f_00003', 'f_00008', 'f_00010', 'f_00014', 'f_00022', 'f_00023', 'f_00034', 'f_00035', 'f_00036', 'f_00037', 'f_00041', 'f_00050', 'f_00054', 'f_00055', 'f_00063', 'f_00072', 'f_00076', 'f_00090', 'f_00093', 'f_00099']	1: ['f_00007', 'f_00070', 'f_00084']	2: ['f_00001', 'f_00013', 'f_00018', 'f_00030', 'f_00031', 'f_00044', 'f_00045', 'f_00047', 'f_00059', 'f_00068', 'f_00073', 'f_00081', 'f_00082', 'f_00083', 'f_00085', 'f_00086', 'f_00089', 'f_00091', 'f_00092']	3: ['f_00027']	4: ['f_00006', 'f_00032', 'f_00061']	5: ['f_00019', 'f_00038']	6: ['f_00004', 'f_00005', 'f_00011', 'f_00017', 'f_00025', 'f_00051', 'f_00062', 'f_00064', 'f_00065', 'f_00071', 'f_00077', 'f_00078']	7: ['f_00094']	8: ['f_00026', 'f_00046', 'f_00048', 'f_00056', 'f_00057', 'f_00058', 'f_00067', 'f_00074', 'f_00075', 'f_00080']	9: ['f_00000', 'f_00002', 'f_00009', 'f_00012', 'f_00015', 'f_00016', 'f_00020', 'f_00021', 'f_00024', 'f_00028', 'f_00029', 'f_00033', 'f_00039', 'f_00040', 'f_00042', 'f_00043', 'f_00049', 'f_00052', 'f_00053', 'f_00060', 'f_00066', 'f_00069', 'f_00079', 'f_00087', 'f_00088', 'f_00095', 'f_00096', 'f_00097', 'f_00098']
+[2022-11-26 18:44:57,135][FLSim.Ring_10_0.001_0.3][INFO] - [1] Selected: ['f_00070']
+[2022-11-26 18:44:57,246][FLSim.Ring_10_0.001_0.3][INFO] - [1] Train: Loss: 0.543  Acc: 92.7%
+[2022-11-26 18:44:57,257][FLSim.Ring_10_0.001_0.3][INFO] - [1] Val: Loss: 0.275  Acc: 96.9%
+[2022-11-26 18:44:57,260][FLSim.Ring_10_0.001_0.3][INFO] - [2] Selected: ['f_00018', 'f_00082', 'f_00073', 'f_00045', 'f_00031', 'f_00068']
+[2022-11-26 18:45:00,347][FLSim.__main__][DEBUG] - Traceback (most recent call last):
+  File "D:\Project\Python\flsim\benchmark\starter.py", line 28, in run
+    trainer.start()
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 184, in start
+    self._local_update(selected)
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 152, in _local_update
+    for cid, res in zip(cids, self._pool.map(lambda a, v: a.fit.remote(*v), self._local_update_setup(cids))):
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\ray\util\actor_pool.py", line 65, in map
+    yield self.get_next()
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\ray\util\actor_pool.py", line 178, in get_next
+    return ray.get(future)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\ray\_private\client_mode_hook.py", line 105, in wrapper
+    return func(*args, **kwargs)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\ray\worker.py", line 1706, in get
+    values, debugger_breakpoint = worker.get_objects(
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\ray\worker.py", line 353, in get_objects
+    data_metadata_pairs = self.core_worker.get_objects(
+  File "python\ray\_raylet.pyx", line 1163, in ray._raylet.CoreWorker.get_objects
+  File "python\ray\_raylet.pyx", line 154, in ray._raylet.check_status
+KeyboardInterrupt
+

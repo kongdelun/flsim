@@ -1,14 +1,23 @@
+import random
 from copy import deepcopy
+from functools import reduce
+from operator import concat
+
 import numpy as np
 import torch
-from frozenlist import FrozenList
-from sklearn import cluster
-from torch.utils.data import DataLoader
 import torch.nn.functional as F
+from frozenlist import FrozenList
+from k_means_constrained import KMeansConstrained
+from ray.util import ActorPool
+from torch.nn import CrossEntropyLoss
+from torch.utils.data import DataLoader
 
+from trainer.algorithm.fedprox import ProxActor
 from trainer.core.proto import ClusteredFL
 from utils.compressor.basic import TopkCompressor
-from utils.nn.functional import zero_like, linear_sum, add_, add
+from utils.metric import average
+from utils.nn.functional import zero_like, add_, add, flatten, linear_sum
+from utils.nn.stats import cosine
 from utils.select import random_select
 
 
@@ -18,9 +27,16 @@ class Ring(ClusteredFL):
         super(Ring, self)._parse_kwargs(**kwargs)
         if ring := kwargs['ring']:
             self.rho = ring.get('rho', 0.7)
+            self.alpha = ring.get('alpha', 0.0005)
             self.compress_ratio = ring.get('compress_ratio', 0.6)
             self.group_num = ring.get('group_num', 8)
         self.pre_epoch = 20
+
+    def _configure_actor_pool(self):
+        self._pool = ActorPool([
+            ProxActor.remote(self._model, CrossEntropyLoss(), self.alpha)
+            for _ in range(self.actor_num)
+        ])
 
     def _init_group_hook(self):
         self._cur = -1
@@ -31,20 +47,35 @@ class Ring(ClusteredFL):
         for gid in set(labels):
             self._groups[gid] = {
                 'state': deepcopy(self._model.state_dict()),
-                'clients': set([c for c, l in zip(cids, labels) if l == gid])
+                'clients': set([c for c, l in zip(cids, labels) if l == gid]),
+                'loss': 0.0
             }
 
     def _cluster(self, cids):
+        # return [i % self.group_num for i in range(len(cids))]
         M = self.kl_distance(cids, 1.)
-        _, labels, _ = cluster.k_means(M, self.group_num, random_state=self.seed)
+        clf = KMeansConstrained(
+            n_clusters=self.group_num,
+            size_min=int(len(cids) / self.group_num * 0.75),
+            size_max=int(len(cids) / self.group_num * 1.25),
+            random_state=self.seed,
+        )
+        labels = clf.fit(M).labels_
+        # _, labels, _ = cluster.k_means(M, self.group_num, random_state=self.seed)
         self._logger.info(f'cluster result: {labels}')
         return labels
 
     def _select_client(self):
-        self._cur = (self._cur + 1) % len(self._groups)
+        # self._cur = (self._cur + 1) % len(self._groups)
+        max_loss = -1
+        for gid in self._groups:
+            loss = self._groups[gid]['loss']
+            if max_loss < loss:
+                max_loss = loss
+                self._cur = gid
         return random_select(
             FrozenList(self._groups[self._cur]['clients']),
-            s_num=int(self.sample_rate * len(self._fds)),
+            s_alpha=self.sample_rate,
             seed=self.seed + self._k
         )
 
@@ -84,7 +115,7 @@ class Ring(ClusteredFL):
             self._model.eval()
             for cid in cids:
                 self._model.load_state_dict(self._cache[cid]['state'])
-                for data, target in DataLoader(self._fds.secondary(10, 20), batch_size=10 * 20):
+                for data, target in DataLoader(self._fds.secondary(10, 200), batch_size=10 * 20):
                     self._cache[cid]['logit'] = self._model(data) / temp
 
         pretrain()
@@ -94,3 +125,22 @@ class Ring(ClusteredFL):
             for j, c2 in enumerate(cids):
                 kl_dist[i][j] = F.kl_div(self._cache[c1]['logit'], self._cache[c2]['logit']).numpy()
         return kl_dist
+
+    def _test(self):
+        if self._k % self.test_step == 0:
+            metrics = []
+            for gid in self._groups:
+                cs = self._groups[gid]['clients']
+                if len(cs) > 0:
+                    self._metric_averager.reset()
+                    self._val(cs)
+                    self._handle_metric(self._metric_averager.compute(), 'test', self._writers[gid])
+                    m = self._metric_averager.compute()
+                    metrics.append(m)
+                    self._groups[gid]['loss'] = m.loss
+
+            self._handle_metric(average(metrics), 'test')
+            self._logger.debug('\t'.join([
+                f"{gid}: {sorted(self._groups[gid]['clients'])}"
+                for gid in self._groups
+            ]))

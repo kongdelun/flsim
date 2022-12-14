@@ -36,7 +36,6 @@ class FLTrainer:
 
     def _parse_kwargs(self, **kwargs):
         self.name = f"{self.__class__.__name__}{kwargs.get('tag', '')}"
-
         self.verbose = kwargs.get('verbose', True)
         self.actor_num = kwargs.get('actor_num', 5)
         self.seed = kwargs.get('seed', 2077)
@@ -53,7 +52,7 @@ class FLTrainer:
     def _init(self):
         self._k = 0
         set_seed(self.seed)
-        self._writer = SummaryWriter(TB_OUTPUT + self.name)
+        self._writer = SummaryWriter(f'{TB_OUTPUT}/{self.name}')
         self._logger = Logger.get_logger(self.name)
         self._cache = DiskCache(
             self.cache_size,
@@ -267,7 +266,6 @@ class ClusteredFL(FedAvg):
                 f"{gid}: {sorted(self._groups[gid]['clients'])}"
                 for gid in self._groups
             ]))
-            metrics.clear()
 
     def close(self):
         for w in self._writers:

@@ -1,0 +1,33 @@
+[2022-11-24 22:12:01,586][FLSim.builder][INFO] - benchmark.ctx.mnist has created !
+[2022-11-24 22:12:01,601][FLSim.builder][INFO] - benchmark.model.leaf.SyntheticMLP has created !
+[2022-11-24 22:12:08,317][FLSim.builder][INFO] - trainer.algorithm.cfl.ifca.IFCA has created !
+[2022-11-24 22:12:08,317][FLSim.IFCA][INFO] - IFCA Start training ......
+[2022-11-24 22:12:08,332][FLSim.__main__][DEBUG] - Traceback (most recent call last):
+  File "D:\Project\Python\flsim\benchmark\starter.py", line 28, in run
+    trainer.start()
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 180, in start
+    selected = self._select_client()
+  File "D:\Project\Python\flsim\trainer\core\proto.py", line 240, in _select_client
+    self._schedule_group(selected)
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\ifca.py", line 29, in _schedule_group
+    gid = self._best_group(cid)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\torch\autograd\grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "D:\Project\Python\flsim\trainer\algorithm\cfl\ifca.py", line 41, in _best_group
+    loss.update(criterion(self._model(data), target))
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\torch\nn\modules\module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "D:\Project\Python\flsim\benchmark\model\leaf.py", line 15, in forward
+    return self._net(x)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\torch\nn\modules\module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\torch\nn\modules\container.py", line 119, in forward
+    input = module(input)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\torch\nn\modules\module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\torch\nn\modules\linear.py", line 94, in forward
+    return F.linear(input, self.weight, self.bias)
+  File "D:\CodeSoftwares\Anaconda\lib\site-packages\torch\nn\functional.py", line 1753, in linear
+    return torch._C._nn.linear(input, weight, bias)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (896x28 and 60x128)
+

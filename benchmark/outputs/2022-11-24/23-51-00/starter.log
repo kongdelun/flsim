@@ -1,0 +1,919 @@
+[2022-11-24 23:51:24,319][FLSim.builder][INFO] - benchmark.ctx.mnist has created !
+[2022-11-24 23:51:24,319][FLSim.builder][INFO] - benchmark.model.cv.MnistMLP has created !
+[2022-11-24 23:51:28,096][FLSim.builder][INFO] - trainer.core.proto.FedAvg has created !
+[2022-11-24 23:51:28,096][FLSim.FedAvg_5][INFO] - FedAvg_5 Start training ......
+[2022-11-24 23:51:28,096][FLSim.FedAvg_5][INFO] - [0] Selected: [7, 8, 10, 15, 16, 22, 27, 43, 44, 83]
+[2022-11-24 23:51:37,453][FLSim.FedAvg_5][INFO] - [0] Train: Loss: 1.358  Acc: 82.4%
+[2022-11-24 23:51:38,237][FLSim.FedAvg_5][INFO] - [0] Val: Loss: 2.423  Acc: 7.7%
+[2022-11-24 23:51:40,018][FLSim.FedAvg_5][INFO] - [0] Test: Loss: 2.435  Acc: 11.7%
+[2022-11-24 23:51:40,058][FLSim.FedAvg_5][INFO] - [1] Selected: [19, 20, 37, 41, 44, 62, 65, 66, 68, 75]
+[2022-11-24 23:51:41,558][FLSim.FedAvg_5][INFO] - [1] Train: Loss: 1.258  Acc: 89.9%
+[2022-11-24 23:51:42,381][FLSim.FedAvg_5][INFO] - [1] Val: Loss: 2.305  Acc: 17.8%
+[2022-11-24 23:51:42,381][FLSim.FedAvg_5][INFO] - [2] Selected: [1, 2, 27, 30, 31, 44, 77, 79, 95, 96]
+[2022-11-24 23:51:43,956][FLSim.FedAvg_5][INFO] - [2] Train: Loss: 1.232  Acc: 92.6%
+[2022-11-24 23:51:44,735][FLSim.FedAvg_5][INFO] - [2] Val: Loss: 2.233  Acc: 23.5%
+[2022-11-24 23:51:44,776][FLSim.FedAvg_5][INFO] - [3] Selected: [16, 26, 29, 33, 40, 44, 67, 71, 86, 88]
+[2022-11-24 23:51:46,387][FLSim.FedAvg_5][INFO] - [3] Train: Loss: 1.257  Acc: 91.2%
+[2022-11-24 23:51:47,171][FLSim.FedAvg_5][INFO] - [3] Val: Loss: 2.325  Acc: 16.7%
+[2022-11-24 23:51:47,171][FLSim.FedAvg_5][INFO] - [4] Selected: [6, 23, 30, 35, 38, 39, 43, 77, 81, 85]
+[2022-11-24 23:51:48,933][FLSim.FedAvg_5][INFO] - [4] Train: Loss: 1.173  Acc: 95.2%
+[2022-11-24 23:51:49,705][FLSim.FedAvg_5][INFO] - [4] Val: Loss: 2.202  Acc: 24.1%
+[2022-11-24 23:51:49,738][FLSim.FedAvg_5][INFO] - [5] Selected: [0, 2, 14, 19, 43, 50, 54, 74, 84, 91]
+[2022-11-24 23:51:51,262][FLSim.FedAvg_5][INFO] - [5] Train: Loss: 1.301  Acc: 89.3%
+[2022-11-24 23:51:52,032][FLSim.FedAvg_5][INFO] - [5] Val: Loss: 2.236  Acc: 15.9%
+[2022-11-24 23:51:53,746][FLSim.FedAvg_5][INFO] - [5] Test: Loss: 2.215  Acc: 21.0%
+[2022-11-24 23:51:53,777][FLSim.FedAvg_5][INFO] - [6] Selected: [3, 5, 9, 22, 24, 50, 68, 79, 83, 95]
+[2022-11-24 23:51:55,352][FLSim.FedAvg_5][INFO] - [6] Train: Loss: 1.162  Acc: 96.1%
+[2022-11-24 23:51:56,154][FLSim.FedAvg_5][INFO] - [6] Val: Loss: 2.212  Acc: 16.7%
+[2022-11-24 23:51:56,192][FLSim.FedAvg_5][INFO] - [7] Selected: [10, 20, 27, 34, 38, 40, 64, 68, 69, 76]
+[2022-11-24 23:51:57,713][FLSim.FedAvg_5][INFO] - [7] Train: Loss: 1.033  Acc: 98.2%
+[2022-11-24 23:51:58,465][FLSim.FedAvg_5][INFO] - [7] Val: Loss: 2.073  Acc: 30.5%
+[2022-11-24 23:51:58,481][FLSim.FedAvg_5][INFO] - [8] Selected: [33, 39, 40, 45, 54, 64, 77, 85, 96, 99]
+[2022-11-24 23:51:59,974][FLSim.FedAvg_5][INFO] - [8] Train: Loss: 1.073  Acc: 98.3%
+[2022-11-24 23:52:00,744][FLSim.FedAvg_5][INFO] - [8] Val: Loss: 2.077  Acc: 28.8%
+[2022-11-24 23:52:00,744][FLSim.FedAvg_5][INFO] - [9] Selected: [3, 11, 12, 39, 44, 58, 74, 79, 90, 99]
+[2022-11-24 23:52:02,253][FLSim.FedAvg_5][INFO] - [9] Train: Loss: 1.017  Acc: 98.4%
+[2022-11-24 23:52:03,051][FLSim.FedAvg_5][INFO] - [9] Val: Loss: 2.017  Acc: 34.3%
+[2022-11-24 23:52:03,073][FLSim.FedAvg_5][INFO] - [10] Selected: [3, 5, 20, 41, 52, 54, 58, 68, 70, 89]
+[2022-11-24 23:52:04,601][FLSim.FedAvg_5][INFO] - [10] Train: Loss: 0.938  Acc: 98.6%
+[2022-11-24 23:52:05,341][FLSim.FedAvg_5][INFO] - [10] Val: Loss: 1.933  Acc: 39.6%
+[2022-11-24 23:52:06,882][FLSim.FedAvg_5][INFO] - [10] Test: Loss: 2.053  Acc: 29.6%
+[2022-11-24 23:52:06,916][FLSim.FedAvg_5][INFO] - [11] Selected: [7, 21, 36, 38, 45, 49, 65, 84, 88, 91]
+[2022-11-24 23:52:08,454][FLSim.FedAvg_5][INFO] - [11] Train: Loss: 1.001  Acc: 98.5%
+[2022-11-24 23:52:09,289][FLSim.FedAvg_5][INFO] - [11] Val: Loss: 1.963  Acc: 39.7%
+[2022-11-24 23:52:09,320][FLSim.FedAvg_5][INFO] - [12] Selected: [2, 4, 10, 30, 43, 51, 54, 61, 70, 80]
+[2022-11-24 23:52:10,940][FLSim.FedAvg_5][INFO] - [12] Train: Loss: 0.837  Acc: 98.9%
+[2022-11-24 23:52:11,703][FLSim.FedAvg_5][INFO] - [12] Val: Loss: 1.610  Acc: 67.7%
+[2022-11-24 23:52:11,725][FLSim.FedAvg_5][INFO] - [13] Selected: [22, 27, 38, 40, 41, 46, 50, 52, 57, 66]
+[2022-11-24 23:52:13,266][FLSim.FedAvg_5][INFO] - [13] Train: Loss: 0.873  Acc: 98.4%
+[2022-11-24 23:52:14,036][FLSim.FedAvg_5][INFO] - [13] Val: Loss: 1.813  Acc: 44.4%
+[2022-11-24 23:52:14,036][FLSim.FedAvg_5][INFO] - [14] Selected: [3, 8, 20, 22, 55, 66, 75, 80, 82, 84]
+[2022-11-24 23:52:15,518][FLSim.FedAvg_5][INFO] - [14] Train: Loss: 0.850  Acc: 98.3%
+[2022-11-24 23:52:16,287][FLSim.FedAvg_5][INFO] - [14] Val: Loss: 1.806  Acc: 40.7%
+[2022-11-24 23:52:16,326][FLSim.FedAvg_5][INFO] - [15] Selected: [21, 23, 40, 60, 61, 62, 69, 75, 89, 92]
+[2022-11-24 23:52:17,856][FLSim.FedAvg_5][INFO] - [15] Train: Loss: 0.799  Acc: 98.7%
+[2022-11-24 23:52:18,622][FLSim.FedAvg_5][INFO] - [15] Val: Loss: 1.672  Acc: 60.1%
+[2022-11-24 23:52:20,204][FLSim.FedAvg_5][INFO] - [15] Test: Loss: 1.921  Acc: 36.6%
+[2022-11-24 23:52:20,244][FLSim.FedAvg_5][INFO] - [16] Selected: [14, 56, 64, 70, 77, 80, 82, 83, 92, 97]
+[2022-11-24 23:52:21,765][FLSim.FedAvg_5][INFO] - [16] Train: Loss: 0.802  Acc: 98.6%
+[2022-11-24 23:52:22,518][FLSim.FedAvg_5][INFO] - [16] Val: Loss: 1.704  Acc: 51.1%
+[2022-11-24 23:52:22,551][FLSim.FedAvg_5][INFO] - [17] Selected: [16, 17, 19, 32, 40, 57, 65, 67, 72, 97]
+[2022-11-24 23:52:24,074][FLSim.FedAvg_5][INFO] - [17] Train: Loss: 0.790  Acc: 98.3%
+[2022-11-24 23:52:24,858][FLSim.FedAvg_5][INFO] - [17] Val: Loss: 1.626  Acc: 60.1%
+[2022-11-24 23:52:24,873][FLSim.FedAvg_5][INFO] - [18] Selected: [3, 9, 18, 42, 43, 45, 46, 54, 72, 96]
+[2022-11-24 23:52:26,373][FLSim.FedAvg_5][INFO] - [18] Train: Loss: 0.841  Acc: 97.5%
+[2022-11-24 23:52:27,141][FLSim.FedAvg_5][INFO] - [18] Val: Loss: 1.907  Acc: 34.6%
+[2022-11-24 23:52:27,157][FLSim.FedAvg_5][INFO] - [19] Selected: [0, 6, 7, 8, 18, 21, 73, 81, 85, 93]
+[2022-11-24 23:52:28,712][FLSim.FedAvg_5][INFO] - [19] Train: Loss: 0.806  Acc: 98.0%
+[2022-11-24 23:52:29,484][FLSim.FedAvg_5][INFO] - [19] Val: Loss: 1.751  Acc: 54.8%
+[2022-11-24 23:52:29,514][FLSim.FedAvg_5][INFO] - [20] Selected: [12, 14, 28, 48, 56, 73, 78, 86, 96, 98]
+[2022-11-24 23:52:31,024][FLSim.FedAvg_5][INFO] - [20] Train: Loss: 0.734  Acc: 98.7%
+[2022-11-24 23:52:31,797][FLSim.FedAvg_5][INFO] - [20] Val: Loss: 1.580  Acc: 68.2%
+[2022-11-24 23:52:33,699][FLSim.FedAvg_5][INFO] - [20] Test: Loss: 1.775  Acc: 50.3%
+[2022-11-24 23:52:33,733][FLSim.FedAvg_5][INFO] - [21] Selected: [0, 34, 36, 40, 85, 87, 88, 93, 96, 99]
+[2022-11-24 23:52:35,239][FLSim.FedAvg_5][INFO] - [21] Train: Loss: 0.693  Acc: 98.7%
+[2022-11-24 23:52:36,025][FLSim.FedAvg_5][INFO] - [21] Val: Loss: 1.649  Acc: 56.5%
+[2022-11-24 23:52:36,057][FLSim.FedAvg_5][INFO] - [22] Selected: [15, 19, 27, 32, 40, 58, 66, 89, 91, 94]
+[2022-11-24 23:52:37,568][FLSim.FedAvg_5][INFO] - [22] Train: Loss: 0.727  Acc: 98.5%
+[2022-11-24 23:52:38,305][FLSim.FedAvg_5][INFO] - [22] Val: Loss: 1.692  Acc: 56.4%
+[2022-11-24 23:52:38,321][FLSim.FedAvg_5][INFO] - [23] Selected: [4, 28, 56, 64, 67, 69, 72, 79, 85, 87]
+[2022-11-24 23:52:39,856][FLSim.FedAvg_5][INFO] - [23] Train: Loss: 0.728  Acc: 99.0%
+[2022-11-24 23:52:40,586][FLSim.FedAvg_5][INFO] - [23] Val: Loss: 1.704  Acc: 54.1%
+[2022-11-24 23:52:40,624][FLSim.FedAvg_5][INFO] - [24] Selected: [15, 23, 30, 44, 51, 72, 76, 83, 97, 98]
+[2022-11-24 23:52:42,160][FLSim.FedAvg_5][INFO] - [24] Train: Loss: 0.696  Acc: 98.5%
+[2022-11-24 23:52:42,993][FLSim.FedAvg_5][INFO] - [24] Val: Loss: 1.652  Acc: 59.3%
+[2022-11-24 23:52:43,021][FLSim.FedAvg_5][INFO] - [25] Selected: [0, 9, 16, 17, 33, 37, 54, 82, 84, 98]
+[2022-11-24 23:52:44,691][FLSim.FedAvg_5][INFO] - [25] Train: Loss: 0.617  Acc: 99.1%
+[2022-11-24 23:52:45,447][FLSim.FedAvg_5][INFO] - [25] Val: Loss: 1.556  Acc: 65.9%
+[2022-11-24 23:52:46,940][FLSim.FedAvg_5][INFO] - [25] Test: Loss: 1.644  Acc: 60.4%
+[2022-11-24 23:52:46,973][FLSim.FedAvg_5][INFO] - [26] Selected: [12, 21, 33, 43, 55, 56, 57, 59, 62, 63]
+[2022-11-24 23:52:48,510][FLSim.FedAvg_5][INFO] - [26] Train: Loss: 0.679  Acc: 98.7%
+[2022-11-24 23:52:49,344][FLSim.FedAvg_5][INFO] - [26] Val: Loss: 1.557  Acc: 67.4%
+[2022-11-24 23:52:49,375][FLSim.FedAvg_5][INFO] - [27] Selected: [1, 6, 11, 27, 28, 61, 66, 70, 91, 96]
+[2022-11-24 23:52:50,948][FLSim.FedAvg_5][INFO] - [27] Train: Loss: 0.655  Acc: 99.0%
+[2022-11-24 23:52:51,689][FLSim.FedAvg_5][INFO] - [27] Val: Loss: 1.291  Acc: 85.3%
+[2022-11-24 23:52:51,720][FLSim.FedAvg_5][INFO] - [28] Selected: [2, 22, 31, 33, 34, 47, 54, 64, 73, 89]
+[2022-11-24 23:52:53,261][FLSim.FedAvg_5][INFO] - [28] Train: Loss: 0.639  Acc: 98.9%
+[2022-11-24 23:52:54,031][FLSim.FedAvg_5][INFO] - [28] Val: Loss: 1.497  Acc: 68.9%
+[2022-11-24 23:52:54,036][FLSim.FedAvg_5][INFO] - [29] Selected: [2, 11, 16, 22, 26, 40, 64, 66, 82, 92]
+[2022-11-24 23:52:55,603][FLSim.FedAvg_5][INFO] - [29] Train: Loss: 0.521  Acc: 99.3%
+[2022-11-24 23:52:56,391][FLSim.FedAvg_5][INFO] - [29] Val: Loss: 1.156  Acc: 83.2%
+[2022-11-24 23:52:56,432][FLSim.FedAvg_5][INFO] - [30] Selected: [14, 20, 27, 34, 35, 38, 44, 59, 68, 73]
+[2022-11-24 23:52:57,968][FLSim.FedAvg_5][INFO] - [30] Train: Loss: 0.634  Acc: 97.7%
+[2022-11-24 23:52:58,723][FLSim.FedAvg_5][INFO] - [30] Val: Loss: 1.635  Acc: 55.8%
+[2022-11-24 23:53:00,277][FLSim.FedAvg_5][INFO] - [30] Test: Loss: 1.553  Acc: 61.4%
+[2022-11-24 23:53:00,309][FLSim.FedAvg_5][INFO] - [31] Selected: [0, 8, 9, 19, 49, 54, 64, 66, 70, 85]
+[2022-11-24 23:53:01,786][FLSim.FedAvg_5][INFO] - [31] Train: Loss: 0.577  Acc: 98.4%
+[2022-11-24 23:53:02,620][FLSim.FedAvg_5][INFO] - [31] Val: Loss: 1.473  Acc: 61.9%
+[2022-11-24 23:53:02,650][FLSim.FedAvg_5][INFO] - [32] Selected: [0, 6, 19, 26, 36, 44, 64, 72, 75, 96]
+[2022-11-24 23:53:04,278][FLSim.FedAvg_5][INFO] - [32] Train: Loss: 0.528  Acc: 99.1%
+[2022-11-24 23:53:05,000][FLSim.FedAvg_5][INFO] - [32] Val: Loss: 1.254  Acc: 74.1%
+[2022-11-24 23:53:05,044][FLSim.FedAvg_5][INFO] - [33] Selected: [1, 17, 33, 34, 41, 45, 52, 67, 72, 77]
+[2022-11-24 23:53:06,589][FLSim.FedAvg_5][INFO] - [33] Train: Loss: 0.624  Acc: 98.1%
+[2022-11-24 23:53:07,363][FLSim.FedAvg_5][INFO] - [33] Val: Loss: 1.394  Acc: 71.8%
+[2022-11-24 23:53:07,368][FLSim.FedAvg_5][INFO] - [34] Selected: [2, 3, 13, 15, 16, 26, 58, 74, 86, 96]
+[2022-11-24 23:53:08,846][FLSim.FedAvg_5][INFO] - [34] Train: Loss: 0.537  Acc: 98.3%
+[2022-11-24 23:53:09,632][FLSim.FedAvg_5][INFO] - [34] Val: Loss: 1.289  Acc: 70.7%
+[2022-11-24 23:53:09,632][FLSim.FedAvg_5][INFO] - [35] Selected: [15, 30, 37, 41, 45, 49, 52, 72, 75, 97]
+[2022-11-24 23:53:11,166][FLSim.FedAvg_5][INFO] - [35] Train: Loss: 0.621  Acc: 97.3%
+[2022-11-24 23:53:11,956][FLSim.FedAvg_5][INFO] - [35] Val: Loss: 1.455  Acc: 64.3%
+[2022-11-24 23:53:13,735][FLSim.FedAvg_5][INFO] - [35] Test: Loss: 1.463  Acc: 63.7%
+[2022-11-24 23:53:13,766][FLSim.FedAvg_5][INFO] - [36] Selected: [2, 4, 9, 22, 29, 56, 64, 65, 89, 99]
+[2022-11-24 23:53:15,382][FLSim.FedAvg_5][INFO] - [36] Train: Loss: 0.525  Acc: 98.7%
+[2022-11-24 23:53:16,120][FLSim.FedAvg_5][INFO] - [36] Val: Loss: 1.273  Acc: 73.1%
+[2022-11-24 23:53:16,120][FLSim.FedAvg_5][INFO] - [37] Selected: [10, 12, 23, 24, 38, 47, 57, 60, 61, 96]
+[2022-11-24 23:53:17,621][FLSim.FedAvg_5][INFO] - [37] Train: Loss: 0.500  Acc: 98.4%
+[2022-11-24 23:53:18,424][FLSim.FedAvg_5][INFO] - [37] Val: Loss: 1.334  Acc: 69.9%
+[2022-11-24 23:53:18,466][FLSim.FedAvg_5][INFO] - [38] Selected: [14, 18, 21, 22, 37, 50, 51, 72, 81, 93]
+[2022-11-24 23:53:20,060][FLSim.FedAvg_5][INFO] - [38] Train: Loss: 0.506  Acc: 98.6%
+[2022-11-24 23:53:20,830][FLSim.FedAvg_5][INFO] - [38] Val: Loss: 1.226  Acc: 76.7%
+[2022-11-24 23:53:20,845][FLSim.FedAvg_5][INFO] - [39] Selected: [18, 23, 27, 28, 36, 47, 49, 53, 57, 86]
+[2022-11-24 23:53:22,354][FLSim.FedAvg_5][INFO] - [39] Train: Loss: 0.497  Acc: 98.4%
+[2022-11-24 23:53:23,076][FLSim.FedAvg_5][INFO] - [39] Val: Loss: 1.312  Acc: 72.8%
+[2022-11-24 23:53:23,107][FLSim.FedAvg_5][INFO] - [40] Selected: [9, 14, 28, 29, 35, 50, 54, 55, 68, 87]
+[2022-11-24 23:53:24,648][FLSim.FedAvg_5][INFO] - [40] Train: Loss: 0.542  Acc: 97.7%
+[2022-11-24 23:53:25,411][FLSim.FedAvg_5][INFO] - [40] Val: Loss: 1.469  Acc: 61.3%
+[2022-11-24 23:53:27,202][FLSim.FedAvg_5][INFO] - [40] Test: Loss: 1.355  Acc: 70.1%
+[2022-11-24 23:53:27,233][FLSim.FedAvg_5][INFO] - [41] Selected: [13, 28, 38, 41, 48, 62, 63, 64, 71, 89]
+[2022-11-24 23:53:28,790][FLSim.FedAvg_5][INFO] - [41] Train: Loss: 0.474  Acc: 98.9%
+[2022-11-24 23:53:29,559][FLSim.FedAvg_5][INFO] - [41] Val: Loss: 1.264  Acc: 76.1%
+[2022-11-24 23:53:29,593][FLSim.FedAvg_5][INFO] - [42] Selected: [11, 60, 66, 74, 79, 80, 85, 88, 92, 95]
+[2022-11-24 23:53:31,054][FLSim.FedAvg_5][INFO] - [42] Train: Loss: 0.497  Acc: 98.4%
+[2022-11-24 23:53:31,817][FLSim.FedAvg_5][INFO] - [42] Val: Loss: 1.302  Acc: 69.0%
+[2022-11-24 23:53:31,851][FLSim.FedAvg_5][INFO] - [43] Selected: [8, 33, 45, 47, 53, 67, 82, 93, 94, 98]
+[2022-11-24 23:53:33,354][FLSim.FedAvg_5][INFO] - [43] Train: Loss: 0.493  Acc: 98.4%
+[2022-11-24 23:53:34,139][FLSim.FedAvg_5][INFO] - [43] Val: Loss: 1.288  Acc: 70.3%
+[2022-11-24 23:53:34,139][FLSim.FedAvg_5][INFO] - [44] Selected: [20, 23, 29, 38, 39, 46, 53, 61, 78, 99]
+[2022-11-24 23:53:35,678][FLSim.FedAvg_5][INFO] - [44] Train: Loss: 0.426  Acc: 98.7%
+[2022-11-24 23:53:36,435][FLSim.FedAvg_5][INFO] - [44] Val: Loss: 1.185  Acc: 79.6%
+[2022-11-24 23:53:36,474][FLSim.FedAvg_5][INFO] - [45] Selected: [0, 11, 13, 27, 44, 53, 68, 71, 76, 98]
+[2022-11-24 23:53:38,007][FLSim.FedAvg_5][INFO] - [45] Train: Loss: 0.426  Acc: 98.7%
+[2022-11-24 23:53:38,777][FLSim.FedAvg_5][INFO] - [45] Val: Loss: 1.112  Acc: 80.4%
+[2022-11-24 23:53:40,349][FLSim.FedAvg_5][INFO] - [45] Test: Loss: 1.303  Acc: 68.6%
+[2022-11-24 23:53:40,388][FLSim.FedAvg_5][INFO] - [46] Selected: [13, 22, 23, 26, 29, 37, 51, 74, 76, 87]
+[2022-11-24 23:53:42,017][FLSim.FedAvg_5][INFO] - [46] Train: Loss: 0.442  Acc: 98.3%
+[2022-11-24 23:53:42,756][FLSim.FedAvg_5][INFO] - [46] Val: Loss: 1.179  Acc: 75.8%
+[2022-11-24 23:53:42,786][FLSim.FedAvg_5][INFO] - [47] Selected: [6, 23, 30, 42, 44, 49, 62, 71, 76, 88]
+[2022-11-24 23:53:44,265][FLSim.FedAvg_5][INFO] - [47] Train: Loss: 0.406  Acc: 98.5%
+[2022-11-24 23:53:45,052][FLSim.FedAvg_5][INFO] - [47] Val: Loss: 1.158  Acc: 77.1%
+[2022-11-24 23:53:45,052][FLSim.FedAvg_5][INFO] - [48] Selected: [12, 36, 43, 48, 65, 80, 82, 92, 97, 99]
+[2022-11-24 23:53:46,578][FLSim.FedAvg_5][INFO] - [48] Train: Loss: 0.428  Acc: 98.1%
+[2022-11-24 23:53:47,332][FLSim.FedAvg_5][INFO] - [48] Val: Loss: 1.188  Acc: 72.9%
+[2022-11-24 23:53:47,373][FLSim.FedAvg_5][INFO] - [49] Selected: [6, 11, 23, 31, 32, 35, 43, 54, 56, 61]
+[2022-11-24 23:53:49,075][FLSim.FedAvg_5][INFO] - [49] Train: Loss: 0.460  Acc: 97.7%
+[2022-11-24 23:53:49,861][FLSim.FedAvg_5][INFO] - [49] Val: Loss: 1.077  Acc: 79.0%
+[2022-11-24 23:53:49,901][FLSim.FedAvg_5][INFO] - [50] Selected: [1, 7, 11, 15, 20, 47, 59, 61, 93, 95]
+[2022-11-24 23:53:51,468][FLSim.FedAvg_5][INFO] - [50] Train: Loss: 0.481  Acc: 97.3%
+[2022-11-24 23:53:52,289][FLSim.FedAvg_5][INFO] - [50] Val: Loss: 1.138  Acc: 71.8%
+[2022-11-24 23:53:54,014][FLSim.FedAvg_5][INFO] - [50] Test: Loss: 1.235  Acc: 68.8%
+[2022-11-24 23:53:54,058][FLSim.FedAvg_5][INFO] - [51] Selected: [11, 12, 21, 25, 28, 30, 42, 76, 89, 95]
+[2022-11-24 23:53:55,901][FLSim.FedAvg_5][INFO] - [51] Train: Loss: 0.436  Acc: 97.6%
+[2022-11-24 23:53:56,736][FLSim.FedAvg_5][INFO] - [51] Val: Loss: 1.143  Acc: 72.3%
+[2022-11-24 23:53:56,774][FLSim.FedAvg_5][INFO] - [52] Selected: [3, 10, 11, 14, 32, 36, 60, 65, 71, 72]
+[2022-11-24 23:53:58,473][FLSim.FedAvg_5][INFO] - [52] Train: Loss: 0.395  Acc: 98.2%
+[2022-11-24 23:53:59,315][FLSim.FedAvg_5][INFO] - [52] Val: Loss: 1.017  Acc: 79.2%
+[2022-11-24 23:53:59,346][FLSim.FedAvg_5][INFO] - [53] Selected: [7, 27, 32, 36, 40, 50, 56, 70, 78, 85]
+[2022-11-24 23:54:01,088][FLSim.FedAvg_5][INFO] - [53] Train: Loss: 0.392  Acc: 97.6%
+[2022-11-24 23:54:01,915][FLSim.FedAvg_5][INFO] - [53] Val: Loss: 1.002  Acc: 78.3%
+[2022-11-24 23:54:01,944][FLSim.FedAvg_5][INFO] - [54] Selected: [8, 13, 18, 21, 53, 67, 75, 86, 87, 88]
+[2022-11-24 23:54:03,489][FLSim.FedAvg_5][INFO] - [54] Train: Loss: 0.411  Acc: 97.8%
+[2022-11-24 23:54:04,279][FLSim.FedAvg_5][INFO] - [54] Val: Loss: 1.123  Acc: 75.8%
+[2022-11-24 23:54:04,312][FLSim.FedAvg_5][INFO] - [55] Selected: [2, 9, 13, 25, 40, 41, 55, 58, 60, 94]
+[2022-11-24 23:54:06,010][FLSim.FedAvg_5][INFO] - [55] Train: Loss: 0.423  Acc: 97.8%
+[2022-11-24 23:54:06,872][FLSim.FedAvg_5][INFO] - [55] Val: Loss: 1.190  Acc: 69.2%
+[2022-11-24 23:54:08,575][FLSim.FedAvg_5][INFO] - [55] Test: Loss: 1.168  Acc: 73.6%
+[2022-11-24 23:54:08,583][FLSim.FedAvg_5][INFO] - [56] Selected: [3, 37, 47, 48, 50, 51, 52, 69, 71, 93]
+[2022-11-24 23:54:10,281][FLSim.FedAvg_5][INFO] - [56] Train: Loss: 0.371  Acc: 98.2%
+[2022-11-24 23:54:11,083][FLSim.FedAvg_5][INFO] - [56] Val: Loss: 0.969  Acc: 81.6%
+[2022-11-24 23:54:11,115][FLSim.FedAvg_5][INFO] - [57] Selected: [2, 3, 9, 15, 44, 45, 50, 81, 86, 92]
+[2022-11-24 23:54:12,685][FLSim.FedAvg_5][INFO] - [57] Train: Loss: 0.432  Acc: 97.3%
+[2022-11-24 23:54:13,482][FLSim.FedAvg_5][INFO] - [57] Val: Loss: 1.133  Acc: 73.0%
+[2022-11-24 23:54:13,514][FLSim.FedAvg_5][INFO] - [58] Selected: [18, 20, 21, 47, 59, 69, 73, 75, 80, 96]
+[2022-11-24 23:54:15,087][FLSim.FedAvg_5][INFO] - [58] Train: Loss: 0.372  Acc: 98.1%
+[2022-11-24 23:54:15,867][FLSim.FedAvg_5][INFO] - [58] Val: Loss: 1.051  Acc: 78.6%
+[2022-11-24 23:54:15,902][FLSim.FedAvg_5][INFO] - [59] Selected: [4, 20, 22, 29, 31, 51, 55, 61, 66, 82]
+[2022-11-24 23:54:17,429][FLSim.FedAvg_5][INFO] - [59] Train: Loss: 0.381  Acc: 98.1%
+[2022-11-24 23:54:18,216][FLSim.FedAvg_5][INFO] - [59] Val: Loss: 0.939  Acc: 81.4%
+[2022-11-24 23:54:18,249][FLSim.FedAvg_5][INFO] - [60] Selected: [5, 33, 40, 61, 63, 70, 72, 82, 89, 93]
+[2022-11-24 23:54:19,848][FLSim.FedAvg_5][INFO] - [60] Train: Loss: 0.362  Acc: 97.5%
+[2022-11-24 23:54:20,638][FLSim.FedAvg_5][INFO] - [60] Val: Loss: 0.909  Acc: 82.9%
+[2022-11-24 23:54:22,228][FLSim.FedAvg_5][INFO] - [60] Test: Loss: 1.143  Acc: 70.2%
+[2022-11-24 23:54:22,228][FLSim.FedAvg_5][INFO] - [61] Selected: [19, 30, 37, 40, 42, 47, 73, 76, 80, 85]
+[2022-11-24 23:54:23,721][FLSim.FedAvg_5][INFO] - [61] Train: Loss: 0.355  Acc: 97.5%
+[2022-11-24 23:54:24,507][FLSim.FedAvg_5][INFO] - [61] Val: Loss: 0.930  Acc: 78.2%
+[2022-11-24 23:54:24,538][FLSim.FedAvg_5][INFO] - [62] Selected: [3, 12, 18, 44, 47, 70, 76, 84, 96, 98]
+[2022-11-24 23:54:26,214][FLSim.FedAvg_5][INFO] - [62] Train: Loss: 0.382  Acc: 97.8%
+[2022-11-24 23:54:26,981][FLSim.FedAvg_5][INFO] - [62] Val: Loss: 1.131  Acc: 72.8%
+[2022-11-24 23:54:27,013][FLSim.FedAvg_5][INFO] - [63] Selected: [28, 38, 44, 45, 55, 78, 82, 83, 86, 87]
+[2022-11-24 23:54:28,699][FLSim.FedAvg_5][INFO] - [63] Train: Loss: 0.407  Acc: 98.0%
+[2022-11-24 23:54:29,477][FLSim.FedAvg_5][INFO] - [63] Val: Loss: 1.175  Acc: 72.0%
+[2022-11-24 23:54:29,509][FLSim.FedAvg_5][INFO] - [64] Selected: [6, 9, 16, 17, 38, 44, 46, 73, 74, 95]
+[2022-11-24 23:54:31,209][FLSim.FedAvg_5][INFO] - [64] Train: Loss: 0.388  Acc: 98.0%
+[2022-11-24 23:54:31,997][FLSim.FedAvg_5][INFO] - [64] Val: Loss: 1.095  Acc: 77.8%
+[2022-11-24 23:54:32,028][FLSim.FedAvg_5][INFO] - [65] Selected: [11, 14, 19, 30, 35, 43, 51, 74, 80, 96]
+[2022-11-24 23:54:33,733][FLSim.FedAvg_5][INFO] - [65] Train: Loss: 0.369  Acc: 98.2%
+[2022-11-24 23:54:34,511][FLSim.FedAvg_5][INFO] - [65] Val: Loss: 0.935  Acc: 81.9%
+[2022-11-24 23:54:36,340][FLSim.FedAvg_5][INFO] - [65] Test: Loss: 1.066  Acc: 76.3%
+[2022-11-24 23:54:36,375][FLSim.FedAvg_5][INFO] - [66] Selected: [0, 6, 9, 25, 61, 62, 70, 71, 72, 74]
+[2022-11-24 23:54:38,052][FLSim.FedAvg_5][INFO] - [66] Train: Loss: 0.347  Acc: 98.3%
+[2022-11-24 23:54:38,917][FLSim.FedAvg_5][INFO] - [66] Val: Loss: 0.896  Acc: 83.5%
+[2022-11-24 23:54:38,954][FLSim.FedAvg_5][INFO] - [67] Selected: [13, 39, 43, 48, 52, 56, 74, 77, 81, 97]
+[2022-11-24 23:54:40,709][FLSim.FedAvg_5][INFO] - [67] Train: Loss: 0.358  Acc: 97.9%
+[2022-11-24 23:54:41,503][FLSim.FedAvg_5][INFO] - [67] Val: Loss: 1.011  Acc: 80.3%
+[2022-11-24 23:54:41,534][FLSim.FedAvg_5][INFO] - [68] Selected: [0, 16, 31, 33, 36, 44, 77, 80, 88, 98]
+[2022-11-24 23:54:43,235][FLSim.FedAvg_5][INFO] - [68] Train: Loss: 0.312  Acc: 98.4%
+[2022-11-24 23:54:44,020][FLSim.FedAvg_5][INFO] - [68] Val: Loss: 0.838  Acc: 86.7%
+[2022-11-24 23:54:44,028][FLSim.FedAvg_5][INFO] - [69] Selected: [8, 22, 27, 28, 45, 48, 52, 65, 78, 98]
+[2022-11-24 23:54:45,685][FLSim.FedAvg_5][INFO] - [69] Train: Loss: 0.380  Acc: 97.8%
+[2022-11-24 23:54:46,479][FLSim.FedAvg_5][INFO] - [69] Val: Loss: 0.983  Acc: 74.4%
+[2022-11-24 23:54:46,479][FLSim.FedAvg_5][INFO] - [70] Selected: [5, 40, 53, 56, 58, 72, 76, 85, 90, 93]
+[2022-11-24 23:54:48,128][FLSim.FedAvg_5][INFO] - [70] Train: Loss: 0.351  Acc: 97.9%
+[2022-11-24 23:54:48,906][FLSim.FedAvg_5][INFO] - [70] Val: Loss: 0.980  Acc: 73.6%
+[2022-11-24 23:54:50,536][FLSim.FedAvg_5][INFO] - [70] Test: Loss: 1.049  Acc: 74.2%
+[2022-11-24 23:54:50,565][FLSim.FedAvg_5][INFO] - [71] Selected: [10, 26, 27, 30, 31, 40, 41, 56, 77, 93]
+[2022-11-24 23:54:52,405][FLSim.FedAvg_5][INFO] - [71] Train: Loss: 0.313  Acc: 97.8%
+[2022-11-24 23:54:53,218][FLSim.FedAvg_5][INFO] - [71] Val: Loss: 0.698  Acc: 89.3%
+[2022-11-24 23:54:53,218][FLSim.FedAvg_5][INFO] - [72] Selected: [37, 52, 53, 56, 57, 74, 85, 90, 92, 99]
+[2022-11-24 23:54:54,926][FLSim.FedAvg_5][INFO] - [72] Train: Loss: 0.359  Acc: 97.8%
+[2022-11-24 23:54:55,688][FLSim.FedAvg_5][INFO] - [72] Val: Loss: 1.015  Acc: 74.3%
+[2022-11-24 23:54:55,696][FLSim.FedAvg_5][INFO] - [73] Selected: [6, 29, 35, 40, 41, 48, 55, 61, 74, 80]
+[2022-11-24 23:54:57,373][FLSim.FedAvg_5][INFO] - [73] Train: Loss: 0.353  Acc: 97.7%
+[2022-11-24 23:54:58,200][FLSim.FedAvg_5][INFO] - [73] Val: Loss: 0.969  Acc: 79.0%
+[2022-11-24 23:54:58,228][FLSim.FedAvg_5][INFO] - [74] Selected: [9, 14, 26, 35, 57, 58, 63, 71, 93, 98]
+[2022-11-24 23:54:59,887][FLSim.FedAvg_5][INFO] - [74] Train: Loss: 0.356  Acc: 97.8%
+[2022-11-24 23:55:00,664][FLSim.FedAvg_5][INFO] - [74] Val: Loss: 1.034  Acc: 76.1%
+[2022-11-24 23:55:00,696][FLSim.FedAvg_5][INFO] - [75] Selected: [13, 37, 45, 46, 48, 53, 54, 72, 77, 98]
+[2022-11-24 23:55:02,374][FLSim.FedAvg_5][INFO] - [75] Train: Loss: 0.344  Acc: 97.7%
+[2022-11-24 23:55:03,170][FLSim.FedAvg_5][INFO] - [75] Val: Loss: 0.980  Acc: 80.2%
+[2022-11-24 23:55:04,835][FLSim.FedAvg_5][INFO] - [75] Test: Loss: 1.003  Acc: 75.8%
+[2022-11-24 23:55:04,871][FLSim.FedAvg_5][INFO] - [76] Selected: [3, 16, 29, 32, 42, 57, 59, 72, 73, 79]
+[2022-11-24 23:55:06,539][FLSim.FedAvg_5][INFO] - [76] Train: Loss: 0.353  Acc: 97.1%
+[2022-11-24 23:55:07,368][FLSim.FedAvg_5][INFO] - [76] Val: Loss: 0.969  Acc: 81.1%
+[2022-11-24 23:55:07,400][FLSim.FedAvg_5][INFO] - [77] Selected: [3, 5, 12, 25, 28, 45, 65, 72, 85, 99]
+[2022-11-24 23:55:09,103][FLSim.FedAvg_5][INFO] - [77] Train: Loss: 0.431  Acc: 97.1%
+[2022-11-24 23:55:09,907][FLSim.FedAvg_5][INFO] - [77] Val: Loss: 1.036  Acc: 76.5%
+[2022-11-24 23:55:09,907][FLSim.FedAvg_5][INFO] - [78] Selected: [10, 15, 17, 20, 33, 39, 53, 88, 92, 98]
+[2022-11-24 23:55:11,547][FLSim.FedAvg_5][INFO] - [78] Train: Loss: 0.313  Acc: 97.8%
+[2022-11-24 23:55:12,335][FLSim.FedAvg_5][INFO] - [78] Val: Loss: 0.936  Acc: 80.5%
+[2022-11-24 23:55:12,343][FLSim.FedAvg_5][INFO] - [79] Selected: [7, 11, 28, 32, 33, 45, 47, 66, 88, 99]
+[2022-11-24 23:55:14,047][FLSim.FedAvg_5][INFO] - [79] Train: Loss: 0.328  Acc: 98.0%
+[2022-11-24 23:55:14,790][FLSim.FedAvg_5][INFO] - [79] Val: Loss: 0.901  Acc: 82.6%
+[2022-11-24 23:55:14,825][FLSim.FedAvg_5][INFO] - [80] Selected: [6, 13, 21, 23, 31, 38, 50, 71, 74, 93]
+[2022-11-24 23:55:16,556][FLSim.FedAvg_5][INFO] - [80] Train: Loss: 0.313  Acc: 98.1%
+[2022-11-24 23:55:17,337][FLSim.FedAvg_5][INFO] - [80] Val: Loss: 0.811  Acc: 86.1%
+[2022-11-24 23:55:18,969][FLSim.FedAvg_5][INFO] - [80] Test: Loss: 0.973  Acc: 77.2%
+[2022-11-24 23:55:19,008][FLSim.FedAvg_5][INFO] - [81] Selected: [11, 30, 37, 42, 47, 53, 75, 91, 93, 99]
+[2022-11-24 23:55:20,723][FLSim.FedAvg_5][INFO] - [81] Train: Loss: 0.323  Acc: 97.5%
+[2022-11-24 23:55:21,524][FLSim.FedAvg_5][INFO] - [81] Val: Loss: 0.815  Acc: 83.2%
+[2022-11-24 23:55:21,532][FLSim.FedAvg_5][INFO] - [82] Selected: [1, 14, 25, 51, 67, 70, 73, 90, 93, 96]
+[2022-11-24 23:55:23,243][FLSim.FedAvg_5][INFO] - [82] Train: Loss: 0.316  Acc: 97.9%
+[2022-11-24 23:55:24,062][FLSim.FedAvg_5][INFO] - [82] Val: Loss: 0.775  Acc: 83.5%
+[2022-11-24 23:55:24,094][FLSim.FedAvg_5][INFO] - [83] Selected: [9, 13, 25, 31, 47, 54, 61, 64, 89, 99]
+[2022-11-24 23:55:25,809][FLSim.FedAvg_5][INFO] - [83] Train: Loss: 0.342  Acc: 97.7%
+[2022-11-24 23:55:26,621][FLSim.FedAvg_5][INFO] - [83] Val: Loss: 0.930  Acc: 78.4%
+[2022-11-24 23:55:26,653][FLSim.FedAvg_5][INFO] - [84] Selected: [12, 21, 22, 24, 28, 40, 59, 77, 89, 95]
+[2022-11-24 23:55:28,327][FLSim.FedAvg_5][INFO] - [84] Train: Loss: 0.331  Acc: 97.0%
+[2022-11-24 23:55:29,069][FLSim.FedAvg_5][INFO] - [84] Val: Loss: 0.961  Acc: 75.3%
+[2022-11-24 23:55:29,105][FLSim.FedAvg_5][INFO] - [85] Selected: [0, 17, 27, 59, 62, 71, 89, 91, 96, 99]
+[2022-11-24 23:55:31,028][FLSim.FedAvg_5][INFO] - [85] Train: Loss: 0.290  Acc: 97.5%
+[2022-11-24 23:55:31,830][FLSim.FedAvg_5][INFO] - [85] Val: Loss: 0.680  Acc: 87.7%
+[2022-11-24 23:55:34,076][FLSim.FedAvg_5][INFO] - [85] Test: Loss: 0.963  Acc: 73.3%
+[2022-11-24 23:55:34,108][FLSim.FedAvg_5][INFO] - [86] Selected: [7, 14, 26, 37, 68, 75, 77, 86, 90, 99]
+[2022-11-24 23:55:35,862][FLSim.FedAvg_5][INFO] - [86] Train: Loss: 0.321  Acc: 97.5%
+[2022-11-24 23:55:36,661][FLSim.FedAvg_5][INFO] - [86] Val: Loss: 0.926  Acc: 76.5%
+[2022-11-24 23:55:36,696][FLSim.FedAvg_5][INFO] - [87] Selected: [11, 26, 27, 47, 63, 65, 68, 71, 81, 90]
+[2022-11-24 23:55:38,419][FLSim.FedAvg_5][INFO] - [87] Train: Loss: 0.289  Acc: 97.6%
+[2022-11-24 23:55:39,247][FLSim.FedAvg_5][INFO] - [87] Val: Loss: 0.733  Acc: 83.9%
+[2022-11-24 23:55:39,279][FLSim.FedAvg_5][INFO] - [88] Selected: [11, 19, 26, 32, 36, 55, 56, 57, 62, 79]
+[2022-11-24 23:55:40,997][FLSim.FedAvg_5][INFO] - [88] Train: Loss: 0.315  Acc: 97.1%
+[2022-11-24 23:55:41,782][FLSim.FedAvg_5][INFO] - [88] Val: Loss: 0.785  Acc: 82.9%
+[2022-11-24 23:55:41,820][FLSim.FedAvg_5][INFO] - [89] Selected: [2, 6, 7, 14, 28, 39, 53, 85, 88, 91]
+[2022-11-24 23:55:43,557][FLSim.FedAvg_5][INFO] - [89] Train: Loss: 0.320  Acc: 97.2%
+[2022-11-24 23:55:44,353][FLSim.FedAvg_5][INFO] - [89] Val: Loss: 0.949  Acc: 75.8%
+[2022-11-24 23:55:44,385][FLSim.FedAvg_5][INFO] - [90] Selected: [3, 8, 13, 17, 44, 78, 80, 87, 90, 97]
+[2022-11-24 23:55:46,103][FLSim.FedAvg_5][INFO] - [90] Train: Loss: 0.284  Acc: 97.4%
+[2022-11-24 23:55:46,939][FLSim.FedAvg_5][INFO] - [90] Val: Loss: 0.793  Acc: 83.4%
+[2022-11-24 23:55:48,665][FLSim.FedAvg_5][INFO] - [90] Test: Loss: 0.916  Acc: 77.1%
+[2022-11-24 23:55:48,696][FLSim.FedAvg_5][INFO] - [91] Selected: [2, 5, 8, 17, 47, 52, 75, 90, 91, 98]
+[2022-11-24 23:55:50,439][FLSim.FedAvg_5][INFO] - [91] Train: Loss: 0.313  Acc: 97.2%
+[2022-11-24 23:55:51,282][FLSim.FedAvg_5][INFO] - [91] Val: Loss: 0.814  Acc: 80.3%
+[2022-11-24 23:55:51,282][FLSim.FedAvg_5][INFO] - [92] Selected: [4, 14, 32, 46, 47, 56, 62, 69, 79, 98]
+[2022-11-24 23:55:53,173][FLSim.FedAvg_5][INFO] - [92] Train: Loss: 0.308  Acc: 97.7%
+[2022-11-24 23:55:53,977][FLSim.FedAvg_5][INFO] - [92] Val: Loss: 0.875  Acc: 80.3%
+[2022-11-24 23:55:54,008][FLSim.FedAvg_5][INFO] - [93] Selected: [11, 17, 40, 43, 45, 49, 51, 56, 77, 79]
+[2022-11-24 23:55:55,743][FLSim.FedAvg_5][INFO] - [93] Train: Loss: 0.305  Acc: 97.3%
+[2022-11-24 23:55:56,534][FLSim.FedAvg_5][INFO] - [93] Val: Loss: 0.775  Acc: 83.8%
+[2022-11-24 23:55:56,568][FLSim.FedAvg_5][INFO] - [94] Selected: [6, 7, 12, 40, 43, 45, 48, 65, 76, 88]
+[2022-11-24 23:55:58,286][FLSim.FedAvg_5][INFO] - [94] Train: Loss: 0.308  Acc: 97.4%
+[2022-11-24 23:55:59,081][FLSim.FedAvg_5][INFO] - [94] Val: Loss: 0.881  Acc: 80.6%
+[2022-11-24 23:55:59,113][FLSim.FedAvg_5][INFO] - [95] Selected: [12, 16, 18, 24, 32, 35, 54, 57, 72, 98]
+[2022-11-24 23:56:00,803][FLSim.FedAvg_5][INFO] - [95] Train: Loss: 0.320  Acc: 97.2%
+[2022-11-24 23:56:01,605][FLSim.FedAvg_5][INFO] - [95] Val: Loss: 0.851  Acc: 81.7%
+[2022-11-24 23:56:03,567][FLSim.FedAvg_5][INFO] - [95] Test: Loss: 0.888  Acc: 79.5%
+[2022-11-24 23:56:03,599][FLSim.FedAvg_5][INFO] - [96] Selected: [7, 25, 26, 27, 33, 57, 61, 66, 87, 94]
+[2022-11-24 23:56:05,280][FLSim.FedAvg_5][INFO] - [96] Train: Loss: 0.301  Acc: 97.2%
+[2022-11-24 23:56:06,071][FLSim.FedAvg_5][INFO] - [96] Val: Loss: 0.681  Acc: 87.1%
+[2022-11-24 23:56:06,103][FLSim.FedAvg_5][INFO] - [97] Selected: [1, 6, 7, 20, 53, 57, 73, 75, 91, 99]
+[2022-11-24 23:56:07,837][FLSim.FedAvg_5][INFO] - [97] Train: Loss: 0.294  Acc: 97.6%
+[2022-11-24 23:56:08,672][FLSim.FedAvg_5][INFO] - [97] Val: Loss: 0.750  Acc: 82.8%
+[2022-11-24 23:56:08,707][FLSim.FedAvg_5][INFO] - [98] Selected: [9, 40, 52, 57, 59, 61, 71, 77, 78, 94]
+[2022-11-24 23:56:10,424][FLSim.FedAvg_5][INFO] - [98] Train: Loss: 0.270  Acc: 97.9%
+[2022-11-24 23:56:11,173][FLSim.FedAvg_5][INFO] - [98] Val: Loss: 0.812  Acc: 79.4%
+[2022-11-24 23:56:11,193][FLSim.FedAvg_5][INFO] - [99] Selected: [4, 33, 36, 41, 49, 55, 60, 65, 71, 90]
+[2022-11-24 23:56:12,892][FLSim.FedAvg_5][INFO] - [99] Train: Loss: 0.302  Acc: 97.5%
+[2022-11-24 23:56:13,650][FLSim.FedAvg_5][INFO] - [99] Val: Loss: 0.815  Acc: 80.9%
+[2022-11-24 23:56:13,658][FLSim.FedAvg_5][INFO] - [100] Selected: [15, 20, 25, 40, 52, 81, 85, 95, 98, 99]
+[2022-11-24 23:56:15,297][FLSim.FedAvg_5][INFO] - [100] Train: Loss: 0.332  Acc: 97.0%
+[2022-11-24 23:56:16,060][FLSim.FedAvg_5][INFO] - [100] Val: Loss: 0.823  Acc: 82.0%
+[2022-11-24 23:56:17,550][FLSim.FedAvg_5][INFO] - [100] Test: Loss: 0.878  Acc: 77.7%
+[2022-11-24 23:56:17,581][FLSim.FedAvg_5][INFO] - [101] Selected: [7, 13, 14, 35, 49, 59, 66, 82, 91, 99]
+[2022-11-24 23:56:19,278][FLSim.FedAvg_5][INFO] - [101] Train: Loss: 0.309  Acc: 97.1%
+[2022-11-24 23:56:20,065][FLSim.FedAvg_5][INFO] - [101] Val: Loss: 0.814  Acc: 82.5%
+[2022-11-24 23:56:20,100][FLSim.FedAvg_5][INFO] - [102] Selected: [4, 10, 25, 31, 36, 50, 58, 83, 92, 95]
+[2022-11-24 23:56:21,750][FLSim.FedAvg_5][INFO] - [102] Train: Loss: 0.291  Acc: 97.6%
+[2022-11-24 23:56:22,548][FLSim.FedAvg_5][INFO] - [102] Val: Loss: 0.821  Acc: 80.0%
+[2022-11-24 23:56:22,580][FLSim.FedAvg_5][INFO] - [103] Selected: [19, 49, 52, 56, 64, 73, 82, 83, 95, 96]
+[2022-11-24 23:56:24,247][FLSim.FedAvg_5][INFO] - [103] Train: Loss: 0.306  Acc: 97.2%
+[2022-11-24 23:56:25,075][FLSim.FedAvg_5][INFO] - [103] Val: Loss: 0.837  Acc: 80.6%
+[2022-11-24 23:56:25,107][FLSim.FedAvg_5][INFO] - [104] Selected: [30, 42, 44, 51, 61, 65, 74, 81, 85, 97]
+[2022-11-24 23:56:26,808][FLSim.FedAvg_5][INFO] - [104] Train: Loss: 0.293  Acc: 97.6%
+[2022-11-24 23:56:27,605][FLSim.FedAvg_5][INFO] - [104] Val: Loss: 0.685  Acc: 86.0%
+[2022-11-24 23:56:27,605][FLSim.FedAvg_5][INFO] - [105] Selected: [13, 15, 18, 22, 25, 67, 72, 76, 87, 93]
+[2022-11-24 23:56:29,324][FLSim.FedAvg_5][INFO] - [105] Train: Loss: 0.313  Acc: 96.4%
+[2022-11-24 23:56:30,356][FLSim.FedAvg_5][INFO] - [105] Val: Loss: 0.893  Acc: 77.3%
+[2022-11-24 23:56:31,865][FLSim.FedAvg_5][INFO] - [105] Test: Loss: 0.854  Acc: 79.2%
+[2022-11-24 23:56:31,897][FLSim.FedAvg_5][INFO] - [106] Selected: [2, 10, 11, 20, 31, 34, 50, 63, 76, 82]
+[2022-11-24 23:56:33,633][FLSim.FedAvg_5][INFO] - [106] Train: Loss: 0.249  Acc: 97.6%
+[2022-11-24 23:56:34,459][FLSim.FedAvg_5][INFO] - [106] Val: Loss: 0.569  Acc: 89.5%
+[2022-11-24 23:56:34,469][FLSim.FedAvg_5][INFO] - [107] Selected: [1, 5, 15, 29, 37, 40, 55, 63, 82, 96]
+[2022-11-24 23:56:36,119][FLSim.FedAvg_5][INFO] - [107] Train: Loss: 0.304  Acc: 96.7%
+[2022-11-24 23:56:36,921][FLSim.FedAvg_5][INFO] - [107] Val: Loss: 0.774  Acc: 83.0%
+[2022-11-24 23:56:36,956][FLSim.FedAvg_5][INFO] - [108] Selected: [4, 11, 43, 46, 53, 61, 73, 74, 79, 95]
+[2022-11-24 23:56:38,701][FLSim.FedAvg_5][INFO] - [108] Train: Loss: 0.284  Acc: 97.4%
+[2022-11-24 23:56:39,474][FLSim.FedAvg_5][INFO] - [108] Val: Loss: 0.727  Acc: 85.3%
+[2022-11-24 23:56:39,493][FLSim.FedAvg_5][INFO] - [109] Selected: [5, 14, 29, 34, 49, 53, 58, 62, 63, 80]
+[2022-11-24 23:56:41,193][FLSim.FedAvg_5][INFO] - [109] Train: Loss: 0.285  Acc: 97.2%
+[2022-11-24 23:56:41,969][FLSim.FedAvg_5][INFO] - [109] Val: Loss: 0.906  Acc: 77.6%
+[2022-11-24 23:56:41,998][FLSim.FedAvg_5][INFO] - [110] Selected: [12, 23, 28, 35, 44, 59, 60, 63, 80, 95]
+[2022-11-24 23:56:43,662][FLSim.FedAvg_5][INFO] - [110] Train: Loss: 0.285  Acc: 97.1%
+[2022-11-24 23:56:44,410][FLSim.FedAvg_5][INFO] - [110] Val: Loss: 0.862  Acc: 78.5%
+[2022-11-24 23:56:46,024][FLSim.FedAvg_5][INFO] - [110] Test: Loss: 0.837  Acc: 79.3%
+[2022-11-24 23:56:46,032][FLSim.FedAvg_5][INFO] - [111] Selected: [1, 25, 43, 44, 50, 52, 56, 67, 68, 81]
+[2022-11-24 23:56:47,712][FLSim.FedAvg_5][INFO] - [111] Train: Loss: 0.270  Acc: 97.7%
+[2022-11-24 23:56:48,568][FLSim.FedAvg_5][INFO] - [111] Val: Loss: 0.727  Acc: 82.6%
+[2022-11-24 23:56:48,604][FLSim.FedAvg_5][INFO] - [112] Selected: [7, 8, 13, 19, 23, 42, 45, 53, 63, 68]
+[2022-11-24 23:56:50,302][FLSim.FedAvg_5][INFO] - [112] Train: Loss: 0.288  Acc: 96.6%
+[2022-11-24 23:56:51,099][FLSim.FedAvg_5][INFO] - [112] Val: Loss: 0.849  Acc: 79.3%
+[2022-11-24 23:56:51,131][FLSim.FedAvg_5][INFO] - [113] Selected: [12, 18, 25, 32, 48, 56, 62, 77, 87, 99]
+[2022-11-24 23:56:52,830][FLSim.FedAvg_5][INFO] - [113] Train: Loss: 0.293  Acc: 97.2%
+[2022-11-24 23:56:53,627][FLSim.FedAvg_5][INFO] - [113] Val: Loss: 0.817  Acc: 79.7%
+[2022-11-24 23:56:53,650][FLSim.FedAvg_5][INFO] - [114] Selected: [8, 17, 23, 38, 40, 41, 49, 56, 69, 82]
+[2022-11-24 23:56:55,350][FLSim.FedAvg_5][INFO] - [114] Train: Loss: 0.258  Acc: 97.2%
+[2022-11-24 23:56:56,101][FLSim.FedAvg_5][INFO] - [114] Val: Loss: 0.722  Acc: 86.5%
+[2022-11-24 23:56:56,136][FLSim.FedAvg_5][INFO] - [115] Selected: [0, 17, 31, 48, 65, 66, 70, 77, 78, 89]
+[2022-11-24 23:56:57,830][FLSim.FedAvg_5][INFO] - [115] Train: Loss: 0.258  Acc: 97.6%
+[2022-11-24 23:56:58,628][FLSim.FedAvg_5][INFO] - [115] Val: Loss: 0.681  Acc: 85.3%
+[2022-11-24 23:57:00,272][FLSim.FedAvg_5][INFO] - [115] Test: Loss: 0.799  Acc: 80.5%
+[2022-11-24 23:57:00,272][FLSim.FedAvg_5][INFO] - [116] Selected: [0, 5, 16, 29, 65, 68, 69, 72, 80, 86]
+[2022-11-24 23:57:01,984][FLSim.FedAvg_5][INFO] - [116] Train: Loss: 0.268  Acc: 97.5%
+[2022-11-24 23:57:02,760][FLSim.FedAvg_5][INFO] - [116] Val: Loss: 0.760  Acc: 83.6%
+[2022-11-24 23:57:02,760][FLSim.FedAvg_5][INFO] - [117] Selected: [5, 9, 11, 35, 48, 52, 68, 74, 82, 98]
+[2022-11-24 23:57:04,490][FLSim.FedAvg_5][INFO] - [117] Train: Loss: 0.283  Acc: 97.5%
+[2022-11-24 23:57:05,255][FLSim.FedAvg_5][INFO] - [117] Val: Loss: 0.792  Acc: 79.2%
+[2022-11-24 23:57:05,288][FLSim.FedAvg_5][INFO] - [118] Selected: [5, 23, 26, 40, 46, 47, 50, 55, 56, 97]
+[2022-11-24 23:57:07,008][FLSim.FedAvg_5][INFO] - [118] Train: Loss: 0.274  Acc: 97.2%
+[2022-11-24 23:57:07,802][FLSim.FedAvg_5][INFO] - [118] Val: Loss: 0.689  Acc: 85.4%
+[2022-11-24 23:57:07,833][FLSim.FedAvg_5][INFO] - [119] Selected: [0, 1, 25, 39, 43, 52, 55, 63, 80, 85]
+[2022-11-24 23:57:09,572][FLSim.FedAvg_5][INFO] - [119] Train: Loss: 0.278  Acc: 97.5%
+[2022-11-24 23:57:10,391][FLSim.FedAvg_5][INFO] - [119] Val: Loss: 0.716  Acc: 84.5%
+[2022-11-24 23:57:10,427][FLSim.FedAvg_5][INFO] - [120] Selected: [11, 17, 18, 23, 27, 45, 46, 78, 87, 92]
+[2022-11-24 23:57:12,172][FLSim.FedAvg_5][INFO] - [120] Train: Loss: 0.269  Acc: 97.0%
+[2022-11-24 23:57:12,972][FLSim.FedAvg_5][INFO] - [120] Val: Loss: 0.727  Acc: 83.7%
+[2022-11-24 23:57:14,525][FLSim.FedAvg_5][INFO] - [120] Test: Loss: 0.795  Acc: 81.4%
+[2022-11-24 23:57:14,558][FLSim.FedAvg_5][INFO] - [121] Selected: [4, 5, 8, 11, 12, 20, 38, 41, 78, 98]
+[2022-11-24 23:57:16,244][FLSim.FedAvg_5][INFO] - [121] Train: Loss: 0.252  Acc: 98.1%
+[2022-11-24 23:57:17,039][FLSim.FedAvg_5][INFO] - [121] Val: Loss: 0.656  Acc: 85.9%
+[2022-11-24 23:57:17,072][FLSim.FedAvg_5][INFO] - [122] Selected: [1, 4, 8, 19, 31, 46, 67, 77, 81, 93]
+[2022-11-24 23:57:18,782][FLSim.FedAvg_5][INFO] - [122] Train: Loss: 0.262  Acc: 97.1%
+[2022-11-24 23:57:19,581][FLSim.FedAvg_5][INFO] - [122] Val: Loss: 0.659  Acc: 85.4%
+[2022-11-24 23:57:19,614][FLSim.FedAvg_5][INFO] - [123] Selected: [7, 28, 29, 43, 53, 73, 79, 84, 90, 96]
+[2022-11-24 23:57:21,316][FLSim.FedAvg_5][INFO] - [123] Train: Loss: 0.263  Acc: 97.0%
+[2022-11-24 23:57:22,209][FLSim.FedAvg_5][INFO] - [123] Val: Loss: 0.775  Acc: 83.1%
+[2022-11-24 23:57:22,217][FLSim.FedAvg_5][INFO] - [124] Selected: [6, 23, 41, 47, 52, 54, 71, 72, 92, 99]
+[2022-11-24 23:57:23,880][FLSim.FedAvg_5][INFO] - [124] Train: Loss: 0.258  Acc: 97.0%
+[2022-11-24 23:57:24,729][FLSim.FedAvg_5][INFO] - [124] Val: Loss: 0.682  Acc: 84.9%
+[2022-11-24 23:57:24,760][FLSim.FedAvg_5][INFO] - [125] Selected: [7, 19, 29, 34, 36, 63, 68, 86, 93, 95]
+[2022-11-24 23:57:26,414][FLSim.FedAvg_5][INFO] - [125] Train: Loss: 0.275  Acc: 96.9%
+[2022-11-24 23:57:27,200][FLSim.FedAvg_5][INFO] - [125] Val: Loss: 0.808  Acc: 80.3%
+[2022-11-24 23:57:28,802][FLSim.FedAvg_5][INFO] - [125] Test: Loss: 0.765  Acc: 80.9%
+[2022-11-24 23:57:28,834][FLSim.FedAvg_5][INFO] - [126] Selected: [3, 5, 11, 14, 28, 30, 31, 40, 42, 69]
+[2022-11-24 23:57:30,466][FLSim.FedAvg_5][INFO] - [126] Train: Loss: 0.256  Acc: 97.2%
+[2022-11-24 23:57:31,295][FLSim.FedAvg_5][INFO] - [126] Val: Loss: 0.714  Acc: 82.9%
+[2022-11-24 23:57:31,329][FLSim.FedAvg_5][INFO] - [127] Selected: [7, 16, 20, 42, 45, 61, 63, 67, 93, 94]
+[2022-11-24 23:57:33,029][FLSim.FedAvg_5][INFO] - [127] Train: Loss: 0.269  Acc: 96.4%
+[2022-11-24 23:57:33,817][FLSim.FedAvg_5][INFO] - [127] Val: Loss: 0.677  Acc: 85.0%
+[2022-11-24 23:57:33,849][FLSim.FedAvg_5][INFO] - [128] Selected: [4, 7, 11, 14, 23, 36, 40, 41, 57, 89]
+[2022-11-24 23:57:35,555][FLSim.FedAvg_5][INFO] - [128] Train: Loss: 0.244  Acc: 97.4%
+[2022-11-24 23:57:36,318][FLSim.FedAvg_5][INFO] - [128] Val: Loss: 0.575  Acc: 88.5%
+[2022-11-24 23:57:36,351][FLSim.FedAvg_5][INFO] - [129] Selected: [10, 13, 16, 24, 26, 33, 34, 40, 49, 76]
+[2022-11-24 23:57:38,024][FLSim.FedAvg_5][INFO] - [129] Train: Loss: 0.236  Acc: 97.0%
+[2022-11-24 23:57:38,877][FLSim.FedAvg_5][INFO] - [129] Val: Loss: 0.575  Acc: 89.6%
+[2022-11-24 23:57:38,877][FLSim.FedAvg_5][INFO] - [130] Selected: [4, 13, 16, 22, 62, 68, 73, 74, 77, 78]
+[2022-11-24 23:57:40,669][FLSim.FedAvg_5][INFO] - [130] Train: Loss: 0.252  Acc: 97.0%
+[2022-11-24 23:57:41,433][FLSim.FedAvg_5][INFO] - [130] Val: Loss: 0.711  Acc: 83.8%
+[2022-11-24 23:57:42,972][FLSim.FedAvg_5][INFO] - [130] Test: Loss: 0.771  Acc: 79.2%
+[2022-11-24 23:57:42,980][FLSim.FedAvg_5][INFO] - [131] Selected: [1, 5, 26, 37, 47, 59, 63, 76, 82, 92]
+[2022-11-24 23:57:44,667][FLSim.FedAvg_5][INFO] - [131] Train: Loss: 0.263  Acc: 96.4%
+[2022-11-24 23:57:45,494][FLSim.FedAvg_5][INFO] - [131] Val: Loss: 0.689  Acc: 82.2%
+[2022-11-24 23:57:45,524][FLSim.FedAvg_5][INFO] - [132] Selected: [13, 28, 30, 32, 39, 40, 60, 65, 73, 95]
+[2022-11-24 23:57:47,198][FLSim.FedAvg_5][INFO] - [132] Train: Loss: 0.267  Acc: 96.7%
+[2022-11-24 23:57:47,954][FLSim.FedAvg_5][INFO] - [132] Val: Loss: 0.789  Acc: 80.1%
+[2022-11-24 23:57:47,962][FLSim.FedAvg_5][INFO] - [133] Selected: [5, 7, 17, 18, 50, 55, 56, 67, 68, 89]
+[2022-11-24 23:57:49,672][FLSim.FedAvg_5][INFO] - [133] Train: Loss: 0.273  Acc: 97.0%
+[2022-11-24 23:57:50,508][FLSim.FedAvg_5][INFO] - [133] Val: Loss: 0.751  Acc: 80.4%
+[2022-11-24 23:57:50,515][FLSim.FedAvg_5][INFO] - [134] Selected: [8, 19, 20, 41, 46, 50, 52, 55, 87, 93]
+[2022-11-24 23:57:52,272][FLSim.FedAvg_5][INFO] - [134] Train: Loss: 0.240  Acc: 97.4%
+[2022-11-24 23:57:53,032][FLSim.FedAvg_5][INFO] - [134] Val: Loss: 0.665  Acc: 85.4%
+[2022-11-24 23:57:53,065][FLSim.FedAvg_5][INFO] - [135] Selected: [2, 13, 22, 26, 33, 40, 41, 44, 75, 92]
+[2022-11-24 23:57:54,734][FLSim.FedAvg_5][INFO] - [135] Train: Loss: 0.262  Acc: 96.2%
+[2022-11-24 23:57:55,571][FLSim.FedAvg_5][INFO] - [135] Val: Loss: 0.658  Acc: 85.3%
+[2022-11-24 23:57:57,514][FLSim.FedAvg_5][INFO] - [135] Test: Loss: 0.735  Acc: 82.7%
+[2022-11-24 23:57:57,514][FLSim.FedAvg_5][INFO] - [136] Selected: [4, 16, 29, 30, 41, 44, 45, 53, 65, 73]
+[2022-11-24 23:57:59,188][FLSim.FedAvg_5][INFO] - [136] Train: Loss: 0.269  Acc: 97.3%
+[2022-11-24 23:57:59,984][FLSim.FedAvg_5][INFO] - [136] Val: Loss: 0.742  Acc: 84.1%
+[2022-11-24 23:57:59,984][FLSim.FedAvg_5][INFO] - [137] Selected: [2, 18, 28, 39, 48, 51, 79, 81, 89, 98]
+[2022-11-24 23:58:01,681][FLSim.FedAvg_5][INFO] - [137] Train: Loss: 0.250  Acc: 97.5%
+[2022-11-24 23:58:02,447][FLSim.FedAvg_5][INFO] - [137] Val: Loss: 0.634  Acc: 88.0%
+[2022-11-24 23:58:02,451][FLSim.FedAvg_5][INFO] - [138] Selected: [0, 1, 28, 34, 36, 48, 62, 81, 94, 99]
+[2022-11-24 23:58:04,228][FLSim.FedAvg_5][INFO] - [138] Train: Loss: 0.223  Acc: 98.0%
+[2022-11-24 23:58:05,023][FLSim.FedAvg_5][INFO] - [138] Val: Loss: 0.592  Acc: 87.2%
+[2022-11-24 23:58:05,058][FLSim.FedAvg_5][INFO] - [139] Selected: [0, 1, 16, 25, 26, 35, 65, 70, 76, 77]
+[2022-11-24 23:58:06,714][FLSim.FedAvg_5][INFO] - [139] Train: Loss: 0.272  Acc: 96.6%
+[2022-11-24 23:58:07,512][FLSim.FedAvg_5][INFO] - [139] Val: Loss: 0.621  Acc: 86.8%
+[2022-11-24 23:58:07,544][FLSim.FedAvg_5][INFO] - [140] Selected: [2, 6, 13, 34, 35, 72, 73, 75, 87, 98]
+[2022-11-24 23:58:09,335][FLSim.FedAvg_5][INFO] - [140] Train: Loss: 0.281  Acc: 96.3%
+[2022-11-24 23:58:10,274][FLSim.FedAvg_5][INFO] - [140] Val: Loss: 0.775  Acc: 81.3%
+[2022-11-24 23:58:11,834][FLSim.FedAvg_5][INFO] - [140] Test: Loss: 0.712  Acc: 84.2%
+[2022-11-24 23:58:11,871][FLSim.FedAvg_5][INFO] - [141] Selected: [1, 20, 29, 37, 39, 41, 68, 83, 88, 89]
+[2022-11-24 23:58:13,675][FLSim.FedAvg_5][INFO] - [141] Train: Loss: 0.232  Acc: 97.4%
+[2022-11-24 23:58:14,486][FLSim.FedAvg_5][INFO] - [141] Val: Loss: 0.643  Acc: 86.9%
+[2022-11-24 23:58:14,520][FLSim.FedAvg_5][INFO] - [142] Selected: [8, 9, 10, 17, 33, 42, 49, 52, 74, 84]
+[2022-11-24 23:58:16,239][FLSim.FedAvg_5][INFO] - [142] Train: Loss: 0.248  Acc: 96.7%
+[2022-11-24 23:58:17,076][FLSim.FedAvg_5][INFO] - [142] Val: Loss: 0.736  Acc: 82.7%
+[2022-11-24 23:58:17,109][FLSim.FedAvg_5][INFO] - [143] Selected: [1, 22, 27, 30, 31, 35, 46, 60, 61, 78]
+[2022-11-24 23:58:19,110][FLSim.FedAvg_5][INFO] - [143] Train: Loss: 0.234  Acc: 96.9%
+[2022-11-24 23:58:19,965][FLSim.FedAvg_5][INFO] - [143] Val: Loss: 0.558  Acc: 87.9%
+[2022-11-24 23:58:19,993][FLSim.FedAvg_5][INFO] - [144] Selected: [15, 19, 27, 31, 41, 43, 74, 77, 90, 91]
+[2022-11-24 23:58:21,993][FLSim.FedAvg_5][INFO] - [144] Train: Loss: 0.244  Acc: 97.0%
+[2022-11-24 23:58:22,777][FLSim.FedAvg_5][INFO] - [144] Val: Loss: 0.584  Acc: 86.7%
+[2022-11-24 23:58:22,808][FLSim.FedAvg_5][INFO] - [145] Selected: [9, 15, 27, 39, 42, 47, 75, 76, 82, 93]
+[2022-11-24 23:58:24,451][FLSim.FedAvg_5][INFO] - [145] Train: Loss: 0.282  Acc: 95.9%
+[2022-11-24 23:58:25,266][FLSim.FedAvg_5][INFO] - [145] Val: Loss: 0.733  Acc: 82.0%
+[2022-11-24 23:58:27,054][FLSim.FedAvg_5][INFO] - [145] Test: Loss: 0.712  Acc: 82.4%
+[2022-11-24 23:58:27,054][FLSim.FedAvg_5][INFO] - [146] Selected: [7, 25, 29, 30, 31, 57, 61, 72, 74, 85]
+[2022-11-24 23:58:28,877][FLSim.FedAvg_5][INFO] - [146] Train: Loss: 0.251  Acc: 97.2%
+[2022-11-24 23:58:29,689][FLSim.FedAvg_5][INFO] - [146] Val: Loss: 0.615  Acc: 86.4%
+[2022-11-24 23:58:29,722][FLSim.FedAvg_5][INFO] - [147] Selected: [9, 13, 28, 31, 33, 38, 56, 59, 63, 94]
+[2022-11-24 23:58:31,498][FLSim.FedAvg_5][INFO] - [147] Train: Loss: 0.243  Acc: 97.0%
+[2022-11-24 23:58:32,290][FLSim.FedAvg_5][INFO] - [147] Val: Loss: 0.740  Acc: 85.2%
+[2022-11-24 23:58:32,322][FLSim.FedAvg_5][INFO] - [148] Selected: [4, 7, 16, 34, 69, 75, 88, 90, 96, 97]
+[2022-11-24 23:58:34,248][FLSim.FedAvg_5][INFO] - [148] Train: Loss: 0.244  Acc: 97.3%
+[2022-11-24 23:58:35,003][FLSim.FedAvg_5][INFO] - [148] Val: Loss: 0.674  Acc: 83.8%
+[2022-11-24 23:58:35,036][FLSim.FedAvg_5][INFO] - [149] Selected: [4, 20, 21, 27, 38, 40, 57, 62, 63, 73]
+[2022-11-24 23:58:36,700][FLSim.FedAvg_5][INFO] - [149] Train: Loss: 0.224  Acc: 97.1%
+[2022-11-24 23:58:37,486][FLSim.FedAvg_5][INFO] - [149] Val: Loss: 0.547  Acc: 90.0%
+[2022-11-24 23:58:37,518][FLSim.FedAvg_5][INFO] - [150] Selected: [8, 28, 36, 44, 60, 68, 69, 79, 85, 99]
+[2022-11-24 23:58:39,230][FLSim.FedAvg_5][INFO] - [150] Train: Loss: 0.241  Acc: 97.5%
+[2022-11-24 23:58:40,032][FLSim.FedAvg_5][INFO] - [150] Val: Loss: 0.710  Acc: 82.8%
+[2022-11-24 23:58:41,780][FLSim.FedAvg_5][INFO] - [150] Test: Loss: 0.696  Acc: 82.5%
+[2022-11-24 23:58:41,811][FLSim.FedAvg_5][INFO] - [151] Selected: [0, 15, 26, 27, 30, 32, 59, 80, 86, 91]
+[2022-11-24 23:58:43,510][FLSim.FedAvg_5][INFO] - [151] Train: Loss: 0.224  Acc: 97.2%
+[2022-11-24 23:58:44,275][FLSim.FedAvg_5][INFO] - [151] Val: Loss: 0.535  Acc: 89.2%
+[2022-11-24 23:58:44,315][FLSim.FedAvg_5][INFO] - [152] Selected: [8, 19, 23, 32, 48, 51, 53, 58, 59, 66]
+[2022-11-24 23:58:46,087][FLSim.FedAvg_5][INFO] - [152] Train: Loss: 0.230  Acc: 97.4%
+[2022-11-24 23:58:46,875][FLSim.FedAvg_5][INFO] - [152] Val: Loss: 0.628  Acc: 87.0%
+[2022-11-24 23:58:46,915][FLSim.FedAvg_5][INFO] - [153] Selected: [4, 18, 21, 38, 44, 48, 66, 75, 83, 98]
+[2022-11-24 23:58:48,559][FLSim.FedAvg_5][INFO] - [153] Train: Loss: 0.226  Acc: 98.0%
+[2022-11-24 23:58:49,377][FLSim.FedAvg_5][INFO] - [153] Val: Loss: 0.622  Acc: 83.4%
+[2022-11-24 23:58:49,377][FLSim.FedAvg_5][INFO] - [154] Selected: [17, 18, 21, 31, 33, 36, 54, 61, 88, 92]
+[2022-11-24 23:58:51,042][FLSim.FedAvg_5][INFO] - [154] Train: Loss: 0.217  Acc: 97.2%
+[2022-11-24 23:58:51,814][FLSim.FedAvg_5][INFO] - [154] Val: Loss: 0.551  Acc: 88.2%
+[2022-11-24 23:58:51,814][FLSim.FedAvg_5][INFO] - [155] Selected: [10, 18, 31, 36, 39, 65, 70, 71, 88, 91]
+[2022-11-24 23:58:53,544][FLSim.FedAvg_5][INFO] - [155] Train: Loss: 0.204  Acc: 97.8%
+[2022-11-24 23:58:54,345][FLSim.FedAvg_5][INFO] - [155] Val: Loss: 0.528  Acc: 85.9%
+[2022-11-24 23:58:55,967][FLSim.FedAvg_5][INFO] - [155] Test: Loss: 0.712  Acc: 80.1%
+[2022-11-24 23:58:56,006][FLSim.FedAvg_5][INFO] - [156] Selected: [7, 13, 23, 35, 60, 63, 67, 77, 92, 97]
+[2022-11-24 23:58:57,633][FLSim.FedAvg_5][INFO] - [156] Train: Loss: 0.275  Acc: 95.2%
+[2022-11-24 23:58:58,466][FLSim.FedAvg_5][INFO] - [156] Val: Loss: 0.635  Acc: 84.8%
+[2022-11-24 23:58:58,501][FLSim.FedAvg_5][INFO] - [157] Selected: [6, 9, 11, 27, 28, 33, 49, 70, 78, 90]
+[2022-11-24 23:59:00,133][FLSim.FedAvg_5][INFO] - [157] Train: Loss: 0.207  Acc: 97.1%
+[2022-11-24 23:59:00,950][FLSim.FedAvg_5][INFO] - [157] Val: Loss: 0.547  Acc: 88.7%
+[2022-11-24 23:59:00,950][FLSim.FedAvg_5][INFO] - [158] Selected: [7, 11, 14, 33, 56, 62, 65, 77, 78, 97]
+[2022-11-24 23:59:02,615][FLSim.FedAvg_5][INFO] - [158] Train: Loss: 0.247  Acc: 96.6%
+[2022-11-24 23:59:03,402][FLSim.FedAvg_5][INFO] - [158] Val: Loss: 0.627  Acc: 83.8%
+[2022-11-24 23:59:03,434][FLSim.FedAvg_5][INFO] - [159] Selected: [5, 6, 12, 25, 39, 55, 60, 66, 74, 85]
+[2022-11-24 23:59:05,036][FLSim.FedAvg_5][INFO] - [159] Train: Loss: 0.296  Acc: 96.5%
+[2022-11-24 23:59:05,827][FLSim.FedAvg_5][INFO] - [159] Val: Loss: 0.734  Acc: 81.6%
+[2022-11-24 23:59:05,860][FLSim.FedAvg_5][INFO] - [160] Selected: [6, 15, 18, 52, 53, 59, 60, 70, 73, 75]
+[2022-11-24 23:59:07,494][FLSim.FedAvg_5][INFO] - [160] Train: Loss: 0.242  Acc: 96.8%
+[2022-11-24 23:59:08,249][FLSim.FedAvg_5][INFO] - [160] Val: Loss: 0.718  Acc: 83.4%
+[2022-11-24 23:59:09,959][FLSim.FedAvg_5][INFO] - [160] Test: Loss: 0.673  Acc: 84.4%
+[2022-11-24 23:59:09,999][FLSim.FedAvg_5][INFO] - [161] Selected: [9, 17, 22, 26, 37, 42, 65, 79, 95, 96]
+[2022-11-24 23:59:11,628][FLSim.FedAvg_5][INFO] - [161] Train: Loss: 0.259  Acc: 96.1%
+[2022-11-24 23:59:12,399][FLSim.FedAvg_5][INFO] - [161] Val: Loss: 0.684  Acc: 84.2%
+[2022-11-24 23:59:12,433][FLSim.FedAvg_5][INFO] - [162] Selected: [0, 4, 6, 18, 20, 29, 67, 73, 88, 93]
+[2022-11-24 23:59:14,074][FLSim.FedAvg_5][INFO] - [162] Train: Loss: 0.215  Acc: 97.5%
+[2022-11-24 23:59:14,900][FLSim.FedAvg_5][INFO] - [162] Val: Loss: 0.653  Acc: 85.3%
+[2022-11-24 23:59:14,919][FLSim.FedAvg_5][INFO] - [163] Selected: [38, 43, 46, 63, 66, 67, 68, 90, 92, 95]
+[2022-11-24 23:59:16,557][FLSim.FedAvg_5][INFO] - [163] Train: Loss: 0.219  Acc: 97.2%
+[2022-11-24 23:59:17,304][FLSim.FedAvg_5][INFO] - [163] Val: Loss: 0.622  Acc: 85.0%
+[2022-11-24 23:59:17,304][FLSim.FedAvg_5][INFO] - [164] Selected: [1, 11, 12, 44, 51, 55, 61, 63, 71, 79]
+[2022-11-24 23:59:19,002][FLSim.FedAvg_5][INFO] - [164] Train: Loss: 0.243  Acc: 97.0%
+[2022-11-24 23:59:19,772][FLSim.FedAvg_5][INFO] - [164] Val: Loss: 0.548  Acc: 87.0%
+[2022-11-24 23:59:19,804][FLSim.FedAvg_5][INFO] - [165] Selected: [31, 36, 39, 49, 53, 57, 59, 61, 62, 74]
+[2022-11-24 23:59:21,538][FLSim.FedAvg_5][INFO] - [165] Train: Loss: 0.228  Acc: 97.1%
+[2022-11-24 23:59:22,323][FLSim.FedAvg_5][INFO] - [165] Val: Loss: 0.583  Acc: 87.0%
+[2022-11-24 23:59:24,150][FLSim.FedAvg_5][INFO] - [165] Test: Loss: 0.671  Acc: 82.7%
+[2022-11-24 23:59:24,191][FLSim.FedAvg_5][INFO] - [166] Selected: [7, 10, 15, 27, 38, 45, 61, 69, 82, 94]
+[2022-11-24 23:59:25,863][FLSim.FedAvg_5][INFO] - [166] Train: Loss: 0.253  Acc: 96.3%
+[2022-11-24 23:59:26,650][FLSim.FedAvg_5][INFO] - [166] Val: Loss: 0.688  Acc: 83.6%
+[2022-11-24 23:59:26,686][FLSim.FedAvg_5][INFO] - [167] Selected: [7, 13, 14, 16, 45, 51, 52, 74, 83, 90]
+[2022-11-24 23:59:28,333][FLSim.FedAvg_5][INFO] - [167] Train: Loss: 0.233  Acc: 97.0%
+[2022-11-24 23:59:29,167][FLSim.FedAvg_5][INFO] - [167] Val: Loss: 0.582  Acc: 86.9%
+[2022-11-24 23:59:29,202][FLSim.FedAvg_5][INFO] - [168] Selected: [12, 20, 27, 39, 41, 62, 84, 89, 90, 99]
+[2022-11-24 23:59:30,857][FLSim.FedAvg_5][INFO] - [168] Train: Loss: 0.220  Acc: 96.9%
+[2022-11-24 23:59:31,621][FLSim.FedAvg_5][INFO] - [168] Val: Loss: 0.542  Acc: 88.1%
+[2022-11-24 23:59:31,621][FLSim.FedAvg_5][INFO] - [169] Selected: [3, 5, 16, 18, 51, 57, 65, 69, 75, 96]
+[2022-11-24 23:59:33,238][FLSim.FedAvg_5][INFO] - [169] Train: Loss: 0.256  Acc: 96.6%
+[2022-11-24 23:59:34,070][FLSim.FedAvg_5][INFO] - [169] Val: Loss: 0.686  Acc: 82.5%
+[2022-11-24 23:59:34,086][FLSim.FedAvg_5][INFO] - [170] Selected: [0, 6, 28, 33, 35, 52, 67, 69, 82, 94]
+[2022-11-24 23:59:35,726][FLSim.FedAvg_5][INFO] - [170] Train: Loss: 0.234  Acc: 96.6%
+[2022-11-24 23:59:36,471][FLSim.FedAvg_5][INFO] - [170] Val: Loss: 0.659  Acc: 84.0%
+[2022-11-24 23:59:38,131][FLSim.FedAvg_5][INFO] - [170] Test: Loss: 0.656  Acc: 83.8%
+[2022-11-24 23:59:38,146][FLSim.FedAvg_5][INFO] - [171] Selected: [9, 27, 37, 39, 49, 55, 75, 86, 87, 97]
+[2022-11-24 23:59:39,988][FLSim.FedAvg_5][INFO] - [171] Train: Loss: 0.245  Acc: 96.5%
+[2022-11-24 23:59:40,784][FLSim.FedAvg_5][INFO] - [171] Val: Loss: 0.594  Acc: 87.0%
+[2022-11-24 23:59:40,784][FLSim.FedAvg_5][INFO] - [172] Selected: [19, 20, 45, 47, 56, 63, 75, 77, 85, 99]
+[2022-11-24 23:59:42,480][FLSim.FedAvg_5][INFO] - [172] Train: Loss: 0.240  Acc: 97.0%
+[2022-11-24 23:59:43,252][FLSim.FedAvg_5][INFO] - [172] Val: Loss: 0.583  Acc: 87.4%
+[2022-11-24 23:59:43,287][FLSim.FedAvg_5][INFO] - [173] Selected: [9, 22, 37, 39, 42, 57, 66, 68, 87, 97]
+[2022-11-24 23:59:44,951][FLSim.FedAvg_5][INFO] - [173] Train: Loss: 0.215  Acc: 96.5%
+[2022-11-24 23:59:45,689][FLSim.FedAvg_5][INFO] - [173] Val: Loss: 0.595  Acc: 83.1%
+[2022-11-24 23:59:45,695][FLSim.FedAvg_5][INFO] - [174] Selected: [6, 12, 21, 39, 44, 45, 66, 71, 74, 98]
+[2022-11-24 23:59:47,372][FLSim.FedAvg_5][INFO] - [174] Train: Loss: 0.226  Acc: 97.3%
+[2022-11-24 23:59:48,194][FLSim.FedAvg_5][INFO] - [174] Val: Loss: 0.632  Acc: 81.9%
+[2022-11-24 23:59:48,229][FLSim.FedAvg_5][INFO] - [175] Selected: [2, 5, 17, 22, 40, 43, 49, 74, 77, 89]
+[2022-11-24 23:59:49,949][FLSim.FedAvg_5][INFO] - [175] Train: Loss: 0.234  Acc: 96.4%
+[2022-11-24 23:59:50,755][FLSim.FedAvg_5][INFO] - [175] Val: Loss: 0.634  Acc: 84.1%
+[2022-11-24 23:59:52,293][FLSim.FedAvg_5][INFO] - [175] Test: Loss: 0.677  Acc: 82.0%
+[2022-11-24 23:59:52,324][FLSim.FedAvg_5][INFO] - [176] Selected: [4, 6, 16, 18, 19, 25, 41, 46, 75, 78]
+[2022-11-24 23:59:53,912][FLSim.FedAvg_5][INFO] - [176] Train: Loss: 0.228  Acc: 97.6%
+[2022-11-24 23:59:54,747][FLSim.FedAvg_5][INFO] - [176] Val: Loss: 0.643  Acc: 83.8%
+[2022-11-24 23:59:54,747][FLSim.FedAvg_5][INFO] - [177] Selected: [2, 5, 12, 24, 45, 52, 63, 81, 88, 96]
+[2022-11-24 23:59:56,412][FLSim.FedAvg_5][INFO] - [177] Train: Loss: 0.252  Acc: 96.4%
+[2022-11-24 23:59:57,157][FLSim.FedAvg_5][INFO] - [177] Val: Loss: 0.628  Acc: 84.0%
+[2022-11-24 23:59:57,189][FLSim.FedAvg_5][INFO] - [178] Selected: [2, 19, 34, 35, 40, 51, 72, 73, 91, 94]
+[2022-11-24 23:59:58,980][FLSim.FedAvg_5][INFO] - [178] Train: Loss: 0.234  Acc: 96.9%
+[2022-11-24 23:59:59,750][FLSim.FedAvg_5][INFO] - [178] Val: Loss: 0.581  Acc: 86.2%
+[2022-11-24 23:59:59,791][FLSim.FedAvg_5][INFO] - [179] Selected: [1, 32, 33, 35, 61, 86, 89, 93, 94, 96]
+[2022-11-25 00:00:01,514][FLSim.FedAvg_5][INFO] - [179] Train: Loss: 0.227  Acc: 96.6%
+[2022-11-25 00:00:02,284][FLSim.FedAvg_5][INFO] - [179] Val: Loss: 0.545  Acc: 88.0%
+[2022-11-25 00:00:02,320][FLSim.FedAvg_5][INFO] - [180] Selected: [1, 21, 37, 48, 53, 63, 84, 91, 95, 98]
+[2022-11-25 00:00:04,043][FLSim.FedAvg_5][INFO] - [180] Train: Loss: 0.220  Acc: 97.2%
+[2022-11-25 00:00:04,860][FLSim.FedAvg_5][INFO] - [180] Val: Loss: 0.602  Acc: 85.3%
+[2022-11-25 00:00:06,450][FLSim.FedAvg_5][INFO] - [180] Test: Loss: 0.641  Acc: 84.4%
+[2022-11-25 00:00:06,492][FLSim.FedAvg_5][INFO] - [181] Selected: [3, 10, 12, 13, 37, 44, 53, 61, 69, 84]
+[2022-11-25 00:00:08,167][FLSim.FedAvg_5][INFO] - [181] Train: Loss: 0.220  Acc: 96.7%
+[2022-11-25 00:00:09,051][FLSim.FedAvg_5][INFO] - [181] Val: Loss: 0.572  Acc: 87.9%
+[2022-11-25 00:00:09,066][FLSim.FedAvg_5][INFO] - [182] Selected: [3, 30, 36, 42, 45, 55, 58, 71, 80, 93]
+[2022-11-25 00:00:10,743][FLSim.FedAvg_5][INFO] - [182] Train: Loss: 0.222  Acc: 96.7%
+[2022-11-25 00:00:11,539][FLSim.FedAvg_5][INFO] - [182] Val: Loss: 0.635  Acc: 83.6%
+[2022-11-25 00:00:11,570][FLSim.FedAvg_5][INFO] - [183] Selected: [3, 8, 18, 50, 57, 64, 72, 75, 95, 96]
+[2022-11-25 00:00:13,192][FLSim.FedAvg_5][INFO] - [183] Train: Loss: 0.233  Acc: 97.0%
+[2022-11-25 00:00:13,931][FLSim.FedAvg_5][INFO] - [183] Val: Loss: 0.685  Acc: 82.4%
+[2022-11-25 00:00:13,931][FLSim.FedAvg_5][INFO] - [184] Selected: [36, 40, 47, 48, 65, 67, 76, 81, 86, 97]
+[2022-11-25 00:00:15,596][FLSim.FedAvg_5][INFO] - [184] Train: Loss: 0.210  Acc: 97.0%
+[2022-11-25 00:00:16,398][FLSim.FedAvg_5][INFO] - [184] Val: Loss: 0.480  Acc: 89.4%
+[2022-11-25 00:00:16,436][FLSim.FedAvg_5][INFO] - [185] Selected: [3, 23, 30, 39, 42, 47, 59, 63, 84, 94]
+[2022-11-25 00:00:18,060][FLSim.FedAvg_5][INFO] - [185] Train: Loss: 0.225  Acc: 96.5%
+[2022-11-25 00:00:18,838][FLSim.FedAvg_5][INFO] - [185] Val: Loss: 0.648  Acc: 84.6%
+[2022-11-25 00:00:20,645][FLSim.FedAvg_5][INFO] - [185] Test: Loss: 0.634  Acc: 84.1%
+[2022-11-25 00:00:20,645][FLSim.FedAvg_5][INFO] - [186] Selected: [8, 40, 49, 62, 73, 75, 78, 83, 93, 99]
+[2022-11-25 00:00:22,361][FLSim.FedAvg_5][INFO] - [186] Train: Loss: 0.228  Acc: 96.5%
+[2022-11-25 00:00:23,116][FLSim.FedAvg_5][INFO] - [186] Val: Loss: 0.666  Acc: 83.0%
+[2022-11-25 00:00:23,116][FLSim.FedAvg_5][INFO] - [187] Selected: [4, 12, 38, 40, 41, 53, 58, 60, 70, 97]
+[2022-11-25 00:00:24,765][FLSim.FedAvg_5][INFO] - [187] Train: Loss: 0.195  Acc: 97.3%
+[2022-11-25 00:00:25,520][FLSim.FedAvg_5][INFO] - [187] Val: Loss: 0.496  Acc: 90.1%
+[2022-11-25 00:00:25,552][FLSim.FedAvg_5][INFO] - [188] Selected: [0, 12, 15, 50, 55, 56, 83, 85, 88, 94]
+[2022-11-25 00:00:27,156][FLSim.FedAvg_5][INFO] - [188] Train: Loss: 0.239  Acc: 97.0%
+[2022-11-25 00:00:27,912][FLSim.FedAvg_5][INFO] - [188] Val: Loss: 0.635  Acc: 83.4%
+[2022-11-25 00:00:27,953][FLSim.FedAvg_5][INFO] - [189] Selected: [8, 17, 23, 33, 41, 43, 47, 59, 60, 63]
+[2022-11-25 00:00:29,594][FLSim.FedAvg_5][INFO] - [189] Train: Loss: 0.209  Acc: 96.5%
+[2022-11-25 00:00:30,364][FLSim.FedAvg_5][INFO] - [189] Val: Loss: 0.496  Acc: 90.0%
+[2022-11-25 00:00:30,405][FLSim.FedAvg_5][INFO] - [190] Selected: [16, 17, 21, 23, 25, 32, 44, 73, 77, 89]
+[2022-11-25 00:00:32,095][FLSim.FedAvg_5][INFO] - [190] Train: Loss: 0.227  Acc: 96.6%
+[2022-11-25 00:00:32,819][FLSim.FedAvg_5][INFO] - [190] Val: Loss: 0.576  Acc: 85.8%
+[2022-11-25 00:00:34,314][FLSim.FedAvg_5][INFO] - [190] Test: Loss: 0.636  Acc: 83.4%
+[2022-11-25 00:00:34,314][FLSim.FedAvg_5][INFO] - [191] Selected: [6, 13, 14, 19, 51, 56, 66, 74, 84, 97]
+[2022-11-25 00:00:35,981][FLSim.FedAvg_5][INFO] - [191] Train: Loss: 0.209  Acc: 97.6%
+[2022-11-25 00:00:36,797][FLSim.FedAvg_5][INFO] - [191] Val: Loss: 0.494  Acc: 90.7%
+[2022-11-25 00:00:36,797][FLSim.FedAvg_5][INFO] - [192] Selected: [2, 18, 20, 39, 41, 50, 54, 63, 79, 95]
+[2022-11-25 00:00:38,512][FLSim.FedAvg_5][INFO] - [192] Train: Loss: 0.214  Acc: 97.0%
+[2022-11-25 00:00:39,347][FLSim.FedAvg_5][INFO] - [192] Val: Loss: 0.634  Acc: 84.3%
+[2022-11-25 00:00:39,355][FLSim.FedAvg_5][INFO] - [193] Selected: [1, 16, 30, 43, 53, 62, 82, 83, 95, 97]
+[2022-11-25 00:00:41,028][FLSim.FedAvg_5][INFO] - [193] Train: Loss: 0.213  Acc: 96.5%
+[2022-11-25 00:00:41,797][FLSim.FedAvg_5][INFO] - [193] Val: Loss: 0.495  Acc: 88.1%
+[2022-11-25 00:00:41,834][FLSim.FedAvg_5][INFO] - [194] Selected: [12, 16, 23, 27, 53, 56, 71, 72, 90, 94]
+[2022-11-25 00:00:43,573][FLSim.FedAvg_5][INFO] - [194] Train: Loss: 0.199  Acc: 97.0%
+[2022-11-25 00:00:44,315][FLSim.FedAvg_5][INFO] - [194] Val: Loss: 0.466  Acc: 89.2%
+[2022-11-25 00:00:44,340][FLSim.FedAvg_5][INFO] - [195] Selected: [1, 23, 34, 51, 59, 66, 69, 93, 96, 99]
+[2022-11-25 00:00:46,017][FLSim.FedAvg_5][INFO] - [195] Train: Loss: 0.200  Acc: 97.4%
+[2022-11-25 00:00:46,814][FLSim.FedAvg_5][INFO] - [195] Val: Loss: 0.471  Acc: 90.2%
+[2022-11-25 00:00:48,386][FLSim.FedAvg_5][INFO] - [195] Test: Loss: 0.655  Acc: 81.5%
+[2022-11-25 00:00:48,386][FLSim.FedAvg_5][INFO] - [196] Selected: [2, 6, 10, 23, 42, 53, 67, 74, 79, 93]
+[2022-11-25 00:00:50,303][FLSim.FedAvg_5][INFO] - [196] Train: Loss: 0.202  Acc: 96.5%
+[2022-11-25 00:00:51,202][FLSim.FedAvg_5][INFO] - [196] Val: Loss: 0.516  Acc: 87.4%
+[2022-11-25 00:00:51,234][FLSim.FedAvg_5][INFO] - [197] Selected: [5, 12, 55, 56, 59, 72, 83, 87, 89, 90]
+[2022-11-25 00:00:53,308][FLSim.FedAvg_5][INFO] - [197] Train: Loss: 0.232  Acc: 96.3%
+[2022-11-25 00:00:54,082][FLSim.FedAvg_5][INFO] - [197] Val: Loss: 0.640  Acc: 81.5%
+[2022-11-25 00:00:54,114][FLSim.FedAvg_5][INFO] - [198] Selected: [1, 36, 48, 53, 58, 59, 64, 72, 87, 95]
+[2022-11-25 00:00:55,922][FLSim.FedAvg_5][INFO] - [198] Train: Loss: 0.217  Acc: 97.3%
+[2022-11-25 00:00:56,707][FLSim.FedAvg_5][INFO] - [198] Val: Loss: 0.719  Acc: 79.4%
+[2022-11-25 00:00:56,742][FLSim.FedAvg_5][INFO] - [199] Selected: [4, 7, 9, 18, 38, 40, 50, 79, 86, 92]
+[2022-11-25 00:00:58,574][FLSim.FedAvg_5][INFO] - [199] Train: Loss: 0.198  Acc: 97.2%
+[2022-11-25 00:00:59,360][FLSim.FedAvg_5][INFO] - [199] Val: Loss: 0.581  Acc: 86.6%
+[2022-11-25 00:00:59,398][FLSim.FedAvg_5][INFO] - [200] Selected: [3, 16, 17, 22, 28, 40, 51, 71, 76, 78]
+[2022-11-25 00:01:01,080][FLSim.FedAvg_5][INFO] - [200] Train: Loss: 0.195  Acc: 97.0%
+[2022-11-25 00:01:01,866][FLSim.FedAvg_5][INFO] - [200] Val: Loss: 0.496  Acc: 87.6%
+[2022-11-25 00:01:03,643][FLSim.FedAvg_5][INFO] - [200] Test: Loss: 0.612  Acc: 83.9%
+[2022-11-25 00:01:03,683][FLSim.FedAvg_5][INFO] - [201] Selected: [3, 9, 29, 34, 50, 51, 59, 73, 95, 99]
+[2022-11-25 00:01:05,299][FLSim.FedAvg_5][INFO] - [201] Train: Loss: 0.220  Acc: 96.9%
+[2022-11-25 00:01:06,082][FLSim.FedAvg_5][INFO] - [201] Val: Loss: 0.586  Acc: 85.3%
+[2022-11-25 00:01:06,097][FLSim.FedAvg_5][INFO] - [202] Selected: [25, 29, 38, 40, 41, 43, 85, 87, 90, 95]
+[2022-11-25 00:01:08,110][FLSim.FedAvg_5][INFO] - [202] Train: Loss: 0.230  Acc: 96.9%
+[2022-11-25 00:01:08,966][FLSim.FedAvg_5][INFO] - [202] Val: Loss: 0.660  Acc: 83.1%
+[2022-11-25 00:01:09,002][FLSim.FedAvg_5][INFO] - [203] Selected: [17, 27, 31, 49, 50, 51, 57, 61, 70, 97]
+[2022-11-25 00:01:10,739][FLSim.FedAvg_5][INFO] - [203] Train: Loss: 0.198  Acc: 97.1%
+[2022-11-25 00:01:11,542][FLSim.FedAvg_5][INFO] - [203] Val: Loss: 0.370  Acc: 92.9%
+[2022-11-25 00:01:11,542][FLSim.FedAvg_5][INFO] - [204] Selected: [29, 40, 41, 47, 74, 81, 83, 92, 97, 98]
+[2022-11-25 00:01:13,367][FLSim.FedAvg_5][INFO] - [204] Train: Loss: 0.195  Acc: 96.8%
+[2022-11-25 00:01:14,120][FLSim.FedAvg_5][INFO] - [204] Val: Loss: 0.523  Acc: 86.3%
+[2022-11-25 00:01:14,151][FLSim.FedAvg_5][INFO] - [205] Selected: [6, 19, 37, 38, 40, 43, 81, 86, 91, 99]
+[2022-11-25 00:01:15,834][FLSim.FedAvg_5][INFO] - [205] Train: Loss: 0.184  Acc: 97.3%
+[2022-11-25 00:01:16,605][FLSim.FedAvg_5][INFO] - [205] Val: Loss: 0.437  Acc: 91.7%
+[2022-11-25 00:01:18,826][FLSim.FedAvg_5][INFO] - [205] Test: Loss: 0.624  Acc: 82.5%
+[2022-11-25 00:01:18,864][FLSim.FedAvg_5][INFO] - [206] Selected: [3, 12, 19, 48, 65, 70, 76, 83, 94, 98]
+[2022-11-25 00:01:20,458][FLSim.FedAvg_5][INFO] - [206] Train: Loss: 0.222  Acc: 96.3%
+[2022-11-25 00:01:21,259][FLSim.FedAvg_5][INFO] - [206] Val: Loss: 0.676  Acc: 80.5%
+[2022-11-25 00:01:21,293][FLSim.FedAvg_5][INFO] - [207] Selected: [0, 11, 27, 48, 61, 73, 80, 82, 85, 92]
+[2022-11-25 00:01:23,000][FLSim.FedAvg_5][INFO] - [207] Train: Loss: 0.207  Acc: 96.5%
+[2022-11-25 00:01:23,798][FLSim.FedAvg_5][INFO] - [207] Val: Loss: 0.490  Acc: 87.9%
+[2022-11-25 00:01:23,798][FLSim.FedAvg_5][INFO] - [208] Selected: [2, 4, 27, 31, 54, 68, 69, 70, 73, 84]
+[2022-11-25 00:01:25,461][FLSim.FedAvg_5][INFO] - [208] Train: Loss: 0.208  Acc: 96.7%
+[2022-11-25 00:01:26,217][FLSim.FedAvg_5][INFO] - [208] Val: Loss: 0.556  Acc: 86.1%
+[2022-11-25 00:01:26,260][FLSim.FedAvg_5][INFO] - [209] Selected: [6, 18, 19, 29, 46, 60, 75, 79, 95, 96]
+[2022-11-25 00:01:27,946][FLSim.FedAvg_5][INFO] - [209] Train: Loss: 0.225  Acc: 96.9%
+[2022-11-25 00:01:28,715][FLSim.FedAvg_5][INFO] - [209] Val: Loss: 0.619  Acc: 84.7%
+[2022-11-25 00:01:28,715][FLSim.FedAvg_5][INFO] - [210] Selected: [0, 9, 13, 15, 19, 48, 53, 79, 82, 86]
+[2022-11-25 00:01:30,365][FLSim.FedAvg_5][INFO] - [210] Train: Loss: 0.213  Acc: 96.8%
+[2022-11-25 00:01:31,138][FLSim.FedAvg_5][INFO] - [210] Val: Loss: 0.551  Acc: 86.9%
+[2022-11-25 00:01:32,679][FLSim.FedAvg_5][INFO] - [210] Test: Loss: 0.616  Acc: 82.3%
+[2022-11-25 00:01:32,679][FLSim.FedAvg_5][INFO] - [211] Selected: [0, 14, 15, 41, 42, 47, 50, 67, 86, 89]
+[2022-11-25 00:01:34,349][FLSim.FedAvg_5][INFO] - [211] Train: Loss: 0.207  Acc: 96.6%
+[2022-11-25 00:01:35,118][FLSim.FedAvg_5][INFO] - [211] Val: Loss: 0.508  Acc: 87.0%
+[2022-11-25 00:01:35,149][FLSim.FedAvg_5][INFO] - [212] Selected: [19, 29, 33, 56, 60, 82, 87, 89, 91, 94]
+[2022-11-25 00:01:36,814][FLSim.FedAvg_5][INFO] - [212] Train: Loss: 0.197  Acc: 97.0%
+[2022-11-25 00:01:37,602][FLSim.FedAvg_5][INFO] - [212] Val: Loss: 0.484  Acc: 87.3%
+[2022-11-25 00:01:37,634][FLSim.FedAvg_5][INFO] - [213] Selected: [12, 13, 32, 40, 52, 60, 64, 85, 88, 95]
+[2022-11-25 00:01:39,354][FLSim.FedAvg_5][INFO] - [213] Train: Loss: 0.229  Acc: 96.2%
+[2022-11-25 00:01:40,142][FLSim.FedAvg_5][INFO] - [213] Val: Loss: 0.633  Acc: 82.2%
+[2022-11-25 00:01:40,174][FLSim.FedAvg_5][INFO] - [214] Selected: [9, 17, 18, 22, 28, 33, 38, 62, 73, 81]
+[2022-11-25 00:01:41,869][FLSim.FedAvg_5][INFO] - [214] Train: Loss: 0.210  Acc: 96.4%
+[2022-11-25 00:01:42,647][FLSim.FedAvg_5][INFO] - [214] Val: Loss: 0.576  Acc: 86.3%
+[2022-11-25 00:01:42,689][FLSim.FedAvg_5][INFO] - [215] Selected: [6, 19, 37, 50, 54, 58, 66, 80, 84, 88]
+[2022-11-25 00:01:44,349][FLSim.FedAvg_5][INFO] - [215] Train: Loss: 0.186  Acc: 97.6%
+[2022-11-25 00:01:45,150][FLSim.FedAvg_5][INFO] - [215] Val: Loss: 0.510  Acc: 87.7%
+[2022-11-25 00:01:46,668][FLSim.FedAvg_5][INFO] - [215] Test: Loss: 0.591  Acc: 84.5%
+[2022-11-25 00:01:46,700][FLSim.FedAvg_5][INFO] - [216] Selected: [20, 27, 39, 43, 45, 49, 50, 73, 80, 95]
+[2022-11-25 00:01:48,337][FLSim.FedAvg_5][INFO] - [216] Train: Loss: 0.218  Acc: 96.5%
+[2022-11-25 00:01:49,143][FLSim.FedAvg_5][INFO] - [216] Val: Loss: 0.559  Acc: 86.2%
+[2022-11-25 00:01:49,175][FLSim.FedAvg_5][INFO] - [217] Selected: [5, 6, 11, 14, 25, 38, 55, 82, 84, 98]
+[2022-11-25 00:01:50,764][FLSim.FedAvg_5][INFO] - [217] Train: Loss: 0.239  Acc: 97.0%
+[2022-11-25 00:01:51,567][FLSim.FedAvg_5][INFO] - [217] Val: Loss: 0.643  Acc: 84.4%
+[2022-11-25 00:01:51,567][FLSim.FedAvg_5][INFO] - [218] Selected: [2, 14, 32, 40, 55, 67, 77, 87, 89, 97]
+[2022-11-25 00:01:53,282][FLSim.FedAvg_5][INFO] - [218] Train: Loss: 0.221  Acc: 96.2%
+[2022-11-25 00:01:54,085][FLSim.FedAvg_5][INFO] - [218] Val: Loss: 0.518  Acc: 87.6%
+[2022-11-25 00:01:54,129][FLSim.FedAvg_5][INFO] - [219] Selected: [25, 37, 38, 39, 40, 41, 56, 62, 76, 93]
+[2022-11-25 00:01:55,800][FLSim.FedAvg_5][INFO] - [219] Train: Loss: 0.207  Acc: 96.8%
+[2022-11-25 00:01:56,634][FLSim.FedAvg_5][INFO] - [219] Val: Loss: 0.558  Acc: 86.3%
+[2022-11-25 00:01:56,668][FLSim.FedAvg_5][INFO] - [220] Selected: [14, 17, 51, 53, 54, 68, 74, 81, 89, 97]
+[2022-11-25 00:01:58,364][FLSim.FedAvg_5][INFO] - [220] Train: Loss: 0.203  Acc: 97.4%
+[2022-11-25 00:01:59,132][FLSim.FedAvg_5][INFO] - [220] Val: Loss: 0.527  Acc: 88.4%
+[2022-11-25 00:02:00,755][FLSim.FedAvg_5][INFO] - [220] Test: Loss: 0.577  Acc: 86.0%
+[2022-11-25 00:02:00,795][FLSim.FedAvg_5][INFO] - [221] Selected: [10, 12, 21, 41, 47, 51, 54, 57, 71, 98]
+[2022-11-25 00:02:02,453][FLSim.FedAvg_5][INFO] - [221] Train: Loss: 0.179  Acc: 97.5%
+[2022-11-25 00:02:03,285][FLSim.FedAvg_5][INFO] - [221] Val: Loss: 0.370  Acc: 91.9%
+[2022-11-25 00:02:03,316][FLSim.FedAvg_5][INFO] - [222] Selected: [16, 31, 38, 45, 47, 52, 59, 62, 65, 87]
+[2022-11-25 00:02:05,064][FLSim.FedAvg_5][INFO] - [222] Train: Loss: 0.216  Acc: 96.3%
+[2022-11-25 00:02:05,849][FLSim.FedAvg_5][INFO] - [222] Val: Loss: 0.590  Acc: 85.5%
+[2022-11-25 00:02:05,884][FLSim.FedAvg_5][INFO] - [223] Selected: [1, 3, 5, 21, 28, 34, 51, 57, 58, 96]
+[2022-11-25 00:02:07,657][FLSim.FedAvg_5][INFO] - [223] Train: Loss: 0.192  Acc: 97.2%
+[2022-11-25 00:02:08,462][FLSim.FedAvg_5][INFO] - [223] Val: Loss: 0.482  Acc: 89.0%
+[2022-11-25 00:02:08,496][FLSim.FedAvg_5][INFO] - [224] Selected: [17, 37, 42, 43, 49, 64, 83, 84, 91, 98]
+[2022-11-25 00:02:10,299][FLSim.FedAvg_5][INFO] - [224] Train: Loss: 0.208  Acc: 96.3%
+[2022-11-25 00:02:11,066][FLSim.FedAvg_5][INFO] - [224] Val: Loss: 0.571  Acc: 86.1%
+[2022-11-25 00:02:11,066][FLSim.FedAvg_5][INFO] - [225] Selected: [0, 4, 18, 28, 31, 50, 71, 79, 90, 93]
+[2022-11-25 00:02:12,687][FLSim.FedAvg_5][INFO] - [225] Train: Loss: 0.166  Acc: 97.9%
+[2022-11-25 00:02:13,483][FLSim.FedAvg_5][INFO] - [225] Val: Loss: 0.453  Acc: 89.6%
+[2022-11-25 00:02:15,091][FLSim.FedAvg_5][INFO] - [225] Test: Loss: 0.584  Acc: 85.0%
+[2022-11-25 00:02:15,126][FLSim.FedAvg_5][INFO] - [226] Selected: [15, 38, 47, 48, 50, 52, 68, 83, 87, 98]
+[2022-11-25 00:02:16,913][FLSim.FedAvg_5][INFO] - [226] Train: Loss: 0.194  Acc: 96.9%
+[2022-11-25 00:02:17,751][FLSim.FedAvg_5][INFO] - [226] Val: Loss: 0.502  Acc: 86.7%
+[2022-11-25 00:02:17,784][FLSim.FedAvg_5][INFO] - [227] Selected: [7, 10, 15, 32, 34, 40, 48, 63, 92, 98]
+[2022-11-25 00:02:19,517][FLSim.FedAvg_5][INFO] - [227] Train: Loss: 0.205  Acc: 96.6%
+[2022-11-25 00:02:20,302][FLSim.FedAvg_5][INFO] - [227] Val: Loss: 0.526  Acc: 86.1%
+[2022-11-25 00:02:20,310][FLSim.FedAvg_5][INFO] - [228] Selected: [12, 18, 28, 41, 46, 50, 62, 66, 74, 86]
+[2022-11-25 00:02:22,360][FLSim.FedAvg_5][INFO] - [228] Train: Loss: 0.186  Acc: 96.9%
+[2022-11-25 00:02:23,177][FLSim.FedAvg_5][INFO] - [228] Val: Loss: 0.411  Acc: 91.1%
+[2022-11-25 00:02:23,208][FLSim.FedAvg_5][INFO] - [229] Selected: [12, 24, 45, 56, 61, 66, 74, 82, 87, 97]
+[2022-11-25 00:02:25,016][FLSim.FedAvg_5][INFO] - [229] Train: Loss: 0.213  Acc: 96.5%
+[2022-11-25 00:02:25,834][FLSim.FedAvg_5][INFO] - [229] Val: Loss: 0.465  Acc: 88.9%
+[2022-11-25 00:02:25,834][FLSim.FedAvg_5][INFO] - [230] Selected: [9, 15, 19, 30, 43, 51, 58, 71, 88, 94]
+[2022-11-25 00:02:27,532][FLSim.FedAvg_5][INFO] - [230] Train: Loss: 0.201  Acc: 97.4%
+[2022-11-25 00:02:28,410][FLSim.FedAvg_5][INFO] - [230] Val: Loss: 0.618  Acc: 82.7%
+[2022-11-25 00:02:30,407][FLSim.FedAvg_5][INFO] - [230] Test: Loss: 0.582  Acc: 84.8%
+[2022-11-25 00:02:30,447][FLSim.FedAvg_5][INFO] - [231] Selected: [1, 6, 15, 17, 32, 48, 56, 76, 89, 94]
+[2022-11-25 00:02:32,157][FLSim.FedAvg_5][INFO] - [231] Train: Loss: 0.203  Acc: 96.9%
+[2022-11-25 00:02:32,912][FLSim.FedAvg_5][INFO] - [231] Val: Loss: 0.527  Acc: 86.8%
+[2022-11-25 00:02:32,912][FLSim.FedAvg_5][INFO] - [232] Selected: [23, 25, 33, 43, 53, 56, 60, 72, 95, 99]
+[2022-11-25 00:02:34,813][FLSim.FedAvg_5][INFO] - [232] Train: Loss: 0.238  Acc: 96.2%
+[2022-11-25 00:02:35,596][FLSim.FedAvg_5][INFO] - [232] Val: Loss: 0.618  Acc: 84.4%
+[2022-11-25 00:02:35,600][FLSim.FedAvg_5][INFO] - [233] Selected: [2, 4, 9, 20, 30, 62, 77, 84, 86, 87]
+[2022-11-25 00:02:37,438][FLSim.FedAvg_5][INFO] - [233] Train: Loss: 0.191  Acc: 96.8%
+[2022-11-25 00:02:38,431][FLSim.FedAvg_5][INFO] - [233] Val: Loss: 0.472  Acc: 89.5%
+[2022-11-25 00:02:38,468][FLSim.FedAvg_5][INFO] - [234] Selected: [11, 16, 28, 35, 40, 45, 65, 89, 92, 94]
+[2022-11-25 00:02:40,931][FLSim.FedAvg_5][INFO] - [234] Train: Loss: 0.230  Acc: 96.0%
+[2022-11-25 00:02:41,763][FLSim.FedAvg_5][INFO] - [234] Val: Loss: 0.602  Acc: 85.5%
+[2022-11-25 00:02:41,763][FLSim.FedAvg_5][INFO] - [235] Selected: [2, 35, 54, 63, 71, 81, 84, 90, 93, 99]
+[2022-11-25 00:02:43,541][FLSim.FedAvg_5][INFO] - [235] Train: Loss: 0.205  Acc: 96.6%
+[2022-11-25 00:02:44,436][FLSim.FedAvg_5][INFO] - [235] Val: Loss: 0.509  Acc: 88.7%
+[2022-11-25 00:02:46,073][FLSim.FedAvg_5][INFO] - [235] Test: Loss: 0.566  Acc: 86.0%
+[2022-11-25 00:02:46,117][FLSim.FedAvg_5][INFO] - [236] Selected: [13, 19, 51, 56, 61, 62, 74, 81, 83, 99]
+[2022-11-25 00:02:47,819][FLSim.FedAvg_5][INFO] - [236] Train: Loss: 0.191  Acc: 97.2%
+[2022-11-25 00:02:48,651][FLSim.FedAvg_5][INFO] - [236] Val: Loss: 0.426  Acc: 91.4%
+[2022-11-25 00:02:48,680][FLSim.FedAvg_5][INFO] - [237] Selected: [0, 6, 14, 19, 33, 50, 62, 67, 74, 89]
+[2022-11-25 00:02:50,459][FLSim.FedAvg_5][INFO] - [237] Train: Loss: 0.187  Acc: 97.3%
+[2022-11-25 00:02:51,277][FLSim.FedAvg_5][INFO] - [237] Val: Loss: 0.446  Acc: 90.8%
+[2022-11-25 00:02:51,280][FLSim.FedAvg_5][INFO] - [238] Selected: [1, 23, 26, 33, 35, 64, 69, 72, 75, 86]
+[2022-11-25 00:02:52,987][FLSim.FedAvg_5][INFO] - [238] Train: Loss: 0.211  Acc: 96.4%
+[2022-11-25 00:02:53,767][FLSim.FedAvg_5][INFO] - [238] Val: Loss: 0.533  Acc: 87.1%
+[2022-11-25 00:02:53,799][FLSim.FedAvg_5][INFO] - [239] Selected: [29, 32, 35, 43, 52, 61, 65, 67, 76, 88]
+[2022-11-25 00:02:55,732][FLSim.FedAvg_5][INFO] - [239] Train: Loss: 0.219  Acc: 96.1%
+[2022-11-25 00:02:56,978][FLSim.FedAvg_5][INFO] - [239] Val: Loss: 0.631  Acc: 82.2%
+[2022-11-25 00:02:57,017][FLSim.FedAvg_5][INFO] - [240] Selected: [0, 6, 17, 31, 47, 64, 67, 79, 86, 99]
+[2022-11-25 00:02:59,241][FLSim.FedAvg_5][INFO] - [240] Train: Loss: 0.185  Acc: 97.0%
+[2022-11-25 00:03:00,027][FLSim.FedAvg_5][INFO] - [240] Val: Loss: 0.447  Acc: 89.7%
+[2022-11-25 00:03:01,930][FLSim.FedAvg_5][INFO] - [240] Test: Loss: 0.577  Acc: 84.7%
+[2022-11-25 00:03:01,977][FLSim.FedAvg_5][INFO] - [241] Selected: [14, 26, 30, 40, 42, 56, 61, 63, 69, 74]
+[2022-11-25 00:03:04,366][FLSim.FedAvg_5][INFO] - [241] Train: Loss: 0.177  Acc: 97.3%
+[2022-11-25 00:03:05,181][FLSim.FedAvg_5][INFO] - [241] Val: Loss: 0.413  Acc: 91.5%
+[2022-11-25 00:03:05,224][FLSim.FedAvg_5][INFO] - [242] Selected: [1, 8, 30, 48, 62, 72, 73, 83, 84, 86]
+[2022-11-25 00:03:07,594][FLSim.FedAvg_5][INFO] - [242] Train: Loss: 0.190  Acc: 96.6%
+[2022-11-25 00:03:08,364][FLSim.FedAvg_5][INFO] - [242] Val: Loss: 0.513  Acc: 87.0%
+[2022-11-25 00:03:08,380][FLSim.FedAvg_5][INFO] - [243] Selected: [2, 14, 26, 38, 59, 60, 74, 76, 83, 85]
+[2022-11-25 00:03:10,675][FLSim.FedAvg_5][INFO] - [243] Train: Loss: 0.193  Acc: 97.1%
+[2022-11-25 00:03:11,477][FLSim.FedAvg_5][INFO] - [243] Val: Loss: 0.571  Acc: 86.9%
+[2022-11-25 00:03:11,477][FLSim.FedAvg_5][INFO] - [244] Selected: [30, 52, 55, 63, 70, 72, 74, 78, 95, 98]
+[2022-11-25 00:03:13,396][FLSim.FedAvg_5][INFO] - [244] Train: Loss: 0.206  Acc: 96.6%
+[2022-11-25 00:03:14,198][FLSim.FedAvg_5][INFO] - [244] Val: Loss: 0.590  Acc: 84.8%
+[2022-11-25 00:03:14,235][FLSim.FedAvg_5][INFO] - [245] Selected: [1, 2, 20, 32, 44, 57, 83, 84, 87, 97]
+[2022-11-25 00:03:15,887][FLSim.FedAvg_5][INFO] - [245] Train: Loss: 0.193  Acc: 96.9%
+[2022-11-25 00:03:16,910][FLSim.FedAvg_5][INFO] - [245] Val: Loss: 0.418  Acc: 90.6%
+[2022-11-25 00:03:18,466][FLSim.FedAvg_5][INFO] - [245] Test: Loss: 0.567  Acc: 85.4%
+[2022-11-25 00:03:18,502][FLSim.FedAvg_5][INFO] - [246] Selected: [0, 3, 14, 16, 23, 27, 32, 36, 44, 96]
+[2022-11-25 00:03:20,262][FLSim.FedAvg_5][INFO] - [246] Train: Loss: 0.183  Acc: 96.8%
+[2022-11-25 00:03:21,144][FLSim.FedAvg_5][INFO] - [246] Val: Loss: 0.396  Acc: 91.4%
+[2022-11-25 00:03:21,148][FLSim.FedAvg_5][INFO] - [247] Selected: [11, 12, 14, 35, 57, 64, 72, 73, 76, 83]
+[2022-11-25 00:03:22,878][FLSim.FedAvg_5][INFO] - [247] Train: Loss: 0.204  Acc: 96.4%
+[2022-11-25 00:03:23,721][FLSim.FedAvg_5][INFO] - [247] Val: Loss: 0.458  Acc: 89.4%
+[2022-11-25 00:03:23,758][FLSim.FedAvg_5][INFO] - [248] Selected: [30, 38, 41, 46, 52, 57, 65, 75, 76, 85]
+[2022-11-25 00:03:25,413][FLSim.FedAvg_5][INFO] - [248] Train: Loss: 0.208  Acc: 97.0%
+[2022-11-25 00:03:26,198][FLSim.FedAvg_5][INFO] - [248] Val: Loss: 0.567  Acc: 86.2%
+[2022-11-25 00:03:26,206][FLSim.FedAvg_5][INFO] - [249] Selected: [0, 6, 7, 10, 32, 33, 34, 49, 66, 73]
+[2022-11-25 00:03:27,860][FLSim.FedAvg_5][INFO] - [249] Train: Loss: 0.184  Acc: 96.7%
+[2022-11-25 00:03:28,615][FLSim.FedAvg_5][INFO] - [249] Val: Loss: 0.441  Acc: 90.0%
+[2022-11-25 00:03:28,615][FLSim.FedAvg_5][INFO] - [250] Selected: [1, 2, 28, 33, 44, 78, 81, 84, 98, 99]
+[2022-11-25 00:03:30,205][FLSim.FedAvg_5][INFO] - [250] Train: Loss: 0.192  Acc: 97.1%
+[2022-11-25 00:03:30,973][FLSim.FedAvg_5][INFO] - [250] Val: Loss: 0.541  Acc: 86.2%
+[2022-11-25 00:03:32,623][FLSim.FedAvg_5][INFO] - [250] Test: Loss: 0.562  Acc: 85.1%
+[2022-11-25 00:03:32,655][FLSim.FedAvg_5][INFO] - [251] Selected: [7, 12, 28, 55, 64, 73, 76, 81, 93, 99]
+[2022-11-25 00:03:34,240][FLSim.FedAvg_5][INFO] - [251] Train: Loss: 0.208  Acc: 96.6%
+[2022-11-25 00:03:34,995][FLSim.FedAvg_5][INFO] - [251] Val: Loss: 0.572  Acc: 84.6%
+[2022-11-25 00:03:35,029][FLSim.FedAvg_5][INFO] - [252] Selected: [30, 42, 43, 47, 48, 63, 68, 78, 80, 89]
+[2022-11-25 00:03:36,562][FLSim.FedAvg_5][INFO] - [252] Train: Loss: 0.177  Acc: 96.9%
+[2022-11-25 00:03:37,375][FLSim.FedAvg_5][INFO] - [252] Val: Loss: 0.478  Acc: 88.4%
+[2022-11-25 00:03:37,409][FLSim.FedAvg_5][INFO] - [253] Selected: [5, 14, 26, 31, 45, 74, 79, 81, 91, 97]
+[2022-11-25 00:03:38,992][FLSim.FedAvg_5][INFO] - [253] Train: Loss: 0.208  Acc: 96.9%
+[2022-11-25 00:03:39,770][FLSim.FedAvg_5][INFO] - [253] Val: Loss: 0.518  Acc: 86.5%
+[2022-11-25 00:03:39,779][FLSim.FedAvg_5][INFO] - [254] Selected: [7, 15, 23, 24, 25, 28, 37, 77, 93, 99]
+[2022-11-25 00:03:41,503][FLSim.FedAvg_5][INFO] - [254] Train: Loss: 0.234  Acc: 95.8%
+[2022-11-25 00:03:42,344][FLSim.FedAvg_5][INFO] - [254] Val: Loss: 0.616  Acc: 84.3%
+[2022-11-25 00:03:42,378][FLSim.FedAvg_5][INFO] - [255] Selected: [10, 33, 54, 57, 66, 67, 83, 88, 89, 96]
+[2022-11-25 00:03:43,976][FLSim.FedAvg_5][INFO] - [255] Train: Loss: 0.181  Acc: 96.9%
+[2022-11-25 00:03:44,766][FLSim.FedAvg_5][INFO] - [255] Val: Loss: 0.443  Acc: 89.9%
+[2022-11-25 00:03:46,356][FLSim.FedAvg_5][INFO] - [255] Test: Loss: 0.554  Acc: 85.8%
+[2022-11-25 00:03:46,390][FLSim.FedAvg_5][INFO] - [256] Selected: [10, 14, 17, 29, 43, 44, 49, 64, 84, 89]
+[2022-11-25 00:03:47,946][FLSim.FedAvg_5][INFO] - [256] Train: Loss: 0.191  Acc: 97.1%
+[2022-11-25 00:03:48,718][FLSim.FedAvg_5][INFO] - [256] Val: Loss: 0.555  Acc: 87.5%
+[2022-11-25 00:03:48,749][FLSim.FedAvg_5][INFO] - [257] Selected: [10, 24, 49, 60, 66, 74, 82, 84, 91, 98]
+[2022-11-25 00:03:50,282][FLSim.FedAvg_5][INFO] - [257] Train: Loss: 0.182  Acc: 97.1%
+[2022-11-25 00:03:51,063][FLSim.FedAvg_5][INFO] - [257] Val: Loss: 0.435  Acc: 90.4%
+[2022-11-25 00:03:51,063][FLSim.FedAvg_5][INFO] - [258] Selected: [2, 9, 11, 14, 31, 37, 41, 53, 57, 90]
+[2022-11-25 00:03:52,688][FLSim.FedAvg_5][INFO] - [258] Train: Loss: 0.181  Acc: 97.1%
+[2022-11-25 00:03:53,472][FLSim.FedAvg_5][INFO] - [258] Val: Loss: 0.419  Acc: 90.2%
+[2022-11-25 00:03:53,481][FLSim.FedAvg_5][INFO] - [259] Selected: [1, 6, 9, 18, 41, 47, 62, 64, 73, 80]
+[2022-11-25 00:03:55,161][FLSim.FedAvg_5][INFO] - [259] Train: Loss: 0.168  Acc: 97.3%
+[2022-11-25 00:03:55,928][FLSim.FedAvg_5][INFO] - [259] Val: Loss: 0.456  Acc: 89.0%
+[2022-11-25 00:03:55,959][FLSim.FedAvg_5][INFO] - [260] Selected: [12, 13, 31, 43, 77, 83, 85, 86, 89, 99]
+[2022-11-25 00:03:57,654][FLSim.FedAvg_5][INFO] - [260] Train: Loss: 0.203  Acc: 96.4%
+[2022-11-25 00:03:58,457][FLSim.FedAvg_5][INFO] - [260] Val: Loss: 0.506  Acc: 86.6%
+[2022-11-25 00:04:00,120][FLSim.FedAvg_5][INFO] - [260] Test: Loss: 0.560  Acc: 84.5%
+[2022-11-25 00:04:00,132][FLSim.FedAvg_5][INFO] - [261] Selected: [13, 16, 29, 32, 37, 39, 50, 56, 60, 72]
+[2022-11-25 00:04:01,828][FLSim.FedAvg_5][INFO] - [261] Train: Loss: 0.187  Acc: 96.3%
+[2022-11-25 00:04:02,593][FLSim.FedAvg_5][INFO] - [261] Val: Loss: 0.449  Acc: 90.3%
+[2022-11-25 00:04:02,594][FLSim.FedAvg_5][INFO] - [262] Selected: [4, 10, 16, 20, 21, 39, 52, 53, 82, 85]
+[2022-11-25 00:04:04,264][FLSim.FedAvg_5][INFO] - [262] Train: Loss: 0.184  Acc: 96.9%
+[2022-11-25 00:04:05,004][FLSim.FedAvg_5][INFO] - [262] Val: Loss: 0.464  Acc: 87.9%
+[2022-11-25 00:04:05,036][FLSim.FedAvg_5][INFO] - [263] Selected: [0, 10, 15, 32, 34, 37, 38, 42, 51, 96]
+[2022-11-25 00:04:06,724][FLSim.FedAvg_5][INFO] - [263] Train: Loss: 0.191  Acc: 96.5%
+[2022-11-25 00:04:07,510][FLSim.FedAvg_5][INFO] - [263] Val: Loss: 0.517  Acc: 86.8%
+[2022-11-25 00:04:07,541][FLSim.FedAvg_5][INFO] - [264] Selected: [0, 1, 19, 30, 53, 68, 69, 76, 88, 91]
+[2022-11-25 00:04:09,263][FLSim.FedAvg_5][INFO] - [264] Train: Loss: 0.163  Acc: 97.6%
+[2022-11-25 00:04:10,041][FLSim.FedAvg_5][INFO] - [264] Val: Loss: 0.429  Acc: 90.7%
+[2022-11-25 00:04:10,077][FLSim.FedAvg_5][INFO] - [265] Selected: [3, 15, 25, 61, 63, 65, 66, 69, 76, 77]
+[2022-11-25 00:04:11,966][FLSim.FedAvg_5][INFO] - [265] Train: Loss: 0.231  Acc: 95.9%
+[2022-11-25 00:04:12,769][FLSim.FedAvg_5][INFO] - [265] Val: Loss: 0.563  Acc: 84.9%
+[2022-11-25 00:04:14,642][FLSim.FedAvg_5][INFO] - [265] Test: Loss: 0.543  Acc: 85.7%
+[2022-11-25 00:04:14,674][FLSim.FedAvg_5][INFO] - [266] Selected: [12, 16, 18, 28, 30, 53, 73, 82, 85, 97]
+[2022-11-25 00:04:16,403][FLSim.FedAvg_5][INFO] - [266] Train: Loss: 0.202  Acc: 96.3%
+[2022-11-25 00:04:17,222][FLSim.FedAvg_5][INFO] - [266] Val: Loss: 0.556  Acc: 85.5%
+[2022-11-25 00:04:17,255][FLSim.FedAvg_5][INFO] - [267] Selected: [2, 16, 24, 32, 38, 65, 69, 75, 84, 90]
+[2022-11-25 00:04:18,910][FLSim.FedAvg_5][INFO] - [267] Train: Loss: 0.211  Acc: 96.4%
+[2022-11-25 00:04:19,697][FLSim.FedAvg_5][INFO] - [267] Val: Loss: 0.596  Acc: 85.4%
+[2022-11-25 00:04:19,705][FLSim.FedAvg_5][INFO] - [268] Selected: [10, 22, 29, 30, 46, 48, 59, 70, 72, 86]
+[2022-11-25 00:04:21,431][FLSim.FedAvg_5][INFO] - [268] Train: Loss: 0.169  Acc: 97.0%
+[2022-11-25 00:04:22,260][FLSim.FedAvg_5][INFO] - [268] Val: Loss: 0.450  Acc: 89.6%
+[2022-11-25 00:04:22,260][FLSim.FedAvg_5][INFO] - [269] Selected: [6, 16, 19, 33, 37, 59, 63, 65, 70, 93]
+[2022-11-25 00:04:23,923][FLSim.FedAvg_5][INFO] - [269] Train: Loss: 0.202  Acc: 96.1%
+[2022-11-25 00:04:24,713][FLSim.FedAvg_5][INFO] - [269] Val: Loss: 0.495  Acc: 88.3%
+[2022-11-25 00:04:24,721][FLSim.FedAvg_5][INFO] - [270] Selected: [13, 17, 18, 41, 42, 48, 56, 60, 79, 88]
+[2022-11-25 00:04:26,423][FLSim.FedAvg_5][INFO] - [270] Train: Loss: 0.181  Acc: 96.8%
+[2022-11-25 00:04:27,204][FLSim.FedAvg_5][INFO] - [270] Val: Loss: 0.485  Acc: 89.4%
+[2022-11-25 00:04:28,771][FLSim.FedAvg_5][INFO] - [270] Test: Loss: 0.544  Acc: 85.1%
+[2022-11-25 00:04:28,771][FLSim.FedAvg_5][INFO] - [271] Selected: [3, 11, 16, 19, 23, 48, 67, 84, 91, 96]
+[2022-11-25 00:04:30,427][FLSim.FedAvg_5][INFO] - [271] Train: Loss: 0.185  Acc: 96.9%
+[2022-11-25 00:04:31,252][FLSim.FedAvg_5][INFO] - [271] Val: Loss: 0.451  Acc: 89.8%
+[2022-11-25 00:04:31,252][FLSim.FedAvg_5][INFO] - [272] Selected: [0, 19, 26, 40, 50, 54, 58, 68, 69, 86]
+[2022-11-25 00:04:32,901][FLSim.FedAvg_5][INFO] - [272] Train: Loss: 0.153  Acc: 97.7%
+[2022-11-25 00:04:33,646][FLSim.FedAvg_5][INFO] - [272] Val: Loss: 0.379  Acc: 90.4%
+[2022-11-25 00:04:33,678][FLSim.FedAvg_5][INFO] - [273] Selected: [3, 14, 15, 45, 53, 55, 59, 73, 98, 99]
+[2022-11-25 00:04:35,340][FLSim.FedAvg_5][INFO] - [273] Train: Loss: 0.238  Acc: 95.9%
+[2022-11-25 00:04:36,095][FLSim.FedAvg_5][INFO] - [273] Val: Loss: 0.680  Acc: 81.3%
+[2022-11-25 00:04:36,127][FLSim.FedAvg_5][INFO] - [274] Selected: [5, 10, 11, 12, 22, 35, 52, 76, 84, 99]
+[2022-11-25 00:04:37,823][FLSim.FedAvg_5][INFO] - [274] Train: Loss: 0.218  Acc: 95.8%
+[2022-11-25 00:04:38,649][FLSim.FedAvg_5][INFO] - [274] Val: Loss: 0.555  Acc: 84.2%
+[2022-11-25 00:04:38,681][FLSim.FedAvg_5][INFO] - [275] Selected: [13, 20, 42, 44, 66, 72, 80, 86, 96, 97]
+[2022-11-25 00:04:40,392][FLSim.FedAvg_5][INFO] - [275] Train: Loss: 0.171  Acc: 96.9%
+[2022-11-25 00:04:41,240][FLSim.FedAvg_5][INFO] - [275] Val: Loss: 0.403  Acc: 90.9%
+[2022-11-25 00:04:43,002][FLSim.FedAvg_5][INFO] - [275] Test: Loss: 0.532  Acc: 86.5%
+[2022-11-25 00:04:43,035][FLSim.FedAvg_5][INFO] - [276] Selected: [5, 47, 53, 57, 67, 69, 74, 76, 93, 97]
+[2022-11-25 00:04:44,872][FLSim.FedAvg_5][INFO] - [276] Train: Loss: 0.205  Acc: 96.4%
+[2022-11-25 00:04:45,651][FLSim.FedAvg_5][INFO] - [276] Val: Loss: 0.500  Acc: 86.8%
+[2022-11-25 00:04:45,681][FLSim.FedAvg_5][INFO] - [277] Selected: [10, 13, 17, 42, 48, 59, 64, 78, 83, 93]
+[2022-11-25 00:04:47,383][FLSim.FedAvg_5][INFO] - [277] Train: Loss: 0.187  Acc: 96.5%
+[2022-11-25 00:04:48,176][FLSim.FedAvg_5][INFO] - [277] Val: Loss: 0.554  Acc: 85.8%
+[2022-11-25 00:04:48,208][FLSim.FedAvg_5][INFO] - [278] Selected: [20, 23, 29, 33, 46, 48, 65, 69, 72, 98]
+[2022-11-25 00:04:49,882][FLSim.FedAvg_5][INFO] - [278] Train: Loss: 0.185  Acc: 97.0%
+[2022-11-25 00:04:50,677][FLSim.FedAvg_5][INFO] - [278] Val: Loss: 0.565  Acc: 85.5%
+[2022-11-25 00:04:50,708][FLSim.FedAvg_5][INFO] - [279] Selected: [0, 8, 14, 41, 45, 60, 61, 63, 77, 99]
+[2022-11-25 00:04:52,472][FLSim.FedAvg_5][INFO] - [279] Train: Loss: 0.188  Acc: 97.1%
+[2022-11-25 00:04:53,265][FLSim.FedAvg_5][INFO] - [279] Val: Loss: 0.482  Acc: 88.2%
+[2022-11-25 00:04:53,296][FLSim.FedAvg_5][INFO] - [280] Selected: [2, 3, 13, 27, 29, 38, 49, 69, 75, 77]
+[2022-11-25 00:04:55,005][FLSim.FedAvg_5][INFO] - [280] Train: Loss: 0.207  Acc: 96.1%
+[2022-11-25 00:04:55,767][FLSim.FedAvg_5][INFO] - [280] Val: Loss: 0.581  Acc: 86.5%
+[2022-11-25 00:04:57,249][FLSim.FedAvg_5][INFO] - [280] Test: Loss: 0.539  Acc: 85.4%
+[2022-11-25 00:04:57,257][FLSim.FedAvg_5][INFO] - [281] Selected: [2, 14, 27, 31, 49, 61, 79, 82, 89, 95]
+[2022-11-25 00:04:58,898][FLSim.FedAvg_5][INFO] - [281] Train: Loss: 0.208  Acc: 96.3%
+[2022-11-25 00:04:59,679][FLSim.FedAvg_5][INFO] - [281] Val: Loss: 0.489  Acc: 87.9%
+[2022-11-25 00:04:59,717][FLSim.FedAvg_5][INFO] - [282] Selected: [1, 7, 15, 23, 26, 34, 37, 52, 76, 98]
+[2022-11-25 00:05:01,417][FLSim.FedAvg_5][INFO] - [282] Train: Loss: 0.196  Acc: 96.5%
+[2022-11-25 00:05:02,203][FLSim.FedAvg_5][INFO] - [282] Val: Loss: 0.526  Acc: 84.5%
+[2022-11-25 00:05:02,235][FLSim.FedAvg_5][INFO] - [283] Selected: [1, 49, 51, 66, 70, 75, 83, 87, 92, 93]
+[2022-11-25 00:05:03,921][FLSim.FedAvg_5][INFO] - [283] Train: Loss: 0.186  Acc: 96.5%
+[2022-11-25 00:05:04,745][FLSim.FedAvg_5][INFO] - [283] Val: Loss: 0.438  Acc: 89.8%
+[2022-11-25 00:05:04,775][FLSim.FedAvg_5][INFO] - [284] Selected: [9, 10, 31, 35, 36, 64, 69, 85, 87, 93]
+[2022-11-25 00:05:06,510][FLSim.FedAvg_5][INFO] - [284] Train: Loss: 0.191  Acc: 96.9%
+[2022-11-25 00:05:07,338][FLSim.FedAvg_5][INFO] - [284] Val: Loss: 0.525  Acc: 86.8%
+[2022-11-25 00:05:07,367][FLSim.FedAvg_5][INFO] - [285] Selected: [7, 14, 24, 38, 47, 63, 81, 94, 95, 97]
+[2022-11-25 00:05:09,206][FLSim.FedAvg_5][INFO] - [285] Train: Loss: 0.198  Acc: 96.8%
+[2022-11-25 00:05:10,307][FLSim.FedAvg_5][INFO] - [285] Val: Loss: 0.493  Acc: 87.8%

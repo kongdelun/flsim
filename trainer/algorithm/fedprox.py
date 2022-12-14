@@ -21,8 +21,8 @@ class ProxActor(CPUActor):
         self._max_grad_norm = args.get('max_grad_norm', 10.0)
         self._opt = args.get('opt', {'lr': 0.001})
 
-    def __init__(self, model: Module, loss: Module, alpha: float):
-        super().__init__(model, loss)
+    def __init__(self, model: Module, loss: Module, alpha: float, local_opt: str = "SGD"):
+        super().__init__(model, loss, local_opt)
         self._alpha = alpha
 
     def fit(self, state: OrderedDict, dataset: Dataset, args: dict):

@@ -72,4 +72,4 @@ def create_synthetic(num_tasks=100, num_classes=5, num_dim=60, s='iid', sf=None,
 
 
 if __name__ == '__main__':
-    pass
+    create_synthetic(100, 5, 60, 'niid', sf=1.0, k=5, t='sample', tf=0.8, seed=2077)

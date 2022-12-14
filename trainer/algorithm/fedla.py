@@ -104,3 +104,5 @@ class FedLA(FedAvg):
     def _aggregate(self, cids):
         self._model.load_state_dict(self._aggregator.compute())
         self._aggregator.reset()
+
+

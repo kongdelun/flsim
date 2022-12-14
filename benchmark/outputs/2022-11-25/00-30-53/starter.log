@@ -1,0 +1,2 @@
+[2022-11-25 00:31:12,083][FLSim.builder][INFO] - benchmark.ctx.mnist has created !
+[2022-11-25 00:31:12,085][FLSim.builder][INFO] - benchmark.model.cv.MnistMLP has created !
