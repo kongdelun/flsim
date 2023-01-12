@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader, Subset, TensorDataset
-from torch.utils.data.dataset import T_co, ConcatDataset
+from torch.utils.data.dataset import T_co, ConcatDataset, random_split
 
 from utils.data.partition import DataPartitioner
 from utils.io import load_jsons
@@ -113,17 +113,12 @@ class FederatedDataset(ABC):
     def test(self) -> Dataset:
         raise NotImplementedError
 
-    @abstractmethod
-    def secondary(self, *arg, **kwargs) -> Dataset:
-        raise NotImplementedError
-
 
 class BasicFederatedDataset(FederatedDataset):
 
     def __init__(self, dataset: Dataset, dp: DataPartitioner):
         self._dp = dp
         self._dataset = dataset
-        self._secondary = None
 
     def __contains__(self, key):
         return key in self._dp
@@ -147,24 +142,10 @@ class BasicFederatedDataset(FederatedDataset):
     def test(self) -> Dataset:
         return Subset(self._dataset, self._dp.test_indices)
 
-    def secondary(self, num_classes, size):
-        if self._secondary is None:
-            self._secondary = sample_by_class(self._dataset, num_classes, size, 2077)
-        return self._secondary
-
-    @property
-    def dataset(self):
-        return self._dataset
-
-    @property
-    def data_partitioner(self):
-        return self._dp
-
 
 class LEAF(FederatedDataset):
 
     def __init__(self, root, transform=None, target_transform=None):
-        self._secondary = None
         self.root = root
         self.transform = transform
         self.target_transform = target_transform
@@ -199,8 +180,3 @@ class LEAF(FederatedDataset):
 
     def __contains__(self, key):
         return key in self.__users
-
-    def secondary(self, num_classes, size):
-        if self._secondary is None:
-            self._secondary = sample_by_class(self.test(), num_classes, size, 2077)
-        return self._secondary

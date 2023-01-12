@@ -1,5 +1,10 @@
+from typing import Iterable, Union
+
 import torch
-from torch.optim.optimizer import Optimizer, required
+from torch import Tensor
+from torch.optim.optimizer import Optimizer
+
+_params_t = Union[Iterable[Tensor], Iterable[dict]]
 
 
 class Adai(Optimizer):
@@ -17,9 +22,9 @@ class Adai(Optimizer):
         decoupled (boolean, optional): decoupled weight decay (default: False)
     """
 
-    def __init__(self, params, lr=required, betas=(0.1, 0.99), eps=1e-03,
+    def __init__(self, params: _params_t, lr=0.01, betas=(0.1, 0.99), eps=1e-03,
                  weight_decay=0, decoupled=False):
-        if lr is not required and lr < 0.0:
+        if lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if not 0.0 <= eps:
             raise ValueError("Invalid epsilon value: {}".format(eps))
@@ -117,7 +122,3 @@ class Adai(Optimizer):
                 p.data.add_(exp_avg_hat, alpha=-group['lr'])
 
         return loss
-
-
-
-

@@ -1,4 +1,3 @@
-import time
 from collections import OrderedDict
 from functools import reduce
 from operator import mul

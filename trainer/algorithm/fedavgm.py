@@ -1,5 +1,8 @@
-from trainer.core.proto import FedAvg
-from utils.nn.functional import linear_sum, zero_like, add
+from typing import OrderedDict
+from trainer.algorithm.fedavg import FedAvg
+from trainer.core.aggregator import Aggregator
+from utils.nn.aggregate import average
+from utils.nn.functional import linear_sum, zero_like, add_
 
 
 class FedAvgM(FedAvg):
@@ -9,14 +12,37 @@ class FedAvgM(FedAvg):
         if avgm := kwargs['avgm']:
             self.beta = avgm.get('beta', 0.5)
 
-    def _init(self):
-        super(FedAvgM, self)._init()
-        self._mom = zero_like(self._model.state_dict())
-
     def _aggregate(self, cids):
-        grad = self._aggregator.compute()
-        self._mom = linear_sum([self._mom, grad], [self.beta, 1.])
-        self._model.load_state_dict(
-            add(self._model.state_dict(), self._mom)
-        )
+        self._model.load_state_dict(self._aggregator.compute())
         self._aggregator.reset()
+
+    def _build_aggregator(self):
+        return AvgMAggregator(self._model.state_dict(), self.beta)
+
+
+class AvgMAggregator(Aggregator):
+
+    def __init__(self, state: OrderedDict, alpha: float):
+        super(AvgMAggregator, self).__init__()
+        self._state = state
+        self._mom = zero_like(state)
+        self._alpha = alpha
+        self._grads = []
+        self._num_samples = []
+
+    def update(self, grad: OrderedDict, num_sample):
+        super(AvgMAggregator, self).update()
+        self._grads.append(grad)
+        self._num_samples.append(num_sample)
+
+    def reset(self):
+        super(AvgMAggregator, self).reset()
+        self._num_samples.clear()
+        self._grads.clear()
+
+    def _compute_step(self):
+        assert len(self._grads) == len(self._num_samples) > 0
+        grad = average(self._grads, self._num_samples)
+        self._mom = linear_sum([self._mom, grad], [self._alpha, 1.])
+        add_(self._state, self._mom)
+        return self._state

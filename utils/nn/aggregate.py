@@ -2,7 +2,6 @@ from random import shuffle
 from typing import Optional, Sequence
 
 import torch
-
 from utils.nn.functional import linear_sum, flatten, unflatten, extract_shape
 
 
@@ -45,4 +44,3 @@ def shuffle_layer(states: Sequence[dict], layer_names: Optional[Sequence[str]] =
         shuffle(lws, seed)
         for s, lw in zip(states, lws):
             s[ln] = lw
-    return states

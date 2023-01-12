@@ -1,9 +1,11 @@
 import sys
 import numpy as np
-from benchmark.dataset.transformer import ToNumpy, ToVector
+
 from env import LEAF_ROOT
-from utils.tool import cmd, quick_clear
 from utils.data.dataset import LEAF
+from utils.tool import cmd, quick_clear
+
+from benchmark.dataset.transformer import ToNumpy, ToVector
 
 
 class Synthetic(LEAF):

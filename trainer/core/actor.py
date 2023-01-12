@@ -1,17 +1,17 @@
 from abc import abstractmethod
 from collections import OrderedDict
 from copy import deepcopy
+from typing import Iterable, Union
 
 import ray
 import torch
+from torch import Tensor
 from torch.nn import Module
 from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset, DataLoader
 from torchmetrics import SumMetric, MeanMetric, Accuracy
-
-from benchmark.builder import build_optimizer
 from utils.nn.functional import sub
-from utils.tool import os_platform
+from utils.tool import os_platform, locate
 
 
 class CPUActor:
@@ -85,3 +85,17 @@ class BasicActor(CPUActor):
                 clip_grad_norm_(self.model.parameters(), self._max_grad_norm)
                 opt.step()
         return sub(self.get_state(), state), self.evaluate(self.get_state(), dataset, self._batch_size)
+
+
+_params_t = Union[Iterable[Tensor], Iterable[dict]]
+
+
+def build_optimizer(name: str, params: _params_t, args: dict):
+    args = dict(params=params, **args)
+    return locate(
+        [
+            f'torch.optim',
+            f'util.optim'
+        ],
+        name, args
+    )

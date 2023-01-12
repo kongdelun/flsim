@@ -1,26 +1,17 @@
 import os
-import shutil
-import subprocess
 import sys
 import random
-from typing import Optional
-
+import shutil
+import subprocess
+import traceback
+from typing import Optional, Sequence
+from importlib import import_module
 import torch
 import numpy as np
 from torch.utils.collect_env import get_platform
+from utils.logger import Logger
 
-units = {
-    'b': 1024. ** 0,
-    'kb': 1024. ** 1,
-    'mb': 1024. ** 2,
-    'gb': 1024. ** 3,
-    'tb': 1024. ** 4,
-}
-
-
-def sizeof(obj, unit='b'):
-    return sys.getsizeof(obj) / units[unit]
-
+_logger = Logger.get_logger(__name__)
 
 def set_seed(seed, use_torch=False, use_cuda=False):
     random.seed(seed)
@@ -48,10 +39,10 @@ def os_platform():
 def quick_clear(path):
     if os.path.exists(path):
         shutil.rmtree(path)
-    print(f"Clear {path}")
+    _logger.info(f"Clean {path}")
 
 
-def cmd(command: str, timeout: Optional[int] = None, verbose: bool = True):
+def cmd(command: str, timeout: Optional[int] = None):
     proc = subprocess.Popen(
         command,
         shell=True,
@@ -60,9 +51,16 @@ def cmd(command: str, timeout: Optional[int] = None, verbose: bool = True):
         encoding='utf-8',
     )
     result = proc.communicate(timeout=timeout)[0]
-    if verbose:
-        print(command)
-        print(result)
+    _logger.info(command)
+    _logger.info(result)
     return result
 
 
+def locate(modules: Sequence[str], name: str, args: dict):
+    for m in modules:
+        try:
+            return getattr(import_module(m), name)(**args)
+        except:
+            _logger.debug(traceback.format_exc())
+            continue
+    raise ImportError(f'The {name} is not found !!!')

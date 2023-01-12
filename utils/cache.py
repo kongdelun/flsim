@@ -1,4 +1,6 @@
 import os
+from typing import Iterable
+
 import torch
 from cachetools import LRUCache
 from utils.io import walker
@@ -76,3 +78,4 @@ class DiskCache(LRUCache):
             return self[key]
         except KeyError:
             return default
+

@@ -5,9 +5,9 @@ from torch.nn import CrossEntropyLoss
 from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset
 
+from trainer.algorithm.fedavg import FedAvg
 from trainer.core.actor import CPUActor
 from trainer.core.aggregator import Aggregator
-from trainer.core.proto import FedAvg
 from utils.nn.aggregate import average
 from utils.nn.functional import sub, zero_like, scalar_mul_, add_
 
@@ -74,7 +74,7 @@ class ScaffoldAggregator(Aggregator):
     def control(self):
         return self._control
 
-    def _adapt_fn(self):
+    def _compute_step(self):
         assert len(self._delta_controls) == len(self._grads) > 0
         delta_control, grad = average(self._delta_controls), average(self._grads)
         add_(self._state, scalar_mul_(grad, self._global_lr))
@@ -89,14 +89,14 @@ class Scaffold(FedAvg):
         if scaffold := kwargs['scaffold']:
             self.global_lr = scaffold.get('global_lr', 0.98)
 
-    def _configure_actor_pool(self):
-        self._pool = ActorPool([
+    def _build_actor_pool(self):
+        return ActorPool([
             ScaffoldActor.remote(self._model, CrossEntropyLoss())
             for _ in range(self.actor_num)
         ])
 
-    def _configure_aggregator(self):
-        self._aggregator = ScaffoldAggregator(
+    def _build_aggregator(self):
+        return ScaffoldAggregator(
             self._model.state_dict(),
             len(self._fds), self.global_lr
         )
@@ -105,15 +105,15 @@ class Scaffold(FedAvg):
         self._aggregator.update(res[0], res[2])
         self._cache[cid] = res[3]
 
-    def _local_update_setup(self, cids):
-        args = {
-            'opt': self.opt,
-            'batch_size': self.batch_size,
-            'epoch': self.epoch,
-            'global_control': self._aggregator.control,
-            'max_grad_norm': self.max_grad_norm
-        }
-        return [(self._state(c), self._fds.train(c), dict({'local_control': self._cache.get(c)}, **args)) for c in cids]
+    def _local_update_args(self, cids):
+        return [(
+            self._state(c),
+            self._fds.train(c),
+            dict(
+                {'local_control': self._cache.get(c), 'global_control': self._aggregator.control},
+                **self.local_args
+            )
+        ) for c in cids]
 
     def _aggregate(self, cids):
         self._model.load_state_dict(self._aggregator.compute())

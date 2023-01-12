@@ -1,38 +1,58 @@
-from typing import OrderedDict
+from copy import deepcopy
+from random import shuffle
+from typing import OrderedDict, Sequence, Optional
+from trainer.algorithm.fedavg import FedAvg
+
 from trainer.core.aggregator import Aggregator
 from utils.nn.aggregate import shuffle_layer, average
+from utils.nn.functional import add_
 
 
-class ShuffleAggregator(Aggregator):
+class MRAggregator(Aggregator):
 
-    def __init__(self, state: OrderedDict, delay_step: int = 5):
-        super(ShuffleAggregator, self).__init__()
-        self._state = state
-        self._delay_step = delay_step
-        self._k = -1
-        self._num_samples = []
-        self._states = []
+    def __init__(self, state: OrderedDict, num_parallel: int, syn_layers: Optional[Sequence[str]]):
+        super(MRAggregator, self).__init__()
+        self._syn_layers = syn_layers if syn_layers else list()
+        self._s = [deepcopy(state) for _ in range(num_parallel)]
 
-    def update(self, state: OrderedDict, num_sample):
-        super(ShuffleAggregator, self).update()
-        self._states.append(state)
-        self._num_samples.append(num_sample)
+    def states(self):
+        states = deepcopy(self._s)
+        shuffle(self._s)
+        return states
 
-    def reset(self):
-        super(ShuffleAggregator, self).reset()
-        self._num_samples.clear()
-        self._states.clear()
+    def update(self, grad: OrderedDict):
+        super(MRAggregator, self).update()
+        self._s.append(add_(self._s.pop(0), grad))
 
-    def _has_agg(self):
-        if self._delay_step > 0:
-            if self._k % self._delay_step == 0:
-                return True
-        return False
+    def _compute_step(self):
+        # shuffle_layer(self._s)
+        state = average(self._s)
+        for s in self._s:
+            for ln in self._syn_layers:
+                s[ln] = state[ln]
+        return state
 
-    def _adapt_fn(self):
-        self._k += 1
-        if not self._has_agg():
-            shuffle_layer(self._states)
-        else:
-            self._state = average(self._states, self._num_samples)
-        return self._state
+
+class FedMR(FedAvg):
+
+    def _parse_kwargs(self, **kwargs):
+        super(FedMR, self)._parse_kwargs(**kwargs)
+        if mr := kwargs['la']:
+            self.sync_idx = mr.get('sync_idx', 2)
+
+    def _aggregate(self, cids):
+        self._model.load_state_dict(self._aggregator.compute())
+        self._aggregator.reset()
+
+    def _build_aggregator(self):
+        return MRAggregator(
+            self._model.state_dict(),
+            int(len(list(self._fds)) * self.sample_rate),
+            list(self._model.state_dict().keys())[:self.sync_idx]
+        )
+
+    def _local_update_args(self, cids):
+        return [(s, self._fds.train(c), self.local_args) for c, s in zip(cids, self._aggregator.states())]
+
+    def _local_update_hook(self, cid, res):
+        self._aggregator.update(res[0])

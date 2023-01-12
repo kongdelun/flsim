@@ -60,24 +60,19 @@ class DataPartitioner(ABC):
 
 class BasicPartitioner(DataPartitioner):
 
-    def __init__(self, targets, part, client_num, lognormal_sgm=0., dirichlet_alpha=0., dirichlet_min=10,
-                 major_class_num=0, shard_num=0, test_ratio=0.2, seed=None):
+    def __init__(self, targets, args: dict):
         super(BasicPartitioner, self).__init__()
+        self.args = args
         self.targets = targets if isinstance(targets, np.ndarray) else np.array(targets)
         self.sample_num = self.targets.shape[0]
         self.class_num = np.unique(self.targets).shape[0]
-        self.part = Part(part) if isinstance(part, int) else part
-        self.client_num = client_num
-        self.seed = seed
-        self._lognormal_sgm = lognormal_sgm
-        self._dirichlet_min = dirichlet_min
-        self._dirichlet_alpha = dirichlet_alpha
-        self._major_class_num = major_class_num
-        self._shard_num = shard_num
+        self.part = Part(self.args.get('part', 0))
+        self.client_num = args.get('client_num', 100)
+        self.seed = self.args.get('seed', 2077)
         self.indices |= self._split()
-        self._split_indices(test_ratio)
+        self._split_test(self.args.get('test_ratio', 0.2))
 
-    def _split_indices(self, test_ratio=0.2):
+    def _split_test(self, test_ratio=0.2):
         for i in self.indices:
             t, v = train_test_split(self.indices[i], test_size=test_ratio, random_state=self.seed)
             self.train_indices[i], self.val_indices[i] = t.tolist(), v.tolist()
@@ -106,47 +101,47 @@ class BasicPartitioner(DataPartitioner):
             )
         elif self.part == Part.IID_UNBALANCE_LOGNORMAL:
             return F.iid_partition(
-                F.unbalance_lognormal_split(self.client_num, self.sample_num, self._lognormal_sgm),
+                F.unbalance_lognormal_split(self.client_num, self.sample_num, self.args.get('lognormal_sgm', 0.1)),
                 self.sample_num
             )
         elif self.part == Part.IID_UNBALANCE_DIRICHLET:
             return F.iid_partition(
-                F.unbalance_dirichlet_split(self.client_num, self.sample_num, self._dirichlet_alpha,
-                                            self._dirichlet_min),
+                F.unbalance_dirichlet_split(self.client_num, self.sample_num, self.args.get('dirichlet_alpha', 0.4),
+                                            self.args.get('dirichlet_min', 2)),
                 self.sample_num
             )
         if self.part == Part.NONIID_BALANCE_CLIENT_DIRICHLET:
             return F.noniid_client_dirichlet_partition(
                 F.balance_split(self.client_num, self.sample_num),
-                self.targets, self.class_num, self._dirichlet_alpha
+                self.targets, self.class_num, self.args.get('dirichlet_alpha', 0.4)
             )
         elif self.part == Part.NONIID_UNBALANCE_LOGNORMAL_CLIENT_DIRICHLET:
             return F.noniid_client_dirichlet_partition(
-                F.unbalance_lognormal_split(self.client_num, self.sample_num, self._lognormal_sgm),
-                self.targets, self.class_num, self._dirichlet_alpha
+                F.unbalance_lognormal_split(self.client_num, self.sample_num, self.args.get('lognormal_sgm', 0.1)),
+                self.targets, self.class_num, self.args.get('dirichlet_alpha', 0.4)
             )
         elif self.part == Part.NONIID_UNBALANCE_DIRICHLET_CLIENT_DIRICHLET:
             return F.noniid_client_dirichlet_partition(
-                F.unbalance_dirichlet_split(self.client_num, self.sample_num, self._dirichlet_alpha,
-                                            self._dirichlet_min),
-                self.targets, self.class_num, self._dirichlet_alpha
+                F.unbalance_dirichlet_split(self.client_num, self.sample_num, self.args.get('dirichlet_alpha', 0.4),
+                                            self.args.get('dirichlet_min', 2)),
+                self.targets, self.class_num, self.args.get('dirichlet_alpha', 0.4)
             )
         elif self.part == Part.NONIID_LABEL_SKEW:
             # label-distribution-skew:quantity-based
-            assert self._major_class_num <= self.class_num, f"major_class_num >= {self.class_num}"
+            assert self.args.get('major_class_num', 3) <= self.class_num, f"major_class_num >= {self.class_num}"
             return F.noniid_label_skew_quantity_based_partition(
-                self.targets, self.client_num, self.class_num, self._major_class_num
+                self.targets, self.client_num, self.class_num, self.args.get('major_class_num', 3)
             )
         elif self.part == Part.NONIID_SHARD:
             # partition is 'shards'
-            assert self._shard_num >= self.client_num, f"shard_num >= {self.client_num}"
+            assert self.args.get('shard_num', 2) >= self.client_num, f"shard_num >= {self.client_num}"
             return F.noniid_shard_partition(
-                self.targets, self.client_num, self._shard_num
+                self.targets, self.client_num, self.args.get('shard_num', 2)
             )
         elif self.part == Part.NONIID_DIRICHLET:
             # label-distribution-skew:distributed-based (Dirichlet)
             return F.noniid_dirichlet_partition(
-                self.targets, self.client_num, self.class_num, self._dirichlet_alpha, self._dirichlet_min
+                self.targets, self.client_num, self.class_num, self.args.get('dirichlet_alpha', 0.4), self.args.get('dirichlet_min', 2)
             )
         else:
             raise NotImplementedError("{} is supported !".format(self.part))

@@ -1,15 +1,12 @@
 import unittest
 from pathlib import Path
-from typing import Optional
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
 import seaborn as sns
-from matplotlib import pyplot as plt, pylab
+from matplotlib import pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
-
-from utils.data.partition import barh_report
-from utils.result import get_scalar
+from tb.util import get_scalar
 
 
 def plot(df: DataFrame, **kwargs):
@@ -61,7 +58,7 @@ def plot_test(dataset: str, parts: list[str], size: tuple = (24, 12), excluded: 
     for i, p in enumerate(parts):
         fig.add_subplot(int(f'2{n}{i + 1}'))
         plot(
-            get_scalar(f'../benchmark/{dataset}/{p}/output/', 'test_all/acc', 5, excluded),
+            get_scalar(f'../benchmark/{dataset}/{p}/output/', 'test/acc', 5, excluded),
             line_width=3.5,
             x_label=f'Round\n({chr(97 + i)})',
             y_label=f'Test acc' if i == 0 else None,
@@ -69,7 +66,7 @@ def plot_test(dataset: str, parts: list[str], size: tuple = (24, 12), excluded: 
         )
         fig.add_subplot(int(f'2{n}{i + 1 + n}'))
         plot(
-            get_scalar(f'../benchmark/{dataset}/{p}/output/', 'test_all/loss', 5, excluded),
+            get_scalar(f'../benchmark/{dataset}/{p}/output/', 'test/loss', 5, excluded),
             line_width=3.5,
             x_label=f'Round\n({chr(97 + i + n)})',
             y_label=f'Test loss' if i == 0 else None,
@@ -150,10 +147,9 @@ def plot_synthetic_niid_0_20(path: str, excluded: list[str] = None):
     plt.rc('font', family='Times New Roman', size='15', weight='normal')
     sns.set_style('whitegrid')
     plot(
-        get_scalar(path, 'test_all/', 5, excluded),
+        get_scalar(path, 'test/', 5, excluded),
         line_width=3.5,
     )
-
     plt.show()
 
 

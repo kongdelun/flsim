@@ -1,20 +1,19 @@
 import logging
-from utils.tool import os_platform
 
-OS_ROOT = {
-    'linux': '/home/ncut/Workbase',
-    'win32': 'D:/Project/Python'
-}
+ROOT = [
+    '/home/ncut/Workbase',
+    'D:/project/python'
+]
 
-BASE = OS_ROOT[os_platform()]
+BASE = ROOT[1]
 
 PRINT_TO_STDOUT = False
 SEED = 2077
-LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.INFO
 
 PROJECT = f'{BASE}/flsim'
 DATASET = f'{BASE}/dataset'
 LEAF_ROOT = f'{DATASET}/leaf'
 
 TEST = f'{BASE}/rep'
-TB_OUTPUT = f'{BASE}/output_syn_300'
+TB_OUTPUT = f'{BASE}/output/mnist'

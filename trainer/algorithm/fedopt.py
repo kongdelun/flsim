@@ -1,14 +1,31 @@
 from abc import abstractmethod
 from collections import OrderedDict
+from importlib import import_module
+from sys import modules
 
 import torch
-from trainer.core.aggregator import StateAggregator
-from trainer.core.proto import FedAvg
+from trainer.algorithm.fedavg import FedAvg
+from trainer.core.aggregator import BasicAggregator
 from utils.nn.aggregate import average
-from utils.nn.functional import zero_like, sub
+from utils.nn.functional import zero_like
 
 
-class OptAggregator(StateAggregator):
+class FedOpt(FedAvg):
+
+    def _parse_kwargs(self, **kwargs):
+        super(FedOpt, self)._parse_kwargs(**kwargs)
+        if adp := kwargs['adp']:
+            self.global_opt = adp.get('global_opt', 'Adam')
+
+    def _build_aggregator(self):
+        return getattr(import_module(self.__module__), self.global_opt)(self._model.state_dict())
+
+    def _aggregate(self, cids):
+        self._model.load_state_dict(self._aggregator.compute())
+        self._aggregator.reset()
+
+
+class OptAggregator(BasicAggregator):
 
     def __init__(self, state: OrderedDict, beta_1=0.9, beta_2=0.99, eta=1e-2, tau=1e-3):
         super(OptAggregator, self).__init__()
@@ -22,7 +39,7 @@ class OptAggregator(StateAggregator):
         self.eta = eta
         self.tau = tau
 
-    def _adapt_fn(self):
+    def _compute_step(self):
         assert len(self._states) == len(self._num_samples) > 0
         self._d = average(self._states)
         for ln in self._m:
@@ -37,44 +54,29 @@ class OptAggregator(StateAggregator):
         raise NotImplementedError
 
 
-class YogiAggregator(OptAggregator):
+class Yogi(OptAggregator):
 
     def _update_v(self):
         for ln in self._v:
             self._v[ln] -= (1 - self.beta_2) * self._d[ln] ** 2 * torch.sign(self._v[ln] - self._d[ln] ** 2)
 
 
-class AdaGradAggregator(OptAggregator):
+class AdaGrad(OptAggregator):
 
     def _update_v(self):
         for ln in self._v:
             self._v[ln] += self._d[ln] ** 2
 
 
-class AdamAggregator(OptAggregator):
+class Adam(OptAggregator):
 
     def _update_v(self):
         for ln in self._v:
             self._v[ln] = self.beta_2 * self._v[ln] + (1 - self.beta_2) * self._d[ln] ** 2
 
 
-class FedOpt(FedAvg):
+class test:
 
-    def _parse_kwargs(self, **kwargs):
-        super(FedOpt, self)._parse_kwargs(**kwargs)
-        if opt := kwargs['fedopt']:
-            self.global_opt = opt.get('global_opt', 'Adam')
-
-    def _configure_aggregator(self):
-        if self.global_opt == 'Adam':
-            self._aggregator = AdamAggregator(self._model.state_dict())
-        elif self.global_opt == 'Yogi':
-            self._aggregator = YogiAggregator(self._model.state_dict())
-        elif self.global_opt == 'AdaGrad':
-            self._aggregator = AdaGradAggregator(self._model.state_dict())
-        else:
-            raise ValueError(f'Unknown global optimizer: {self.global_opt}')
-
-    def _aggregate(self, cids):
-        self._model.load_state_dict(self._aggregator.compute())
-        self._aggregator.reset()
+    def __init__(self):
+        print(modules[__name__])
+        print(test.__module__)

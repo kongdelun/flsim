@@ -1,6 +1,0 @@
-[2022-11-24 22:12:43,592][FLSim.builder][INFO] - benchmark.ctx.mnist has created !
-[2022-11-24 22:12:43,595][FLSim.builder][WARNING] - Traceback (most recent call last):
-  File "D:\Project\Python\flsim\benchmark\builder.py", line 20, in build_model
-    model = getattr(importlib.import_module(md), name)(**args)
-TypeError: __init__() got an unexpected keyword argument 'output_dim'
-
