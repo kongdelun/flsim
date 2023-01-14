@@ -1,0 +1,6 @@
+optimizer:
+  _target_: torch.optim.Adam
+  params:
+    _partial_: true
+    _target_: flsim.utils.optim._params_t
+  lr: 0.01

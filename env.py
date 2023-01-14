@@ -16,4 +16,4 @@ DATASET = f'{BASE}/dataset'
 LEAF_ROOT = f'{DATASET}/leaf'
 
 TEST = f'{BASE}/rep'
-TB_OUTPUT = f'{BASE}/output/mnist'
+TB_OUTPUT = f'{BASE}/output/cifar10'

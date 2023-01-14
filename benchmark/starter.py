@@ -23,7 +23,7 @@ def setup_env():
 
 @hydra.main(config_path="config", config_name="cfg", version_base=None)
 def run(cfg: DictConfig):
-    fds = build_federated_dataset(cfg.dataset.name, cfg.dataset.fds)
+    fds = build_federated_dataset(cfg.fds.name, cfg.fds.dp)
     net = build_model(cfg.model.name, cfg.model.args)
     summary(net)
     for tn in cfg.trainer.names:

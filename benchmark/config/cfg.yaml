@@ -1,41 +1,42 @@
 #数据集
-dataset:
+fds:
 #  name: synthetic
-  name: mnist
-  fds:
+  name: cifar10
+  dp:
     args:
-      part: 6
-      client_num: 100
-      test_ratio: 0.2
-      seed: 2077
-      major_class_num: 1
-      dirichlet_alpha: 0.4
-      dirichlet_min: 2
-      lognormal_sgm: 0.1
-      shard_num: 2
+        part: 6
+        client_num: 100
+        val: 0.2
+        test: 0.1
+        seed: 2077
+        major_class_num: 1
+        dirichlet_alpha: 0.4
+        dirichlet_min: 2
+        lognormal_sgm: 0.1
+        shard_num: 2
 #模型
 model:
 #  name: SyntheticMLP
-  name: MnistMLP
+  name: CNN32
   args:
 #    num_classes: 10
 #    output_dim : 5
 #训练器
 trainer:
   names:
-#    - FedAvg
+    - FedAvg
 #    - FedProx
 #    - FedOpt
 #    - FedAvgM
 #    - Scaffold
-#    - FedDyn
+    - FedDyn
 #    - FedLA
-#    - FedMR
-    - FedSem
-    - IFCA
-    - FedGroup
-    - CFL
-    - FedCluster
+    - FedMR
+#    - FedSem
+#    - IFCA
+#    - FedGroup
+#    - CFL
+#    - FedCluster
 
   args:
     tag: _0.002_500

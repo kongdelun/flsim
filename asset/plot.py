@@ -6,8 +6,7 @@ from pandas import DataFrame
 import seaborn as sns
 from matplotlib import pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
-
-from benchmark.tb.util import get_scalar
+from benchmark.tb.data import get_scalar
 
 
 def plot(df: DataFrame, **kwargs):

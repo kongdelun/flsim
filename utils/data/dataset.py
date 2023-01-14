@@ -3,9 +3,8 @@ from typing import Sequence
 
 import numpy as np
 import torch
-from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader, Subset, TensorDataset
-from torch.utils.data.dataset import T_co, ConcatDataset, random_split
+from torch.utils.data.dataset import T_co, ConcatDataset
 
 from utils.data.partition import DataPartitioner
 from utils.io import load_jsons
@@ -26,15 +25,6 @@ def get_data(dataset: Dataset):
         lambda x: x[0].numpy(),
         DataLoader(dataset, num_workers=num_workers, prefetch_factor=prefetch_factor, batch_size=batch_size)
     )))
-
-
-def train_test_indices_split(dp: DataPartitioner, test_ratio=0.2, seed=None):
-    train, val, test = {}, {}, []
-    for i in range(len(dp)):
-        t, v = train_test_split(dp[i], test_size=test_ratio, random_state=seed)
-        train[i], val[i] = t.tolist(), v.tolist()
-        test.extend(val[i])
-    return train, val, test
 
 
 def sample_by_class(dataset: Dataset, num_classes, size, seed=None):

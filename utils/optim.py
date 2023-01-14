@@ -1,10 +1,9 @@
-from typing import Iterable, Union
+from typing import Iterable, Union, Iterator
 
 import torch
 from torch import Tensor
+from torch.nn import Parameter
 from torch.optim.optimizer import Optimizer
-
-_params_t = Union[Iterable[Tensor], Iterable[dict]]
 
 
 class Adai(Optimizer):
@@ -22,7 +21,7 @@ class Adai(Optimizer):
         decoupled (boolean, optional): decoupled weight decay (default: False)
     """
 
-    def __init__(self, params: _params_t, lr=0.01, betas=(0.1, 0.99), eps=1e-03,
+    def __init__(self, params: Iterator[Parameter], lr=0.01, betas=(0.1, 0.99), eps=1e-03,
                  weight_decay=0, decoupled=False):
         if lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))

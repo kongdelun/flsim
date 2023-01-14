@@ -43,7 +43,7 @@ class FLTrainer:
     # 初始化
     def _init(self):
         set_seed(self.seed)
-        ray.init(configure_logging=False)
+        ray.init(configure_logging=False, log_to_driver=False)
         self._logger = Logger.get_logger(self.name)
         self._k = 0
 

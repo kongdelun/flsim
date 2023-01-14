@@ -1,16 +1,19 @@
-import enum
 from abc import ABC, abstractmethod
 from collections import Counter
 from enum import Enum
-
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
 from pandas import DataFrame, option_context
 from sklearn.model_selection import train_test_split
-
 import utils.data.functional as F
 from utils.tool import set_seed
+
+
+def train_val_test_split(array, val: float, test: float, seed=None, shuffle=True):
+    train, val_test = train_test_split(array, test_size=test + val, random_state=seed, shuffle=shuffle)
+    val, test = train_test_split(array, test_size=test / (test + val), random_state=seed, shuffle=shuffle)
+    return train, val, test
 
 
 class Part(Enum):
@@ -70,13 +73,13 @@ class BasicPartitioner(DataPartitioner):
         self.client_num = args.get('client_num', 100)
         self.seed = self.args.get('seed', 2077)
         self.indices |= self._split()
-        self._split_test(self.args.get('test_ratio', 0.2))
+        self._local_split(self.args.get('val', 0.2), self.args.get('test', 0.1))
 
-    def _split_test(self, test_ratio=0.2):
+    def _local_split(self, val, test):
         for i in self.indices:
-            t, v = train_test_split(self.indices[i], test_size=test_ratio, random_state=self.seed)
-            self.train_indices[i], self.val_indices[i] = t.tolist(), v.tolist()
-            self.test_indices.extend(self.val_indices[i])
+            T, v, t = train_val_test_split(self.indices[i], val, test, seed=self.seed)
+            self.train_indices[i], self.val_indices[i], test_indices = T.tolist(), v.tolist(), t.tolist()
+            self.test_indices.extend(test_indices)
 
     def __len__(self):
         return len(self.indices)
@@ -141,7 +144,8 @@ class BasicPartitioner(DataPartitioner):
         elif self.part == Part.NONIID_DIRICHLET:
             # label-distribution-skew:distributed-based (Dirichlet)
             return F.noniid_dirichlet_partition(
-                self.targets, self.client_num, self.class_num, self.args.get('dirichlet_alpha', 0.4), self.args.get('dirichlet_min', 2)
+                self.targets, self.client_num, self.class_num, self.args.get('dirichlet_alpha', 0.4),
+                self.args.get('dirichlet_min', 2)
             )
         else:
             raise NotImplementedError("{} is supported !".format(self.part))

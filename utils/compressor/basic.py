@@ -2,9 +2,8 @@ from typing import OrderedDict
 
 import math
 import torch
-
 from utils.compressor.compressor import Compressor
-from utils.nn.functional import extract_shape
+
 
 
 class TopkCompressor(Compressor):

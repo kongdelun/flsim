@@ -1,0 +1,8 @@
+optimizer:
+  _target_: torch.optim.Adam
+  params:
+    _partial_: true
+  lr: 0.01
+
+
+

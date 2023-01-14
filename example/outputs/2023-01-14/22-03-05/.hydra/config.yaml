@@ -1,0 +1,6 @@
+optimizer:
+  _target_: torch.optim.Adam
+  params:
+    _partial_: true
+    _target_: Iterator[Parameter]
+  lr: 0.01

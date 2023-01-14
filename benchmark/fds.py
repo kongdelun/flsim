@@ -1,3 +1,5 @@
+import functools
+
 from torch.utils.data import ConcatDataset
 from torchvision.datasets import MNIST, CelebA, CIFAR10, EMNIST, FashionMNIST
 from torchvision.transforms import ToTensor, Compose, Resize, Normalize
